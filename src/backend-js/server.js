@@ -795,22 +795,42 @@ function handleEventsList(res, query) {
   const keyword = (query.keyword || '').toLowerCase();
   const page = parseInt(query.page) || 1;
   const pageSize = Math.min(parseInt(query.pageSize) || 10, 50);
-  const category = query.category || '';
+  const category = query.category || query.type || '';
+  const status = query.status || '';
 
   let items = db.table('events').filter(e => e.isActive !== false);
   if (keyword) items = items.filter(e => e.title.toLowerCase().includes(keyword) || (e.description||'').toLowerCase().includes(keyword));
   if (category) items = items.filter(e => e.category === category);
+  if (status) items = items.filter(e => e.status === status);
   items = items.sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
 
   const total = items.length;
   const start = (page - 1) * pageSize;
-  json(res, 200, { items: items.slice(start, start + pageSize), total, page, pageSize, totalPages: Math.ceil(total/pageSize) });
+  const STATUS_LABEL = { upcoming: '即将开始', ongoing: '进行中', past: '已结束' };
+  const paged = items.slice(start, start + pageSize).map(e => ({
+    id: e.id, title: e.title,
+    date: e.eventDate || '',
+    location: e.location || '',
+    speaker: e.speaker || '',
+    type: e.category, typeLabel: e.category,
+    status: e.status, statusLabel: STATUS_LABEL[e.status] || e.status,
+    content: e.description || '',
+    coverImage: e.coverImage || '',
+  }));
+  json(res, 200, { items: paged, total, page, pageSize, totalPages: Math.ceil(total/pageSize) });
 }
 
 function handleEventDetail(res, id) {
   const item = db.table('events').find(e => e.id === id);
   if (!item) return jsonError(res, 404, '活动不存在');
-  json(res, 200, item);
+  const STATUS_LABEL = { upcoming: '即将开始', ongoing: '进行中', past: '已结束' };
+  json(res, 200, {
+    ...item,
+    date: item.eventDate || '',
+    content: item.description || '',
+    type: item.category, typeLabel: item.category,
+    statusLabel: STATUS_LABEL[item.status] || item.status,
+  });
 }
 
 // ── 成果出版物 ────────────────────────────────────
