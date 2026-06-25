@@ -959,6 +959,31 @@ function migrateTimestamps() {
   return migrated;
 }
 
+// 出版物封面迁移
+function migratePublicationCovers() {
+  const coverMap = {
+    '《沈家本手稿五种》（影印本）': 'assets/images/publications/pub-001.png',
+    '《玉骨冰心冷不摧——沈家本诗集》': 'assets/images/publications/pub-002.png',
+    '《沈家本与中国法律文化论集》': 'assets/images/publications/pub-003.png',
+    '《历代刑法考（校注版）》': 'assets/images/publications/pub-004.png',
+    '《寄簃文存校注》': 'assets/images/publications/pub-005.png',
+    '《会通中西：沈家本法律思想研究》': 'assets/images/publications/pub-006.png',
+    '《商事调解案例汇编（第一辑）》': 'assets/images/publications/pub-007.png',
+    '沈家本法学研究（学术期刊·半年刊）': 'assets/images/publications/pub-008.png',
+    '《法治数据智能研究报告（2025年度）》': 'assets/images/publications/pub-009.png',
+    '《中国传统法律文化的现代价值》': 'assets/images/publications/pub-010.png',
+  };
+  let updated = 0;
+  for (const pub of db.table('publications')) {
+    if (coverMap[pub.title] && (!pub.coverImage || pub.coverImage.trim() === '')) {
+      pub.coverImage = coverMap[pub.title];
+      updated++;
+    }
+  }
+  if (updated > 0) { db.save(); console.log('[migrate] 出版物封面已更新:', updated, '条'); }
+  return updated;
+}
+
 // ── 启动 ──────────────────────────────────────────
 // 种子数据（容错：即使失败也正常启动）
 if (process.argv.includes('--seed')) {
@@ -971,6 +996,8 @@ if (process.argv.includes('--seed')) {
 }
 // 时间戳迁移（每次启动检查）
 try { migrateTimestamps(); } catch (e) { console.error('[migrate] 时间戳迁移失败:', e.message); }
+// 出版物封面迁移（每次启动检查）
+try { migratePublicationCovers(); } catch (e) { console.error('[migrate] 出版物封面迁移失败:', e.message); }
 
 // 优雅退出
 process.on('SIGTERM', () => {

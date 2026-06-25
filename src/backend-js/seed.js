@@ -239,11 +239,24 @@ function seed() {
       {title:'《法治数据智能研究报告（2025年度）》',author:'数据法治研究所',category:'报告',year:2026,desc:'法律数据聚合平台年度数据分析与趋势研判。',publisher:'待定'},
       {title:'《中国传统法律文化的现代价值》',author:'学术研究部',category:'专著',year:2026,desc:'挖掘传统法律文化中可资借鉴的理念与制度资源。',publisher:'待定'},
     ];
+    const coverMap = {
+      '《沈家本手稿五种》（影印本）': 'assets/images/publications/pub-001.png',
+      '《玉骨冰心冷不摧——沈家本诗集》': 'assets/images/publications/pub-002.png',
+      '《沈家本与中国法律文化论集》': 'assets/images/publications/pub-003.png',
+      '《历代刑法考（校注版）》': 'assets/images/publications/pub-004.png',
+      '《寄簃文存校注》': 'assets/images/publications/pub-005.png',
+      '《会通中西：沈家本法律思想研究》': 'assets/images/publications/pub-006.png',
+      '《商事调解案例汇编（第一辑）》': 'assets/images/publications/pub-007.png',
+      '沈家本法学研究（学术期刊·半年刊）': 'assets/images/publications/pub-008.png',
+      '《法治数据智能研究报告（2025年度）》': 'assets/images/publications/pub-009.png',
+      '《中国传统法律文化的现代价值》': 'assets/images/publications/pub-010.png',
+    };
     for (const p of pubs) {
       db.insert('publications', {
         title: p.title, author: p.author, category: p.category,
         year: p.year, description: p.desc,
-        coverImage: '', publisher: p.publisher,
+        coverImage: coverMap[p.title] || '',
+        publisher: p.publisher,
         isbn: '',
         isActive: true,
       });

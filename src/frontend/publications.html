@@ -40,10 +40,14 @@
     <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px;">
       <select name="category" class="form-select" style="width:auto;min-width:160px;">
         <option value="">全部分类</option>
-        <option value="monograph">专著</option>
-        <option value="journal">期刊论文</option>
-        <option value="collected">论文集</option>
-        <option value="translation">译著</option>
+        <option value="专著">专著</option>
+        <option value="文献影印">文献影印</option>
+        <option value="文献整理">文献整理</option>
+        <option value="论文集">论文集</option>
+        <option value="校注">校注</option>
+        <option value="案例汇编">案例汇编</option>
+        <option value="期刊">期刊</option>
+        <option value="报告">报告</option>
       </select>
       <select name="year" class="form-select" style="width:auto;min-width:120px;">
         <option value="">全部年份</option>
@@ -101,15 +105,21 @@ async function loadPubs(page = 1, filters = {}) {
   try {
     const d = await ShenJB.api.get('/publications', { page, pageSize: 12, ...filters });
     if (!d || !d.items || !d.items.length) { ShenJB.renderState.empty(grid); pag.innerHTML = ''; return; }
-    grid.innerHTML = d.items.map(p => `
-      <div class="card">
-        <div style="height:140px;background:linear-gradient(135deg,#1a2d4a,#203B64);border-radius:4px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);font-size:var(--fs-note);">封面</div>
-        <span class="tag tag-${p.category==='monograph'?'primary':'accent'}" style="margin-bottom:8px;">${p.categoryLabel||p.category}</span>
-        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:6px;">${p.title}</h3>
-        <p style="font-size:var(--fs-note);color:var(--text-secondary);">${p.author||''} · ${p.year||''}</p>
-        <p style="font-size:var(--fs-note-sm);color:var(--text-tertiary);margin-top:4px;">${p.publisher||''}</p>
+    grid.innerHTML = d.items.map(p => {
+      const hasCover = p.coverImage && p.coverImage.trim() !== '';
+      const coverHtml = hasCover
+        ? `<div class="pub-cover"><img src="${p.coverImage}" alt="${p.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'pub-cover-fallback\\'>封面</div>'"></div>`
+        : `<div class="pub-cover-fallback">封面</div>`;
+      return `
+      <div class="card pub-card">
+        ${coverHtml}
+        <span class="tag" style="margin-bottom:8px;">${p.category||p.categoryLabel||''}</span>
+        <h3 class="pub-title">${p.title}</h3>
+        <p class="pub-meta">${p.author||''} · ${p.year||''}</p>
+        <p class="pub-publisher">${p.publisher||''}</p>
       </div>
-    `).join('');
+      `;
+    }).join('');
     new ShenJB.Pagination(pag, { total: d.total, current: page, pageSize: 12, onChange: (p) => loadPubs(p, filters) });
   } catch { ShenJB.renderState.error(grid); }
 }
