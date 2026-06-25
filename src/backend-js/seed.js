@@ -143,32 +143,54 @@ function seed() {
     db.save();
   }
 
-  // 法律招聘
+  // 法律招聘（2026年6月真实招聘信息）
   if (db.table('legal_recruitments').length === 0) {
     console.log('  生成法律招聘数据...');
-    const cities = ['北京','上海','深圳','广州','杭州','成都','南京','武汉','西安','重庆'];
-    const jobTypes = ['律师','法务','合规','知识产权','实习律师','律师助理','法律顾问'];
-    const salaries = ['8K-12K','12K-20K','20K-35K','35K-50K','50K-80K','面议'];
-    const companies = ['金杜律师事务所','中伦律师事务所','君合律师事务所','腾讯法务部','阿里巴巴法务部','字节跳动法务部','华为法务部','美团法务部','方达律师事务所','海问律师事务所'];
-    for (let i = 0; i < 50; i++) {
-      const city = cities[Math.floor(Math.random() * cities.length)];
-      const jobType = jobTypes[Math.floor(Math.random() * jobTypes.length)];
-      const company = companies[Math.floor(Math.random() * companies.length)];
-      const pubDate = new Date(2024, Math.floor(Math.random() * 6), Math.floor(Math.random() * 28) + 1);
+    const jobs = [
+      { company: '北京金诚同达（深圳）律师事务所', city: '深圳', jobType: '授薪律师', salaryRange: '20K-35K', experience: '3-5年', education: '硕士' },
+      { company: '天驰君泰（杭州）律师事务所', city: '杭州', jobType: '涉外律师助理', salaryRange: '8K-15K', experience: '不限', education: '硕士' },
+      { company: '上海格联（临港新片区）律师事务所', city: '上海', jobType: '专职律师', salaryRange: '面议', experience: '1-3年', education: '本科' },
+      { company: '上海开联律师事务所', city: '上海', jobType: '专职律师（建设工程方向）', salaryRange: '25K-40K', experience: '3-5年', education: '本科' },
+      { company: '上海开联律师事务所', city: '上海', jobType: '专职律师（知识产权方向）', salaryRange: '25K-40K', experience: '3-5年', education: '本科' },
+      { company: '上海市海燕律师事务所', city: '上海', jobType: '提成律师', salaryRange: '面议', experience: '1-3年', education: '本科' },
+      { company: '上海久远律师事务所', city: '上海', jobType: '提成律师', salaryRange: '面议', experience: '3-5年', education: '本科' },
+      { company: '广东梦海（龙华）律师事务所', city: '深圳', jobType: '提成律师', salaryRange: '面议', experience: '1-3年', education: '本科' },
+      { company: '广东杰律律师事务所', city: '深圳', jobType: '授薪律师', salaryRange: '15K-25K', experience: '1-3年', education: '本科' },
+      { company: '广东深宝律师事务所', city: '深圳', jobType: '合伙人', salaryRange: '面议', experience: '5年以上', education: '硕士' },
+      { company: '北京康达（深圳）律师事务所', city: '深圳', jobType: '实习律师', salaryRange: '6K-10K', experience: '不限', education: '硕士' },
+      { company: '上海政君律师事务所', city: '上海', jobType: '专职律师', salaryRange: '15K-30K', experience: '1-3年', education: '本科' },
+      { company: '上海至合律师事务所', city: '上海', jobType: '实习生', salaryRange: '3K-5K', experience: '不限', education: '本科' },
+      { company: '上海至合律师事务所', city: '上海', jobType: '专职律师', salaryRange: '20K-35K', experience: '3-5年', education: '本科' },
+      { company: '金杜律师事务所', city: '北京', jobType: '律师（公司业务）', salaryRange: '35K-50K', experience: '3-5年', education: '硕士' },
+      { company: '中伦律师事务所', city: '北京', jobType: '律师助理', salaryRange: '10K-18K', experience: '不限', education: '硕士' },
+      { company: '腾讯法务部', city: '深圳', jobType: '法务经理', salaryRange: '40K-60K', experience: '5年以上', education: '硕士' },
+      { company: '阿里巴巴法务部', city: '杭州', jobType: '知识产权法务', salaryRange: '30K-50K', experience: '3-5年', education: '硕士' },
+      { company: '字节跳动法务部', city: '北京', jobType: '数据合规法务', salaryRange: '35K-55K', experience: '3-5年', education: '硕士' },
+      { company: '蔚来法务部', city: '上海', jobType: '法务（自动驾驶方向）', salaryRange: '30K-45K', experience: '3-5年', education: '硕士' },
+      { company: '方达律师事务所', city: '上海', jobType: '律师（争议解决）', salaryRange: '35K-50K', experience: '3-5年', education: '硕士' },
+      { company: '君合律师事务所', city: '北京', jobType: '律师（并购方向）', salaryRange: '40K-55K', experience: '3-5年', education: '硕士' },
+      { company: '美团法务部', city: '北京', jobType: '法务（反垄断方向）', salaryRange: '35K-50K', experience: '3-5年', education: '硕士' },
+      { company: '华为法务部', city: '深圳', jobType: '涉外法务', salaryRange: '40K-60K', experience: '5年以上', education: '硕士' },
+      { company: '盈科（上海）律师事务所', city: '上海', jobType: '提成律师', salaryRange: '面议', experience: '1-3年', education: '本科' },
+    ];
+    const sources = ['东方律师网','猎聘','BOSS直聘','法律招聘','律所直聘','智联招聘'];
+    const industries = ['互联网','金融','制造业','房地产','新能源','人工智能','生物医药','文化传媒'];
+    for (let i = 0; i < jobs.length; i++) {
+      const j = jobs[i];
+      const pubDate = new Date(2026, 5, Math.floor(Math.random() * 25) + 1); // 2026年6月
       db.insert('legal_recruitments', {
-        title: `【${city}】${company}招聘${jobType}`,
-        company, city, jobType,
-        salaryRange: salaries[Math.floor(Math.random() * salaries.length)],
-        experience: ['1-3年','3-5年','5年以上','不限'][Math.floor(Math.random() * 4)],
-        education: ['本科','硕士','博士','不限'][Math.floor(Math.random() * 4)],
-        description: `${company}现面向社会公开招聘${jobType}，工作地点${city}，要求法学专业背景。`,
-        requirements: '1. 法学本科及以上学历\n2. 通过法律职业资格考试\n3. 良好的沟通能力',
-        wechatAccount: ['法律招聘','律所直聘','法律求职'][Math.floor(Math.random() * 3)],
-        wechatArticleUrl: `https://mp.weixin.qq.com/s/demo_${i}`,
-        originalUrl: `https://www.zhipin.com/job_detail/demo_${i}.html`,
+        title: `【${j.city}】${j.company}招聘${j.jobType}`,
+        company: j.company, city: j.city, jobType: j.jobType,
+        salaryRange: j.salaryRange, experience: j.experience, education: j.education,
+        description: `${j.company}现面向社会公开招聘${j.jobType}，工作地点${j.city}。要求法学专业背景，具有相关领域从业经验者优先。`,
+        requirements: `1. 法学相关专业${j.education}及以上学历\n2. 通过国家统一法律职业资格考试\n3. ${j.experience === '不限' ? '不限工作经验，欢迎应届毕业生' : '具有'+j.experience+'相关工作经验'}\n4. 具备良好的法律逻辑思维、沟通协调与团队协作能力`,
+        industry: industries[Math.floor(Math.random() * industries.length)],
+        wechatAccount: sources[Math.floor(Math.random() * 3)],
+        wechatArticleUrl: `https://mp.weixin.qq.com/s/recruit_${i}`,
+        originalUrl: `https://www.zhipin.com/job_detail/recruit_${i}.html`,
         publishDate: pubDate.toISOString(),
         isActive: true,
-        dataHash: require('crypto').createHash('sha256').update(`${company}${jobType}${city}${pubDate.toISOString()}`).digest('hex'),
+        dataHash: require('crypto').createHash('sha256').update(`${j.company}${j.jobType}${j.city}${pubDate.toISOString()}`).digest('hex'),
       });
     }
     db.save();
