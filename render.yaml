@@ -17,5 +17,5 @@ services:
         value: production
       - key: TZ
         value: Asia/Shanghai
-    autoDeploy: true  # 代码推送即自动部署
+    autoDeploy: true  # 代码推送即自动部署 — redeploy trigger 2026-06-26
     # 免费套餐 15 分钟无请求会自动休眠，有人访问时自动唤醒（首次加载约 30 秒）
