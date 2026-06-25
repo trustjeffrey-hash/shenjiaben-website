@@ -54,8 +54,17 @@
   <div class="container">
     <h2 class="section-title">机构介绍</h2>
     <div class="section-divider"></div>
-    <div id="intro-content">
-      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;">
+      <div id="intro-content">
+        <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+      </div>
+      <div class="quotes-carousel" id="quotes-carousel-about">
+        <div class="quotes-carousel-track" id="quotes-track-about"></div>
+        <button class="quotes-carousel-arrow quotes-carousel-prev" id="quotes-prev-about" aria-label="上一张">&#10094;</button>
+        <button class="quotes-carousel-arrow quotes-carousel-next" id="quotes-next-about" aria-label="下一张">&#10095;</button>
+        <div class="quotes-carousel-dots" id="quotes-dots-about"></div>
+        <div class="quotes-carousel-counter" id="quotes-counter-about"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -145,9 +154,8 @@ async function loadIntro() {
     const d = await ShenJB.api.get('/about/intro');
     if (!d) { ShenJB.renderState.empty(c); return; }
     c.innerHTML = `
-      <div style="max-width:800px;margin:0 auto;font-size:var(--fs-body-sm);color:var(--text-secondary);line-height:1.9;">
-        <p style="margin-bottom:16px;">${d.content || '内容加载中…'}</p>
-      </div>`;
+      <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);line-height:1.9;">
+        ${d.content || '内容加载中…'}</p>`;
   } catch { ShenJB.renderState.error(c); }
 }
 
@@ -195,6 +203,73 @@ async function loadTeam() {
     `).join('');
   } catch { ShenJB.renderState.error(c); }
 }
+
+// ===== 沈家本法治箴言轮播图 =====
+(function() {
+  const images = [
+    '1_沈家本法治箴言011.jpg','2_沈家本法治箴言003.jpg','3_沈家本法治箴言015.jpg',
+    '4_沈家本法治箴言018.jpg','5_沈家本法治箴言012.jpg','6_沈家本法治箴言017.jpg',
+    '7-沈家本法治箴言009.png','8_沈家本法治箴言013.jpg','9_沈家本法治箴言022.jpg',
+    '10_沈家本法治箴言014.jpg','11_沈家本法治箴言005.jpg','12_沈家本法治箴言023.jpg',
+    '13_沈家本法治箴言016.jpg','14_沈家本法治箴言007.jpg','15-沈家本法治箴言024.png',
+    '16_沈家本法治箴言019.jpg','17_沈家本法治箴言007.jpg','18_沈家本法治箴言020.jpg',
+    '19_沈家本法治箴言008.jpg','20_沈家本法治箴言015.jpg','21_沈家本法治箴言系列001.jpg',
+    '22_沈家本法治箴言004.jpg','23_沈家本法治箴言021.jpg','24_沈家本法治箴言006.jpg',
+    '25_沈家本法治箴言010.jpg','26_沈家本法治箴言014.jpg','27_沈家本法治箴言002.jpg',
+    '沈家本诗词001.jpg','沈家本诗词002.jpg','沈家本诗词003.png','沈家本诗词004.png'
+  ];
+  const base = 'assets/images/quotes/';
+  const suffix = '-about';
+  let idx = 0, timer = null;
+  const track = document.getElementById('quotes-track' + suffix);
+  if (!track) return;
+
+  images.forEach((src, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'quotes-carousel-slide' + (i === 0 ? ' active' : '');
+    const img = document.createElement('img');
+    img.src = base + src;
+    img.alt = '沈家本法治箴言';
+    img.loading = 'lazy';
+    slide.appendChild(img);
+    track.appendChild(slide);
+
+    const dot = document.createElement('button');
+    dot.className = 'quotes-carousel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', '第' + (i + 1) + '张');
+    dot.addEventListener('click', () => goTo(i));
+    document.getElementById('quotes-dots' + suffix).appendChild(dot);
+  });
+
+  function updateCounter() {
+    const c = document.getElementById('quotes-counter' + suffix);
+    if (c) c.textContent = (idx + 1) + ' / ' + images.length;
+  }
+  updateCounter();
+
+  function goTo(i) {
+    if (i === idx) return;
+    const slides = track.querySelectorAll('.quotes-carousel-slide');
+    const dotEls = document.getElementById('quotes-dots' + suffix).querySelectorAll('.quotes-carousel-dot');
+    slides[idx].classList.remove('active');
+    dotEls[idx].classList.remove('active');
+    idx = i;
+    if (idx < 0) idx = images.length - 1;
+    if (idx >= images.length) idx = 0;
+    slides[idx].classList.add('active');
+    dotEls[idx].classList.add('active');
+    updateCounter();
+    resetTimer();
+  }
+
+  function next() { goTo(idx + 1); }
+  function prev() { goTo(idx - 1); }
+  function resetTimer() { clearInterval(timer); timer = setInterval(next, 5000); }
+
+  document.getElementById('quotes-next' + suffix).addEventListener('click', next);
+  document.getElementById('quotes-prev' + suffix).addEventListener('click', prev);
+  resetTimer();
+})();
 </script>
 </body>
 </html>

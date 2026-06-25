@@ -133,8 +133,12 @@
           </p>
           <a href="about.html" class="btn btn-primary">了解更多 →</a>
         </div>
-        <div style="background: linear-gradient(135deg, #203B64 0%, #6B84A8 100%); border-radius: 8px; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6); font-size: var(--fs-body-sm);">
-          研究院影像
+        <div class="quotes-carousel" id="quotes-carousel">
+          <div class="quotes-carousel-track" id="quotes-track"></div>
+          <button class="quotes-carousel-arrow quotes-carousel-prev" id="quotes-prev" aria-label="上一张">&#10094;</button>
+          <button class="quotes-carousel-arrow quotes-carousel-next" id="quotes-next" aria-label="下一张">&#10095;</button>
+          <div class="quotes-carousel-dots" id="quotes-dots"></div>
+          <div class="quotes-carousel-counter" id="quotes-counter"></div>
         </div>
       </div>
     </div>
@@ -297,6 +301,78 @@
       const map = { discipline: 'danger', legislation: 'warning', cases: 'accent', policy: 'primary', recruitment: 'success' };
       return map[type] || 'primary';
     }
+
+    // ===== 沈家本法治箴言轮播图 =====
+    (function() {
+      const images = [
+        '1_沈家本法治箴言011.jpg','2_沈家本法治箴言003.jpg','3_沈家本法治箴言015.jpg',
+        '4_沈家本法治箴言018.jpg','5_沈家本法治箴言012.jpg','6_沈家本法治箴言017.jpg',
+        '7-沈家本法治箴言009.png','8_沈家本法治箴言013.jpg','9_沈家本法治箴言022.jpg',
+        '10_沈家本法治箴言014.jpg','11_沈家本法治箴言005.jpg','12_沈家本法治箴言023.jpg',
+        '13_沈家本法治箴言016.jpg','14_沈家本法治箴言007.jpg','15-沈家本法治箴言024.png',
+        '16_沈家本法治箴言019.jpg','17_沈家本法治箴言007.jpg','18_沈家本法治箴言020.jpg',
+        '19_沈家本法治箴言008.jpg','20_沈家本法治箴言015.jpg','21_沈家本法治箴言系列001.jpg',
+        '22_沈家本法治箴言004.jpg','23_沈家本法治箴言021.jpg','24_沈家本法治箴言006.jpg',
+        '25_沈家本法治箴言010.jpg','26_沈家本法治箴言014.jpg','27_沈家本法治箴言002.jpg',
+        '沈家本诗词001.jpg','沈家本诗词002.jpg','沈家本诗词003.png','沈家本诗词004.png'
+      ];
+      const base = 'assets/images/quotes/';
+      let idx = 0, timer = null;
+      const track = document.getElementById('quotes-track');
+      const dots  = document.getElementById('quotes-dots');
+      const counter = document.getElementById('quotes-counter');
+      if (!track) return;
+
+      // 构建幻灯片
+      images.forEach((src, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'quotes-carousel-slide' + (i === 0 ? ' active' : '');
+        const img = document.createElement('img');
+        img.src = base + src;
+        img.alt = '沈家本法治箴言';
+        img.loading = 'lazy';
+        slide.appendChild(img);
+        track.appendChild(slide);
+
+        const dot = document.createElement('button');
+        dot.className = 'quotes-carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', '第' + (i + 1) + '张');
+        dot.addEventListener('click', () => goTo(i));
+        dots.appendChild(dot);
+      });
+
+      function updateCounter() {
+        if (counter) counter.textContent = (idx + 1) + ' / ' + images.length;
+      }
+      updateCounter();
+
+      function goTo(i) {
+        if (i === idx) return;
+        const slides = track.querySelectorAll('.quotes-carousel-slide');
+        const dotEls = dots.querySelectorAll('.quotes-carousel-dot');
+        slides[idx].classList.remove('active');
+        dotEls[idx].classList.remove('active');
+        idx = i;
+        if (idx < 0) idx = images.length - 1;
+        if (idx >= images.length) idx = 0;
+        slides[idx].classList.add('active');
+        dotEls[idx].classList.add('active');
+        updateCounter();
+        resetTimer();
+      }
+
+      function next() { goTo(idx + 1); }
+      function prev() { goTo(idx - 1); }
+
+      function resetTimer() {
+        clearInterval(timer);
+        timer = setInterval(next, 5000);
+      }
+
+      document.getElementById('quotes-next').addEventListener('click', next);
+      document.getElementById('quotes-prev').addEventListener('click', prev);
+      resetTimer();
+    })();
   </script>
 </body>
 </html>
