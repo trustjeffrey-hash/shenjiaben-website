@@ -118,14 +118,25 @@ function handleHomeStats(res) {
   today.setHours(0, 0, 0, 0);
   const weekStart = new Date(today);
   weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const tables = ['lawyer_discipline', 'legislation_projects', 'judicial_cases', 'judicial_policies', 'legal_recruitments'];
+  // 各表对应的日期字段映射
+  const dateFields = {
+    lawyer_discipline: 'disciplineDate',
+    legislation_projects: 'updatedAt',
+    judicial_cases: 'filingDate',
+    judicial_policies: 'publishDate',
+    legal_recruitments: 'publishDate',
+  };
+
   const stats = {};
-  for (const t of tables) {
+  for (const t of Object.keys(dateFields)) {
     const all = db.table(t);
-    const todayNew = all.filter(r => new Date(r.createdAt) >= today).length;
-    const weekNew = all.filter(r => new Date(r.createdAt) >= weekStart).length;
-    stats[t] = { total: all.length, todayNew, weekNew };
+    const dateField = dateFields[t];
+    const todayNew = all.filter(r => new Date(r[dateField]) >= today).length;
+    const weekNew = all.filter(r => new Date(r[dateField]) >= weekStart).length;
+    const monthNew = all.filter(r => new Date(r[dateField]) >= monthStart).length;
+    stats[t] = { total: all.length, todayNew, weekNew, monthNew };
   }
   json(res, 200, stats);
 }
@@ -916,6 +927,36 @@ const server = http.createServer(async (req, res) => {
   jsonError(res, 404, '页面或接口不存在');
 });
 
+// 数据时间戳迁移：如果某表 >80% 记录的 createdAt 为同一天，则重新分配
+function migrateTimestamps() {
+  const tables = ['lawyer_discipline', 'legislation_projects', 'judicial_cases', 'judicial_policies', 'legal_recruitments'];
+  const now = Date.now();
+  const dayMs = 86400000;
+  let migrated = 0;
+  for (const t of tables) {
+    const all = db.table(t);
+    if (all.length === 0) continue;
+    // 按 createdAt 日期分组
+    const dayCounts = {};
+    for (const r of all) {
+      const day = (r.createdAt || '').split('T')[0];
+      dayCounts[day] = (dayCounts[day] || 0) + 1;
+    }
+    const maxSame = Math.max(...Object.values(dayCounts));
+    if (maxSame / all.length > 0.8) {
+      // 重新分配时间戳：散布在近 180 天内
+      for (const r of all) {
+        r.createdAt = new Date(now - Math.floor(Math.random() * 180) * dayMs).toISOString();
+      }
+      db.save();
+      migrated++;
+      console.log(`[migrate] ${t}: ${all.length} 条记录时间戳已重新分布`);
+    }
+  }
+  if (migrated > 0) console.log(`[migrate] 共迁移 ${migrated} 个表的时间戳`);
+  return migrated;
+}
+
 // ── 启动 ──────────────────────────────────────────
 // 种子数据（容错：即使失败也正常启动）
 if (process.argv.includes('--seed')) {
@@ -926,6 +967,8 @@ if (process.argv.includes('--seed')) {
     console.error('[seed] 种子数据初始化失败（服务将继续运行）:', err.message);
   }
 }
+// 时间戳迁移（每次启动检查）
+try { migrateTimestamps(); } catch (e) { console.error('[migrate] 时间戳迁移失败:', e.message); }
 
 // 优雅退出
 process.on('SIGTERM', () => {

@@ -27,6 +27,7 @@
         <a href="cooperation.html">合作交流</a>
         <a href="mediation.html">商事调解</a>
         <a href="events.html">活动专栏</a>
+        <a href="data.html">数据平台</a>
         <a href="contact.html">联系我们</a>
       </nav>
       <button class="hamburger" aria-label="菜单">
@@ -44,6 +45,7 @@
     <a href="cooperation.html">合作交流</a>
     <a href="mediation.html">商事调解中心</a>
     <a href="events.html">活动专栏</a>
+    <a href="data.html">数据平台</a>
     <a href="contact.html">联系我们</a>
   </nav>
 
@@ -218,6 +220,17 @@
       } catch { ShenJB.renderState.error(c); }
     }
 
+    function getModuleDesc(key) {
+      const descs = {
+        lawyer_discipline: '全国律协/司法厅公示处罚信息实时聚合',
+        legislation_projects: '追踪全国人大/国务院重要立法项目进度',
+        judicial_cases: '各级法院热点典型案件评析与裁判要旨',
+        judicial_policies: '最高法/最高检/司法部政策文件汇总',
+        legal_recruitments: '律所/企业法务/公检法招聘信息聚合'
+      };
+      return descs[key] || '';
+    }
+
     async function loadHomeStats() {
       const container = document.getElementById('home-stats');
       ShenJB.renderState.loading(container);
@@ -235,14 +248,19 @@
           { key: 'legal_recruitments', label: '法律招聘聚合', color: 'success', page: 'recruitment.html' },
         ];
         container.innerHTML = modules.map(m => {
-          const mod = data[m.key] || { total: 0, todayNew: 0, weekNew: 0 };
+          const mod = data[m.key] || { total: 0, todayNew: 0, weekNew: 0, monthNew: 0 };
           return `
             <a href="${m.page}" class="stat-card ${m.color}">
               <div class="stat-card-label">${m.label}</div>
               <div class="stat-card-value">${mod.total.toLocaleString()}</div>
-              <div class="stat-card-change up">本周新增 ${mod.weekNew || 0} 条</div>
+              <div class="stat-card-meta">
+                <span class="stat-badge">今日 +${mod.todayNew || 0}</span>
+                <span class="stat-badge">本周 +${mod.weekNew || 0}</span>
+                <span class="stat-badge">本月 +${mod.monthNew || 0}</span>
+              </div>
+              <div class="stat-card-desc">${getModuleDesc(m.key)}</div>
             </a>`;
-        }).join('');
+        }).join('') + `<div style="text-align:center;margin-top:32px;"><a href="data.html" class="btn btn-accent btn-lg">进入数据平台 →</a></div>`;
       } catch (err) {
         ShenJB.renderState.error(container);
       }
