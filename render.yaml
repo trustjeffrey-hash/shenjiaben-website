@@ -9,8 +9,8 @@ services:
     env: node
     region: singapore  # 亚洲用户选新加坡节点，延迟最低
     plan: free  # 免费套餐：512MB RAM，0.1 CPU，每月750小时
-    buildCommand: npm install
-    startCommand: node src/backend-js/server.js --seed
+    buildCommand: npm install --omit=dev --no-audit --no-fund
+    startCommand: npm start
     healthCheckPath: /api/v1/health
     envVars:
       - key: NODE_ENV

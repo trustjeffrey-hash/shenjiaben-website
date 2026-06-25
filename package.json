@@ -4,7 +4,7 @@
   "description": "沈家本研究院官网 — 全自动法律数据学术中台",
   "main": "src/backend-js/server.js",
   "scripts": {
-    "start": "node src/backend-js/server.js",
+    "start": "node src/backend-js/server.js --seed",
     "seed": "node -e \"require('./src/backend-js/db');require('./src/backend-js/seed').seed()\"",
     "dev": "node src/backend-js/server.js --seed"
   },

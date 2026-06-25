@@ -860,12 +860,27 @@ const server = http.createServer(async (req, res) => {
 });
 
 // ── 启动 ──────────────────────────────────────────
-// 种子数据
+// 种子数据（容错：即使失败也正常启动）
 if (process.argv.includes('--seed')) {
-  require('./seed').seed();
+  try {
+    require('./seed').seed();
+    console.log('[seed] 种子数据初始化完成');
+  } catch (err) {
+    console.error('[seed] 种子数据初始化失败（服务将继续运行）:', err.message);
+  }
 }
 
-server.listen(PORT, () => {
+// 优雅退出
+process.on('SIGTERM', () => {
+  console.log('收到 SIGTERM，优雅退出...');
+  server.close(() => process.exit(0));
+});
+process.on('SIGINT', () => {
+  console.log('收到 SIGINT，优雅退出...');
+  server.close(() => process.exit(0));
+});
+
+server.listen(PORT, '0.0.0.0', () => {
   console.log('='.repeat(50));
   console.log('  沈家本研究院 API 服务');
   console.log(`  地址: http://localhost:${PORT}`);
