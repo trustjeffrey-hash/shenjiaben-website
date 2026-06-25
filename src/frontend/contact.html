@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>联系我们 — 沈家本研究院</title>
+  <title>联系我们 — 湖州市沈家本研究院</title>
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
@@ -67,21 +67,22 @@
   <div class="container">
     <h2 class="section-title">来访地图</h2>
     <div class="section-divider"></div>
-    <div id="map-container" style="width:100%;height:360px;background:var(--bg-section);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);font-size:var(--fs-body-sm);">
-      地图加载中…
+    <div id="map-container" style="width:100%;height:360px;background:var(--bg-section);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:var(--fs-body-sm);flex-direction:column;gap:8px;">
+      <p>📍 来访地址：浙江省湖州市吴兴区妙西镇沈家本历史文化园</p>
+      <p style="font-size:var(--fs-note);color:var(--text-tertiary);">百度/高德地图搜索「沈家本历史文化园（妙西镇）」即可导航</p>
     </div>
   </div>
 </section>
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <div class="footer-brand"><h3>沈家本研究院</h3><p>传承法治文化，弘扬法学精神。</p></div>
+    <div class="footer-brand"><h3>湖州市沈家本研究院</h3><p>传承法治文化，弘扬法学精神。</p></div>
     <div class="footer-col"><h4>快速导航</h4><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a><a href="publications.html">成果出版物</a><a href="events.html">活动专栏</a></div>
     <div class="footer-col"><h4>数据平台</h4><a href="discipline.html">律师处罚查询</a><a href="legislation.html">立法进度追踪</a><a href="cases.html">热点案件评析</a><a href="policy.html">司法政策汇总</a><a href="recruitment.html">法律招聘聚合</a></div>
     <div class="footer-col"><h4>联系方式</h4><a href="contact.html">联系我们</a><a href="mediation.html">商事调解中心</a><a href="#feedback">信息异议与下架反馈</a></div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 沈家本研究院 版权所有</p><p><a href="#">ICP备案号：待备案</a></p>
+    <p>© 2026 湖州市沈家本研究院 版权所有</p><p><a href="#">ICP备案号：待备案（域名备案完成后填入）</a></p>
     <p style="margin-top:8px;">本平台所有公开数据均取自国家机关、律协、人大、官方公众号公开公示内容，仅作公益学术信息聚合检索</p>
     <p>本站数据不构成任何法律建议，仅供学术研究参考</p>
   </div>
@@ -105,6 +106,7 @@ async function loadContactInfo(){
       <div class="card" style="margin-bottom:16px;">
         <div style="font-size:var(--fs-body-sm);color:var(--text-secondary);line-height:2.2;">
           <p><strong style="color:var(--text-primary);">📍 地址：</strong>${d.address||'待补充'}</p>
+          <p><strong style="color:var(--text-primary);">👤 联系人：</strong>${d.contactPerson||'待补充'}</p>
           <p><strong style="color:var(--text-primary);">📞 电话：</strong>${d.phone||'待补充'}</p>
           <p><strong style="color:var(--text-primary);">📧 邮箱：</strong>${d.email||'待补充'}</p>
           <p><strong style="color:var(--text-primary);">🕐 工作时间：</strong>${d.workingHours||'周一至周五 9:00-17:00'}</p>

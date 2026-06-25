@@ -178,20 +178,24 @@ function seed() {
   if (db.table('events').length === 0) {
     console.log('  生成活动专栏数据...');
     const events = [
-      {title:'第七届沈家本法律文化国际研讨会',desc:'汇聚国际法律学者，研讨沈家本法律思想的现代价值',category:'学术会议',eventDate:'2026-07-15',location:'北京',status:'upcoming'},
-      {title:'法治数据智能应用论坛（第二届）',desc:'探讨大数据与人工智能在法律服务中的应用创新',category:'论坛',eventDate:'2026-08-20',location:'上海',status:'upcoming'},
-      {title:'沈家本法学思想青年研习营',desc:'面向全国高校法学研究生的暑期研习项目',category:'培训',eventDate:'2026-07-01',location:'杭州',status:'upcoming'},
-      {title:'青年法学家学术沙龙',desc:'邀请中青年法学学者分享最新研究成果',category:'沙龙',eventDate:'2026-06-30',location:'北京',status:'upcoming'},
-      {title:'法律古籍整理方法培训',desc:'邀请文献学专家讲授法律古籍整理与研究方法',category:'培训',eventDate:'2026-09-10',location:'北京',status:'upcoming'},
-      {title:'商事调解中心揭牌仪式',desc:'沈家本研究院商事调解中心正式挂牌运行',category:'仪式',eventDate:'2025-06-15',location:'北京',status:'past'},
-      {title:'沈家本诞辰186周年纪念学术报告会',desc:'回顾沈家本先生生平事迹，研讨其法律改革思想',category:'学术会议',eventDate:'2026-08-19',location:'湖州',status:'upcoming'},
+      {title:'第八届WELEGAL六一五法务节暨法治文化地标行',desc:'2026湖州未来大会系列活动之一，300余名企业法务合规负责人、知名学者、法律实务专家齐聚沈家本历史文化园，以主题演讲、圆桌分享、深度研学等形式探讨法商融合与产业合规前沿议题，首创「法治文化地标行」新范式。',category:'行业峰会',eventDate:'2026-06-14',location:'湖州沈家本历史文化园',status:'past'},
+      {title:'同济大学法学院「寻沈家本故里·访大余村两山」沉浸式研学',desc:'同济大学法学院院长蒋惠岭、党委书记段存广率师生代表团赴湖州，走访沈家本历史文化园与大余村，开展现场教学与法治文化体验。',category:'研学',eventDate:'2026-04-11',location:'湖州沈家本历史文化园/大余村',status:'past'},
+      {title:'湖州市司法局与同济大学法学院校地合作签约',desc:'双方签署法治文化校地合作协议，在沈家本研究院设立联合研究基地，推动法学人才培养与传统文化研究深度融合。蒋惠岭院长出席签约仪式。',category:'签约仪式',eventDate:'2026-03-09',location:'同济大学法学院',status:'past'},
+      {title:'沈家本法学思想青年研习营',desc:'面向全国高校法学研究生的暑期研习项目，深入沈家本故里开展史料研读、学术讲座、田野调查等研学活动。',category:'培训',eventDate:'2026-07-15',location:'湖州沈家本历史文化园',status:'upcoming'},
+      {title:'行业合规私董会（系列）',desc:'联动长三角头部企业法总与合规负责人，聚焦新能源、知识产权、跨境贸易等领域的合规体系建设与最佳实践分享。',category:'沙龙',eventDate:'2026-08-01',location:'湖州沈家本历史文化园',status:'upcoming'},
+      {title:'浙江省法学会法学教育研究会年会',desc:'聚焦法学教育改革与法治文化传承，省内外法学院校代表齐聚沈家本历史文化园交流研讨。',category:'学术会议',eventDate:'2023-11-01',location:'湖州沈家本历史文化园',status:'past'},
+      {title:'浙江省法学会浙籍法学家研究会2022年年会',desc:'由沈家本研究院承办，省内外法学界围绕浙籍法学家的学术贡献与当代价值展开深入研讨。',category:'学术会议',eventDate:'2022-11-01',location:'湖州（沈家本研究院承办）',status:'past'},
+      {title:'「乡心正不远」沈家本诗歌座谈会',desc:'沈家本后裔、法学界与诗歌界学者共话沈家本文学遗产，品读其《玉骨冰心冷不摧》等诗词作品。',category:'座谈',eventDate:'2022-08-01',location:'湖州沈家本历史文化园',status:'past'},
+      {title:'大运河阅读行动·湖州站',desc:'大运河阅读行动走进湖州，在沈家本历史文化园举办阅读分享与法治文化体验活动。',category:'文化活动',eventDate:'2022-06-01',location:'湖州沈家本历史文化园',status:'past'},
+      {title:'第二届沈家本与中国法律文化学术研讨会',desc:'中国政法大学与湖州市委市政府共同举办，纪念沈家本诞辰180周年，140余名全国专家学者共话法治文化传承。',category:'学术会议',eventDate:'2020-11-21',location:'湖州东吴开元名都酒店',status:'past'},
+      {title:'沈家本历史文化园开园暨「吴兴论坛」',desc:'沈家本历史文化园正式开园，同步举办「吴兴论坛——中国法治发展战略」活动，园区以公平正义、法学基石为设计理念，设法治文化展厅、研学教室、枕碧楼文献展等主题空间。',category:'仪式',eventDate:'2021-04-23',location:'湖州吴兴区妙西镇',status:'past'},
     ];
     for (const e of events) {
       db.insert('events', {
         title: e.title, description: e.desc, category: e.category,
         eventDate: e.eventDate, location: e.location, status: e.status,
-        coverImage: '', maxParticipants: 120,
-        registrationDeadline: new Date(new Date(e.eventDate).getTime() - 3*86400000).toISOString().split('T')[0],
+        coverImage: '', maxParticipants: e.maxParticipants || 120,
+        registrationDeadline: e.status === 'upcoming' ? new Date(new Date(e.eventDate).getTime() - 3*86400000).toISOString().split('T')[0] : '',
         isActive: true,
       });
     }
@@ -202,23 +206,23 @@ function seed() {
   if (db.table('publications').length === 0) {
     console.log('  生成出版物数据...');
     const pubs = [
-      {title:'《沈家本法律思想研究》',author:'李贵连',category:'专著',year:2023,desc:'系统阐述沈家本的法律改革思想及其历史意义'},
-      {title:'《近代中国法制变迁》',author:'何勤华',category:'专著',year:2024,desc:'以沈家本修律为中心考察近代中国法制转型'},
-      {title:'《大清律例与近代转型》',author:'苏亦工',category:'专著',year:2024,desc:'从大清律例到近代法律体系的转型研究'},
-      {title:'《历代刑法考（校注版）》',author:'沈家本著 / 研究院校注',category:'校注',year:2025,desc:'沈家本代表作《历代刑法考》的现代校注版本'},
-      {title:'《寄簃文存校注》',author:'研究院整理组',category:'校注',year:2025,desc:'沈家本法学文集的整理与校注'},
-      {title:'《沈家本全集（第一卷）》',author:'研究院编纂委员会',category:'全集',year:2026,desc:'全面收录沈家本著作、奏折、信函等文献'},
-      {title:'《法治数据智能研究报告（2025年度）》',author:'数据法治研究所',category:'报告',year:2026,desc:'法律数据聚合平台年度数据分析与趋势研判'},
-      {title:'《2025年全国律师处罚数据分析报告》',author:'数据法治研究所',category:'报告',year:2026,desc:'基于大数据的律师行业处罚趋势分析'},
-      {title:'沈家本法学研究（学术期刊·半年刊）',author:'研究院编辑部',category:'期刊',year:2025,desc:'专注于沈家本研究及法律史学领域'},
-      {title:'《商事调解案例汇编（第一辑）》',author:'商事调解中心',category:'案例汇编',year:2026,desc:'精选商事调解典型案例及评析'},
+      {title:'《沈家本手稿五种》（影印本）',author:'湖州市沈家本研究院 编',category:'文献影印',year:2022,desc:'五册一函，杭州华宝斋书社2022年6月影印出版。收录沈家本日记、书札、律学笔记等未刊手稿，为中国法学界首度披露部分珍贵文献。',publisher:'杭州华宝斋书社'},
+      {title:'《玉骨冰心冷不摧——沈家本诗集》',author:'沈家本研究院 编',category:'文献整理',year:2020,desc:'纪念沈家本诞辰180周年专题出版物，汇集沈家本生平诗作及学界纪念文章。',publisher:'沈家本研究院'},
+      {title:'《沈家本与中国法律文化论集》',author:'研究院学术委员会 编',category:'论文集',year:2021,desc:'第二届沈家本与中国法律文化学术研讨会论文精选集，140余位学者成果汇编。',publisher:'法律出版社'},
+      {title:'《历代刑法考（校注版）》',author:'沈家本 著 / 研究院 校注',category:'校注',year:2025,desc:'沈家本代表作《历代刑法考》的现代校注版本。',publisher:'法律出版社'},
+      {title:'《寄簃文存校注》',author:'研究院文献史料中心',category:'校注',year:2025,desc:'沈家本法学文集的整理与校注。',publisher:'待定'},
+      {title:'《会通中西：沈家本法律思想研究》',author:'学术研究部',category:'专著',year:2024,desc:'研究院核心课题成果，系统梳理沈家本"会通中西、慎刑恤狱、定分止争、契约为本"核心法治理念。',publisher:'待定'},
+      {title:'《商事调解案例汇编（第一辑）》',author:'商事调解研究中心',category:'案例汇编',year:2026,desc:'精选商事调解典型案例及评析，涵盖买卖合同、知识产权、电商经营等领域。',publisher:'待定'},
+      {title:'沈家本法学研究（学术期刊·半年刊）',author:'研究院编辑部',category:'期刊',year:2025,desc:'专注于沈家本研究及法律史学领域，刊登海内外最新研究成果。',publisher:'沈家本研究院'},
+      {title:'《法治数据智能研究报告（2025年度）》',author:'数据法治研究所',category:'报告',year:2026,desc:'法律数据聚合平台年度数据分析与趋势研判。',publisher:'待定'},
+      {title:'《中国传统法律文化的现代价值》',author:'学术研究部',category:'专著',year:2026,desc:'挖掘传统法律文化中可资借鉴的理念与制度资源。',publisher:'待定'},
     ];
     for (const p of pubs) {
       db.insert('publications', {
         title: p.title, author: p.author, category: p.category,
         year: p.year, description: p.desc,
-        coverImage: '', publisher: '法律出版社',
-        isbn: `978-7-5197-${1000 + Math.floor(Math.random() * 9000)}-${Math.floor(Math.random() * 10)}`,
+        coverImage: '', publisher: p.publisher,
+        isbn: '',
         isActive: true,
       });
     }
@@ -227,10 +231,11 @@ function seed() {
 
   // 基础内容
   if (db.table('basic_content').length === 0) {
-    db.insert('basic_content', { contentKey: 'about_intro', title: '研究院简介', contentValue: '沈家本研究院是以中国近代法律改革先驱沈家本先生命名的学术研究机构，致力于法律史研究、法治文化传播和法律数据服务。', isPublished: true, orderIndex: 1 });
-    db.insert('basic_content', { contentKey: 'about_mission', title: '办院宗旨', contentValue: '传承法治文化、研究法律历史、服务法治建设、促进学术交流。', isPublished: true, orderIndex: 2 });
-    db.insert('basic_content', { contentKey: 'contact_address', title: '地址', contentValue: '北京市海淀区中关村南大街XX号', isPublished: true, orderIndex: 1 });
-    db.insert('basic_content', { contentKey: 'contact_phone', title: '电话', contentValue: '010-XXXXXXXX', isPublished: true, orderIndex: 2 });
+    db.insert('basic_content', { contentKey: 'about_intro', title: '研究院简介', contentValue: '湖州市沈家本研究院坐落于吴兴西塞山旅游度假区妙西镇沈家本历史文化园内，2020年11月经湖州市民政局正式登记注册，是湖州地区唯一以系统研究、整理、传播近代法制奠基人沈家本法治思想为核心职能的非营利性学术研究机构。', isPublished: true, orderIndex: 1 });
+    db.insert('basic_content', { contentKey: 'about_mission', title: '办院宗旨', contentValue: '传承沈家本法学精神，深耕中华优秀传统法律文化，打造集文献整理、学术研究、校地协同、商事调解、法治研学、实务服务于一体的特色法治智库平台。', isPublished: true, orderIndex: 2 });
+    db.insert('basic_content', { contentKey: 'contact_address', title: '单位地址', contentValue: '浙江省湖州市吴兴区妙西镇沈家本历史文化园', isPublished: true, orderIndex: 1 });
+    db.insert('basic_content', { contentKey: 'contact_phone', title: '联系电话', contentValue: '13082838161（王主任）', isPublished: true, orderIndex: 2 });
+    db.insert('basic_content', { contentKey: 'contact_email', title: '电子邮箱', contentValue: 'info@hz-shenjiaben.org', isPublished: true, orderIndex: 3 });
     db.save();
   }
 
