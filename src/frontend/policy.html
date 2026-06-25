@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>司法政策与指导案例汇总库 — 沈家本研究院</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="nav-logo-icon">沈</span><span class="nav-logo-text">沈家本研究院</span></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+      <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+      <a href="mediation.html">商事调解</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+    </nav>
+    <button class="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+  <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+  <a href="mediation.html">商事调解中心</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+</nav>
+
+<section class="hero" style="padding: 64px 0 48px;">
+  <div class="hero-content">
+    <span class="hero-badge">POLICY DATABASE</span>
+    <h1 class="hero-title">司法政策与指导案例汇总库</h1>
+    <p class="hero-subtitle">聚合最高人民法院、最高人民检察院等发布的司法政策文件与指导性案例</p>
+  </div>
+</section>
+
+<section class="section" style="padding-bottom:0;">
+  <div class="container">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px;">
+      <input type="text" name="keyword" class="form-input" placeholder="搜索政策标题 / 文号…" style="flex:1;min-width:240px;">
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;" id="policy-filters">
+      <select name="category" class="form-select" style="width:auto;min-width:140px;">
+        <option value="">全部分类</option>
+        <option value="interpretation">司法解释</option><option value="opinion">指导意见</option>
+        <option value="notice">通知公告</option><option value="case">指导案例</option><option value="rule">规范性文件</option>
+      </select>
+      <select name="year" class="form-select" style="width:auto;min-width:120px;">
+        <option value="">全部年份</option>
+      </select>
+      <select name="authority" class="form-select" style="width:auto;min-width:150px;">
+        <option value="">全部发布机关</option>
+        <option value="spc">最高人民法院</option><option value="spp">最高人民检察院</option>
+        <option value="moj">司法部</option><option value="npc">全国人大</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:16px;">
+  <div class="container">
+    <div id="policy-list"><div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div></div>
+    <div id="policy-pagination" style="margin-top:16px;"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><h3>沈家本研究院</h3><p>传承法治文化，弘扬法学精神。</p></div>
+    <div class="footer-col"><h4>快速导航</h4><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a><a href="publications.html">成果出版物</a><a href="events.html">活动专栏</a></div>
+    <div class="footer-col"><h4>数据平台</h4><a href="discipline.html">律师处罚查询</a><a href="legislation.html">立法进度追踪</a><a href="cases.html">热点案件评析</a><a href="policy.html">司法政策汇总</a><a href="recruitment.html">法律招聘聚合</a></div>
+    <div class="footer-col"><h4>联系方式</h4><a href="contact.html">联系我们</a><a href="mediation.html">商事调解中心</a><a href="#feedback">信息异议与下架反馈</a></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 沈家本研究院 版权所有</p><p><a href="#">ICP备案号：待备案</a></p>
+    <p style="margin-top:8px;">本平台所有公开数据均取自国家机关、律协、人大、官方公众号公开公示内容，仅作公益学术信息聚合检索</p>
+    <p>本站数据不构成任何法律建议，仅供学术研究参考</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const yearSel=document.querySelector('[name="year"]');
+  const cy=new Date().getFullYear();
+  for(let y=cy;y>=2000;y--)yearSel.innerHTML+=`<option value="${y}">${y}</option>`;
+  new ShenJB.SearchFilter({
+    searchInput:'[name="keyword"]',filterContainer:'#policy-filters',
+    onSearch:(f)=>loadPolicies(1,f)
+  });
+  loadPolicies(1);
+});
+
+async function loadPolicies(page=1,filters={}){
+  const list=document.getElementById('policy-list'),pag=document.getElementById('policy-pagination');
+  ShenJB.renderState.loading(list);
+  try{
+    const d=await ShenJB.api.get('/policy/list',{page,pageSize:12,...filters});
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(list);pag.innerHTML='';return;}
+    const catMap={interpretation:'primary',opinion:'accent',notice:'warning',case:'success',rule:'primary'};
+    list.innerHTML=d.items.map(i=>`
+      <div class="card" style="margin-bottom:16px;">
+        <div class="flex-between" style="flex-wrap:wrap;gap:8px;">
+          <div>
+            <span class="tag tag-${catMap[i.category]||'primary'}">${i.categoryLabel||i.category}</span>
+            <span style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-left:8px;">${i.title}</span>
+          </div>
+          <span style="font-size:var(--fs-note-sm);color:var(--text-tertiary);white-space:nowrap;">${i.date||''}</span>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:8px;font-size:var(--fs-note-sm);color:var(--text-secondary);">
+          <span>文号：${i.docNo||'—'}</span><span>发布：${i.authorityLabel||''}</span>
+          ${i.sourceUrl?`<a href="${i.sourceUrl}" target="_blank" style="margin-left:auto;">查看原文 →</a>`:''}
+        </div>
+      </div>
+    `).join('');
+    new ShenJB.Pagination(pag,{total:d.total,current:page,pageSize:12,onChange:(p)=>loadPolicies(p,filters)});
+  }catch{ShenJB.renderState.error(list);}
+}
+</script>
+</body>
+</html>

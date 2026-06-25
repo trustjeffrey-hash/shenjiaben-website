@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>热点典型司法案件评析库 — 沈家本研究院</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="nav-logo-icon">沈</span><span class="nav-logo-text">沈家本研究院</span></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+      <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+      <a href="mediation.html">商事调解</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+    </nav>
+    <button class="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+  <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+  <a href="mediation.html">商事调解中心</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+</nav>
+
+<section class="hero" style="padding: 64px 0 48px;">
+  <div class="hero-content">
+    <span class="hero-badge">CASE ANALYSIS</span>
+    <h1 class="hero-title">热点典型司法案件评析库</h1>
+    <p class="hero-subtitle">收录全国各级法院典型裁判案例，提供专业评析与学术参考</p>
+  </div>
+</section>
+
+<!-- 筛选 -->
+<section class="section" style="padding-bottom:0;">
+  <div class="container">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px;">
+      <input type="text" name="keyword" class="form-input" placeholder="搜索案件名称 / 案号…" style="flex:1;min-width:240px;">
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;" id="case-filters">
+      <select name="cause" class="form-select" style="width:auto;min-width:140px;">
+        <option value="">全部案由</option>
+        <option value="criminal">刑事</option><option value="civil">民事</option><option value="admin">行政</option>
+        <option value="commercial">商事</option><option value="ip">知识产权</option>
+      </select>
+      <select name="status" class="form-select" style="width:auto;min-width:140px;">
+        <option value="">全部进度</option>
+        <option value="trial">审理中</option><option value="appeal">上诉中</option>
+        <option value="closed">已结案</option><option value="retrial">再审</option>
+      </select>
+      <select name="court" class="form-select" style="width:auto;min-width:140px;">
+        <option value="">全部法院层级</option>
+        <option value="supreme">最高人民法院</option><option value="high">高级法院</option>
+        <option value="middle">中级法院</option><option value="basic">基层法院</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:16px;">
+  <div class="container">
+    <div id="case-list"><div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div></div>
+    <div id="case-pagination" style="margin-top:16px;"></div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">案件统计</h2>
+    <div class="section-divider"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="card"><h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:16px;">案由分布</h3><div id="chart-cause" style="width:100%;height:320px;"></div></div>
+      <div class="card"><h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:16px;">季度趋势</h3><div id="chart-quarter" style="width:100%;height:320px;"></div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><h3>沈家本研究院</h3><p>传承法治文化，弘扬法学精神。</p></div>
+    <div class="footer-col"><h4>快速导航</h4><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a><a href="publications.html">成果出版物</a><a href="events.html">活动专栏</a></div>
+    <div class="footer-col"><h4>数据平台</h4><a href="discipline.html">律师处罚查询</a><a href="legislation.html">立法进度追踪</a><a href="cases.html">热点案件评析</a><a href="policy.html">司法政策汇总</a><a href="recruitment.html">法律招聘聚合</a></div>
+    <div class="footer-col"><h4>联系方式</h4><a href="contact.html">联系我们</a><a href="mediation.html">商事调解中心</a><a href="#feedback">信息异议与下架反馈</a></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 沈家本研究院 版权所有</p><p><a href="#">ICP备案号：待备案</a></p>
+    <p style="margin-top:8px;">本平台所有公开数据均取自国家机关、律协、人大、官方公众号公开公示内容，仅作公益学术信息聚合检索</p>
+    <p>本站数据不构成任何法律建议，仅供学术研究参考</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+let causeChart,quarterChart;
+document.addEventListener('DOMContentLoaded',()=>{
+  new ShenJB.SearchFilter({
+    searchInput:'[name="keyword"]',filterContainer:'#case-filters',
+    onSearch:(f)=>loadCases(1,f)
+  });
+  loadCases(1);loadCaseCharts();
+  window.addEventListener('resize',()=>{causeChart?.resize();quarterChart?.resize();});
+});
+
+async function loadCases(page=1,filters={}){
+  const list=document.getElementById('case-list'),pag=document.getElementById('case-pagination');
+  ShenJB.renderState.loading(list);
+  try{
+    const d=await ShenJB.api.get('/cases/list',{page,pageSize:10,...filters});
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(list);pag.innerHTML='';return;}
+    const statusMap={trial:'warning',appeal:'accent',closed:'success',retrial:'primary'};
+    list.innerHTML=d.items.map(i=>`
+      <div class="card" style="margin-bottom:16px;cursor:pointer;" data-id="${i.id}">
+        <div class="flex-between" style="flex-wrap:wrap;gap:8px;">
+          <div>
+            <span class="tag tag-${statusMap[i.status]||'primary'}">${i.statusLabel||i.status}</span>
+            <span class="tag tag-accent" style="margin-left:8px;">${i.causeLabel||i.cause}</span>
+            <span style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-left:8px;">${i.title}</span>
+          </div>
+          <span style="font-size:var(--fs-note-sm);color:var(--text-tertiary);">${i.court||''} · ${i.date||''}</span>
+        </div>
+        <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);margin-top:8px;">案号：${i.caseNo||''}</p>
+      </div>
+    `).join('');
+    list.querySelectorAll('[data-id]').forEach(c=>c.addEventListener('click',()=>showCaseDetail(c.dataset.id)));
+    new ShenJB.Pagination(pag,{total:d.total,current:page,pageSize:10,onChange:(p)=>loadCases(p,filters)});
+  }catch{ShenJB.renderState.error(list);}
+}
+
+async function showCaseDetail(id){
+  try{
+    const d=await ShenJB.api.get(`/cases/${id}`);
+    ShenJB.modal.open(d.title||'案件详情',`
+      <div style="line-height:1.9;font-size:var(--fs-body-sm);color:var(--text-secondary);">
+        <p><strong style="color:var(--text-primary);">案号：</strong>${d.caseNo||''}</p>
+        <p><strong style="color:var(--text-primary);">审理法院：</strong>${d.court||''}</p>
+        <p><strong style="color:var(--text-primary);">案由：</strong>${d.causeLabel||''}</p>
+        <p><strong style="color:var(--text-primary);">进度：</strong>${d.statusLabel||''}</p>
+        <hr style="border-color:var(--border-color);margin:12px 0;">
+        <p><strong style="color:var(--text-primary);">裁判要点：</strong></p>
+        <p style="margin-top:8px;">${d.keyPoints||'暂无'}</p>
+        <p style="margin-top:12px;"><strong style="color:var(--text-primary);">审理进度：</strong></p>
+        <p style="margin-top:8px;">${d.progress||'暂无'}</p>
+      </div>
+    `);
+  }catch{/* ignore */}
+}
+
+async function loadCaseCharts(){
+  try{
+    const d=await ShenJB.api.get('/cases/stats');
+    if(!causeChart)causeChart=echarts.init(document.getElementById('chart-cause'));
+    causeChart.setOption({
+      tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+      series:[{type:'pie',radius:['40%','70%'],data:(d?.causes||[]).map(c=>({name:c.name,value:c.count})),
+        label:{fontSize:12},color:['#203B64','#6B84A8','#C89959','#279E68','#E69523','#D83030']}]
+    });
+    if(!quarterChart)quarterChart=echarts.init(document.getElementById('chart-quarter'));
+    quarterChart.setOption({
+      tooltip:{trigger:'axis'},
+      grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
+      xAxis:{type:'category',data:(d?.quarterly||[]).map(q=>q.quarter),axisLabel:{fontSize:11,color:'#999'}},
+      yAxis:{type:'value',axisLabel:{fontSize:11,color:'#999'}},
+      series:[{type:'line',data:(d?.quarterly||[]).map(q=>q.count),itemStyle:{color:'#203B64'},lineStyle:{width:3},smooth:true,areaStyle:{color:'rgba(32,59,100,0.08)'}}]
+    });
+  }catch{/* ignore */}
+}
+</script>
+</body>
+</html>

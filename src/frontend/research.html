@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>沈家本文化研究中心 — 沈家本研究院</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="nav-logo-icon">沈</span>
+      <span class="nav-logo-text">沈家本研究院</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="about.html">研究院概况</a>
+      <a href="research.html" class="active">文化研究中心</a>
+      <a href="publications.html">成果出版物</a>
+      <a href="cooperation.html">合作交流</a>
+      <a href="mediation.html">商事调解</a>
+      <a href="events.html">活动专栏</a>
+      <a href="contact.html">联系我们</a>
+    </nav>
+    <button class="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">首页</a>
+  <a href="about.html">研究院概况</a>
+  <a href="research.html" class="active">文化研究中心</a>
+  <a href="publications.html">成果出版物</a>
+  <a href="cooperation.html">合作交流</a>
+  <a href="mediation.html">商事调解中心</a>
+  <a href="events.html">活动专栏</a>
+  <a href="contact.html">联系我们</a>
+</nav>
+
+<section class="hero" style="padding: 64px 0 48px;">
+  <div class="hero-content">
+    <span class="hero-badge">Research Center</span>
+    <h1 class="hero-title">沈家本文化研究中心</h1>
+    <p class="hero-subtitle">深入挖掘沈家本法学思想，传承中华法治文化精髓</p>
+  </div>
+</section>
+
+<!-- 史料文库 -->
+<section class="section" id="archives">
+  <div class="container">
+    <h2 class="section-title">史料文库</h2>
+    <div class="section-divider"></div>
+    <div class="card-grid" id="archives-grid">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 著作展示 -->
+<section class="section section-alt" id="works">
+  <div class="container">
+    <h2 class="section-title">学术著作</h2>
+    <div class="section-divider"></div>
+    <div class="card-grid" id="works-grid">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 课题研究 -->
+<section class="section" id="projects">
+  <div class="container">
+    <h2 class="section-title">课题研究</h2>
+    <div class="section-divider"></div>
+    <div id="projects-list">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 研学活动 -->
+<section class="section section-alt" id="study-tours">
+  <div class="container">
+    <h2 class="section-title">研学活动</h2>
+    <div class="section-divider"></div>
+    <div class="card-grid" id="study-grid">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><h3>沈家本研究院</h3><p>传承法治文化，弘扬法学精神。</p></div>
+    <div class="footer-col"><h4>快速导航</h4><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a><a href="publications.html">成果出版物</a><a href="events.html">活动专栏</a></div>
+    <div class="footer-col"><h4>数据平台</h4><a href="discipline.html">律师处罚查询</a><a href="legislation.html">立法进度追踪</a><a href="cases.html">热点案件评析</a><a href="policy.html">司法政策汇总</a><a href="recruitment.html">法律招聘聚合</a></div>
+    <div class="footer-col"><h4>联系方式</h4><a href="contact.html">联系我们</a><a href="mediation.html">商事调解中心</a><a href="#feedback">信息异议与下架反馈</a></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 沈家本研究院 版权所有</p>
+    <p><a href="#">ICP备案号：待备案</a></p>
+    <p style="margin-top:8px;">本平台所有公开数据均取自国家机关、律协、人大、官方公众号公开公示内容，仅作公益学术信息聚合检索</p>
+    <p>本站数据不构成任何法律建议，仅供学术研究参考</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async ()=>{
+  await loadSection('/research/archives','archives-grid',renderArchiveCard);
+  await loadSection('/research/works','works-grid',renderWorkCard);
+  await loadProjects();
+  await loadSection('/research/study','study-grid',renderStudyCard);
+});
+
+async function loadSection(api, cid, render){
+  const c=document.getElementById(cid);
+  try{
+    const d=await ShenJB.api.get(api);
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(c);return;}
+    c.innerHTML=d.items.map(render).join('');
+  }catch{ShenJB.renderState.error(c);}
+}
+
+async function loadProjects(){
+  const c=document.getElementById('projects-list');
+  try{
+    const d=await ShenJB.api.get('/research/projects');
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(c);return;}
+    c.innerHTML=d.items.map(p=>`
+      <div class="card" style="margin-bottom:16px;">
+        <div class="flex-between">
+          <div><span class="tag tag-warning" style="margin-right:12px;">${p.status||'进行中'}</span><span style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);">${p.name}</span></div>
+          <span style="font-size:var(--fs-note-sm);color:var(--text-tertiary);">${p.period||''}</span>
+        </div>
+        <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);margin-top:12px;">${p.desc||''}</p>
+      </div>
+    `).join('');
+  }catch{ShenJB.renderState.error(c);}
+}
+
+function renderArchiveCard(a){
+  return `<div class="card">
+    <span class="tag tag-accent" style="margin-bottom:8px;">${a.category||'史料'}</span>
+    <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:8px;">${a.title}</h3>
+    <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);">${a.desc||''}</p>
+  </div>`;
+}
+function renderWorkCard(w){
+  return `<div class="card">
+    <div style="height:120px;background:linear-gradient(135deg,#203B64,#6B84A8);border-radius:4px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);font-size:var(--fs-note);">著作封面</div>
+    <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);">${w.title}</h3>
+    <p style="font-size:var(--fs-note);color:var(--text-secondary);">${w.author||''} · ${w.year||''}</p>
+  </div>`;
+}
+function renderStudyCard(s){
+  return `<div class="card">
+    <span class="tag tag-primary" style="margin-bottom:8px;">${s.type||'研学'}</span>
+    <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:8px;">${s.title}</h3>
+    <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);margin-bottom:8px;">${s.desc||''}</p>
+    <span style="font-size:var(--fs-note-sm);color:var(--text-tertiary);">${s.date||''}</span>
+  </div>`;
+}
+</script>
+</body>
+</html>

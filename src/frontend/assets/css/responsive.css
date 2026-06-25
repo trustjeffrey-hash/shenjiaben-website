@@ -1,0 +1,146 @@
+/* ============================================
+   沈家本研究院官网 — 响应式断点
+   移动端：< 768px
+   平板：768px - 1024px
+   桌面：> 1024px
+   ============================================ */
+
+/* ===== 平板 (768 - 1024) ===== */
+@media (max-width: 1024px) {
+  :root {
+    --fs-hero: 28px;
+    --fs-h1:   24px;
+    --fs-h2:   22px;
+    --fs-h3:   18px;
+    --nav-height: 64px;
+  }
+
+  .container { padding: 0 var(--spacing-lg); }
+
+  /* 页脚 */
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  /* 统计卡片 */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Hero */
+  .hero { padding: 80px 0 60px; }
+}
+
+/* ===== 移动端 (< 768) ===== */
+@media (max-width: 768px) {
+  :root {
+    --fs-hero: 24px;
+    --fs-h1:   22px;
+    --fs-h2:   20px;
+    --fs-h3:   18px;
+    --card-padding: 16px;
+    --nav-height: 60px;
+    --spacing-xl:  24px;
+    --spacing-2xl: 36px;
+    --spacing-3xl: 48px;
+  }
+
+  .container { padding: 0 var(--spacing-md); }
+
+  /* 导航 */
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+
+  .nav-logo-text {
+    font-size: 15px;
+  }
+  .nav-logo-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 60px 0 48px;
+  }
+  .hero-title {
+    line-height: 1.4;
+  }
+  .hero-badge {
+    margin-bottom: var(--spacing-md);
+  }
+  .hero-subtitle {
+    font-size: var(--fs-body-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* 页脚 */
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  .footer-bottom {
+    padding: var(--spacing-md);
+  }
+
+  /* 卡片网格 */
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 统计卡片 */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  /* 表格移动端横滚 */
+  .table-wrapper {
+    margin: 0 calc(-1 * var(--spacing-md));
+    padding: 0 var(--spacing-md);
+  }
+
+  /* 弹窗 */
+  .modal {
+    border-radius: 8px 8px 0 0;
+    max-height: 90vh;
+  }
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  /* 分页按钮缩小 */
+  .pagination button {
+    min-width: 32px;
+    height: 32px;
+    font-size: var(--fs-note-sm);
+  }
+
+  /* 时间轴 */
+  .timeline { padding-left: 24px; }
+  .timeline-item::before {
+    left: -20px;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* ===== 小屏手机 (< 480) ===== */
+@media (max-width: 480px) {
+  :root {
+    --fs-hero: 22px;
+    --fs-h1:   20px;
+    --fs-h2:   18px;
+  }
+
+  .hero {
+    padding: 48px 0 36px;
+  }
+
+  .section {
+    padding: var(--spacing-2xl) 0;
+  }
+}

@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+
+# Data (generated at runtime)
+data/*.json
+!data/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Build output
+dist/
+build/
+
+# Temp
+tmp/
+temp/
+*.tmp

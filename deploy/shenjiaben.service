@@ -1,0 +1,33 @@
+# ═══════════════════════════════════════════════════
+# systemd 服务配置
+# 文件路径: /etc/systemd/system/shenjiaben.service
+# ═══════════════════════════════════════════════════
+
+[Unit]
+Description=沈家本研究院官网 API 服务
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/shenjiaben
+ExecStart=/var/www/shenjiaben/venv/bin/python run.py
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/shenjiaben/service.log
+StandardError=append:/var/log/shenjiaben/service_error.log
+
+# 环境变量
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
+
+# ═══════════════════════════════════════════════════
+# 安装命令:
+# sudo cp deploy/shenjiaben.service /etc/systemd/system/
+# sudo systemctl daemon-reload
+# sudo systemctl enable shenjiaben
+# sudo systemctl start shenjiaben
+# ═══════════════════════════════════════════════════

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商事调解中心 — 沈家本研究院</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="nav-logo-icon">沈</span><span class="nav-logo-text">沈家本研究院</span></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+      <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+      <a href="mediation.html" class="active">商事调解</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+    </nav>
+    <button class="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+  <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+  <a href="mediation.html" class="active">商事调解中心</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+</nav>
+
+<section class="hero" style="padding: 64px 0 48px;">
+  <div class="hero-content">
+    <span class="hero-badge">Mediation Center</span>
+    <h1 class="hero-title">商事调解中心</h1>
+    <p class="hero-subtitle">专业、高效、公正的商事争议解决平台</p>
+  </div>
+</section>
+
+<!-- 中心介绍 -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">中心介绍</h2>
+    <div class="section-divider"></div>
+    <div id="med-intro">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 调解流程 -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">调解流程</h2>
+    <p class="section-subtitle">规范化调解程序，保障各方合法权益</p>
+    <div class="section-divider"></div>
+    <div id="med-process">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 调解团队 -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">调解团队</h2>
+    <div class="section-divider"></div>
+    <div class="card-grid" id="med-team">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 联系我们 -->
+<section class="section section-alt">
+  <div class="container" style="max-width:640px;">
+    <h2 class="section-title">咨询预约</h2>
+    <div class="section-divider"></div>
+    <form id="med-form">
+      <div class="form-group"><label class="form-label">姓名</label><input type="text" name="name" class="form-input" required></div>
+      <div class="form-group"><label class="form-label">联系电话</label><input type="tel" name="phone" class="form-input" required></div>
+      <div class="form-group"><label class="form-label">单位</label><input type="text" name="company" class="form-input"></div>
+      <div class="form-group"><label class="form-label">咨询事项</label><textarea name="message" class="form-textarea" required></textarea></div>
+      <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">提交咨询</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><h3>沈家本研究院</h3><p>传承法治文化，弘扬法学精神。</p></div>
+    <div class="footer-col"><h4>快速导航</h4><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a><a href="publications.html">成果出版物</a><a href="events.html">活动专栏</a></div>
+    <div class="footer-col"><h4>数据平台</h4><a href="discipline.html">律师处罚查询</a><a href="legislation.html">立法进度追踪</a><a href="cases.html">热点案件评析</a><a href="policy.html">司法政策汇总</a><a href="recruitment.html">法律招聘聚合</a></div>
+    <div class="footer-col"><h4>联系方式</h4><a href="contact.html">联系我们</a><a href="mediation.html">商事调解中心</a><a href="#feedback">信息异议与下架反馈</a></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 沈家本研究院 版权所有</p><p><a href="#">ICP备案号：待备案</a></p>
+    <p style="margin-top:8px;">本平台所有公开数据均取自国家机关、律协、人大、官方公众号公开公示内容，仅作公益学术信息聚合检索</p>
+    <p>本站数据不构成任何法律建议，仅供学术研究参考</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadMedIntro();
+  await loadMedProcess();
+  await loadSection('/mediation/team','med-team',renderTeam);
+  new ShenJB.FormHandler('#med-form','/mediation/consult',{onSuccess:(r)=>{alert('咨询已提交，我们将尽快与您联系。');}});
+});
+
+async function loadMedIntro(){
+  const c=document.getElementById('med-intro');
+  try{
+    const d=await ShenJB.api.get('/mediation/intro');
+    if(!d){ShenJB.renderState.empty(c);return;}
+    c.innerHTML=`<div style="max-width:800px;margin:0 auto;font-size:var(--fs-body-sm);color:var(--text-secondary);line-height:1.9;">${d.content||''}</div>`;
+  }catch{ShenJB.renderState.error(c);}
+}
+
+async function loadMedProcess(){
+  const c=document.getElementById('med-process');
+  try{
+    const d=await ShenJB.api.get('/mediation/process');
+    if(!d||!d.steps){ShenJB.renderState.empty(c);return;}
+    c.innerHTML=`<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:24px;">${d.steps.map((s,i)=>`
+      <div class="card" style="flex:1;min-width:200px;text-align:center;">
+        <div style="width:48px;height:48px;border-radius:50%;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:var(--font-heading);font-size:20px;font-weight:700;">${i+1}</div>
+        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:6px;">${s.title}</h3>
+        <p style="font-size:var(--fs-note);color:var(--text-secondary);">${s.desc}</p>
+      </div>
+    `).join('')}</div>`;
+  }catch{ShenJB.renderState.error(c);}
+}
+
+async function loadSection(api,cid,render){
+  const c=document.getElementById(cid);
+  try{
+    const d=await ShenJB.api.get(api);
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(c);return;}
+    c.innerHTML=d.items.map(render).join('');
+  }catch{ShenJB.renderState.error(c);}
+}
+
+function renderTeam(t){return `<div class="card"><div style="width:64px;height:64px;border-radius:50%;background:var(--color-primary);margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-heading);font-size:20px;">${(t.name||'?')[0]}</div><h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);">${t.name}</h3><p style="font-size:var(--fs-note);color:var(--color-accent);margin:4px 0 8px;">${t.title||''}</p><p style="font-size:var(--fs-body-sm);color:var(--text-secondary);">${t.bio||''}</p></div>`;}
+</script>
+</body>
+</html>

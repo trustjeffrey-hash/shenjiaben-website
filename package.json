@@ -1,0 +1,17 @@
+{
+  "name": "shenjiaben-research-institute",
+  "version": "1.0.0",
+  "description": "沈家本研究院官网 — 全自动法律数据学术中台",
+  "main": "src/backend-js/server.js",
+  "scripts": {
+    "start": "node src/backend-js/server.js",
+    "seed": "node -e \"require('./src/backend-js/db');require('./src/backend-js/seed').seed()\"",
+    "dev": "node src/backend-js/server.js --seed"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["法律", "研究院", "官网", "数据中台"],
+  "license": "UNLICENSED",
+  "private": true
+}

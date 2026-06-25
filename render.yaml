@@ -1,0 +1,21 @@
+# Render Blueprint — 一键部署配置
+# 连接 GitHub 仓库后自动识别此文件，无需手动配置
+# 文档: https://render.com/docs/blueprint-spec
+
+services:
+  # 主 Web 服务 — 同时托管 API + 静态前端
+  - type: web
+    name: shenjiaben-research-institute
+    env: node
+    region: singapore  # 亚洲用户选新加坡节点，延迟最低
+    plan: free  # 免费套餐：512MB RAM，0.1 CPU，每月750小时
+    buildCommand: npm install
+    startCommand: node src/backend-js/server.js --seed
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TZ
+        value: Asia/Shanghai
+    autoDeploy: true  # 代码推送即自动部署
+    # 免费套餐 15 分钟无请求会自动休眠，有人访问时自动唤醒（首次加载约 30 秒）

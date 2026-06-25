@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全国律师行政处罚查询系统 — 沈家本研究院</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="nav-logo-icon">沈</span><span class="nav-logo-text">沈家本研究院</span></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+      <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+      <a href="mediation.html">商事调解</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+    </nav>
+    <button class="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+  <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+  <a href="mediation.html">商事调解中心</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+</nav>
+
+<section class="hero" style="padding: 64px 0 48px;">
+  <div class="hero-content">
+    <span class="hero-badge">DISCIPLINE DATA</span>
+    <h1 class="hero-title">全国律师行政处罚查询系统</h1>
+    <p class="hero-subtitle">数据来源：各级司法行政机关、律师协会公开公示信息，实时聚合更新</p>
+  </div>
+</section>
+
+<!-- ===== 搜索 + 筛选 ===== -->
+<section class="section" id="discipline-filters-section" style="padding-bottom:0;">
+  <div class="container">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px;">
+      <input type="text" name="keyword" class="form-input" placeholder="搜索律师姓名 / 律所名称…" style="flex:1;min-width:240px;">
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;" id="discipline-filters">
+      <select name="province" class="form-select" style="width:auto;min-width:130px;">
+        <option value="">全部省份</option>
+      </select>
+      <select name="type" class="form-select" style="width:auto;min-width:150px;">
+        <option value="">全部处分类型</option>
+        <option value="warning">警告</option>
+        <option value="suspension">停止执业</option>
+        <option value="revocation">吊销执业证</option>
+        <option value="fine">罚款</option>
+        <option value="other">其他</option>
+      </select>
+      <input type="date" name="dateFrom" class="form-input" style="width:auto;min-width:140px;" placeholder="开始日期">
+      <input type="date" name="dateTo" class="form-input" style="width:auto;min-width:140px;" placeholder="结束日期">
+    </div>
+  </div>
+</section>
+
+<!-- ===== 数据表格 ===== -->
+<section class="section" style="padding-top:16px;">
+  <div class="container">
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div class="table-wrapper" id="discipline-table">
+        <div class="loading-state" style="padding:48px 0;"><div class="spinner"></div><p>数据加载中…</p></div>
+      </div>
+    </div>
+    <div id="discipline-pagination" style="margin-top:16px;"></div>
+  </div>
+</section>
+
+<!-- ===== ECharts 统计图表 ===== -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">数据统计</h2>
+    <div class="section-divider"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="card">
+        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:16px;">月度处罚趋势</h3>
+        <div id="chart-monthly" style="width:100%;height:320px;"></div>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:16px;">省份分布</h3>
+        <div id="chart-province" style="width:100%;height:320px;"></div>
+      </div>
+    </div>
+    <div style="margin-top:24px;">
+      <div class="card">
+        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:16px;">违规类型占比</h3>
+        <div id="chart-type" style="width:100%;height:320px;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><h3>沈家本研究院</h3><p>传承法治文化，弘扬法学精神。</p></div>
+    <div class="footer-col"><h4>快速导航</h4><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a><a href="publications.html">成果出版物</a><a href="events.html">活动专栏</a></div>
+    <div class="footer-col"><h4>数据平台</h4><a href="discipline.html">律师处罚查询</a><a href="legislation.html">立法进度追踪</a><a href="cases.html">热点案件评析</a><a href="policy.html">司法政策汇总</a><a href="recruitment.html">法律招聘聚合</a></div>
+    <div class="footer-col"><h4>联系方式</h4><a href="contact.html">联系我们</a><a href="mediation.html">商事调解中心</a><a href="#feedback">信息异议与下架反馈</a></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 沈家本研究院 版权所有</p><p><a href="#">ICP备案号：待备案</a></p>
+    <p style="margin-top:8px;">本平台所有公开数据均取自国家机关、律协、人大、官方公众号公开公示内容，仅作公益学术信息聚合检索</p>
+    <p>本站数据不构成任何法律建议，仅供学术研究参考</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+let currentFilters = {};
+let monthlyChart, provinceChart, typeChart;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // 加载省份选项
+  await loadProvinces();
+  // 初始化搜索联动
+  new ShenJB.SearchFilter({
+    searchInput: '[name="keyword"]',
+    filterContainer: '#discipline-filters',
+    onSearch: (filters) => {
+      currentFilters = filters;
+      loadDisciplineTable(1);
+      loadCharts();
+    }
+  });
+  // 初始加载
+  loadDisciplineTable(1);
+  loadCharts();
+  // 窗口 resize 时重绘图表
+  window.addEventListener('resize', () => {
+    monthlyChart?.resize(); provinceChart?.resize(); typeChart?.resize();
+  });
+});
+
+async function loadProvinces(){
+  try{
+    const d=await ShenJB.api.get('/discipline/provinces');
+    if(d&&d.provinces){
+      const sel=document.querySelector('[name="province"]');
+      d.provinces.forEach(p=>{sel.innerHTML+=`<option value="${p}">${p}</option>`;});
+    }
+  }catch{/* ignore */}
+}
+
+async function loadDisciplineTable(page=1){
+  const table=document.getElementById('discipline-table');
+  const pag=document.getElementById('discipline-pagination');
+  ShenJB.renderState.loading(table);
+  try{
+    const d=await ShenJB.api.get('/discipline/list',{page,pageSize:20,...currentFilters});
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(table);pag.innerHTML='';return;}
+    table.innerHTML=`
+      <table>
+        <thead><tr><th>律师姓名</th><th>所在律所</th><th>省份</th><th>处分类型</th><th>处分日期</th><th>操作</th></tr></thead>
+        <tbody>${d.items.map(item=>`
+          <tr>
+            <td style="font-weight:500;color:var(--color-primary);">${item.lawyerName||''}</td>
+            <td>${item.firm||''}</td>
+            <td>${item.province||''}</td>
+            <td><span class="tag tag-danger">${item.typeLabel||item.type}</span></td>
+            <td style="color:var(--text-secondary);white-space:nowrap;">${item.date||''}</td>
+            <td><button class="btn btn-outline btn-sm" data-id="${item.id}">详情</button></td>
+          </tr>
+        `).join('')}</tbody>
+      </table>`;
+    table.querySelectorAll('[data-id]').forEach(btn=>{
+      btn.addEventListener('click',()=>showDetail(btn.dataset.id));
+    });
+    new ShenJB.Pagination(pag,{total:d.total,current:page,pageSize:20,onChange:(p)=>loadDisciplineTable(p)});
+  }catch{ShenJB.renderState.error(table);}
+}
+
+async function showDetail(id){
+  try{
+    const d=await ShenJB.api.get(`/discipline/${id}`);
+    ShenJB.modal.open(d.lawyerName+' — 处罚详情',`
+      <div style="line-height:2;font-size:var(--fs-body-sm);color:var(--text-secondary);">
+        <p><strong style="color:var(--text-primary);">律师：</strong>${d.lawyerName||''}</p>
+        <p><strong style="color:var(--text-primary);">执业证号：</strong>${d.licenseNo||''}</p>
+        <p><strong style="color:var(--text-primary);">所在律所：</strong>${d.firm||''}</p>
+        <p><strong style="color:var(--text-primary);">省份：</strong>${d.province||''}</p>
+        <hr style="border-color:var(--border-color);margin:12px 0;">
+        <p><strong style="color:var(--text-primary);">处分类型：</strong><span class="tag tag-danger">${d.typeLabel||d.type}</span></p>
+        <p><strong style="color:var(--text-primary);">处分日期：</strong>${d.date||''}</p>
+        <p><strong style="color:var(--text-primary);">处分机关：</strong>${d.authority||''}</p>
+        <p style="margin-top:12px;white-space:pre-wrap;">${d.detail||'暂无详细信息'}</p>
+        ${d.sourceUrl?`<p style="margin-top:12px;"><a href="${d.sourceUrl}" target="_blank">查看原文 →</a></p>`:''}
+      </div>
+    `);
+  }catch{/* ignore */}
+}
+
+async function loadCharts(){
+  try{
+    const d=await ShenJB.api.get('/discipline/stats',currentFilters);
+    renderMonthlyChart(d?.monthly||[]);
+    renderProvinceChart(d?.provinces||[]);
+    renderTypeChart(d?.types||[]);
+  }catch{/* ignore */}
+}
+
+function renderMonthlyChart(data){
+  const dom=document.getElementById('chart-monthly');
+  if(!dom)return;
+  if(!monthlyChart)monthlyChart=echarts.init(dom);
+  monthlyChart.setOption({
+    tooltip:{trigger:'axis'},
+    grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
+    xAxis:{type:'category',data:data.map(d=>d.month),axisLabel:{fontSize:11,color:'#999'}},
+    yAxis:{type:'value',axisLabel:{fontSize:11,color:'#999'}},
+    series:[{type:'bar',data:data.map(d=>d.count),itemStyle:{color:'#D83030'},barMaxWidth:24}]
+  });
+}
+
+function renderProvinceChart(data){
+  const dom=document.getElementById('chart-province');
+  if(!dom)return;
+  if(!provinceChart)provinceChart=echarts.init(dom);
+  provinceChart.setOption({
+    tooltip:{trigger:'axis'},
+    grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
+    xAxis:{type:'category',data:data.map(d=>d.name),axisLabel:{fontSize:11,color:'#999',rotate:30}},
+    yAxis:{type:'value',axisLabel:{fontSize:11,color:'#999'}},
+    series:[{type:'bar',data:data.map(d=>d.count),itemStyle:{color:'#203B64'},barMaxWidth:24}]
+  });
+}
+
+function renderTypeChart(data){
+  const dom=document.getElementById('chart-type');
+  if(!dom)return;
+  if(!typeChart)typeChart=echarts.init(dom);
+  typeChart.setOption({
+    tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+    series:[{type:'pie',radius:['40%','70%'],data:data.map(d=>({name:d.name,value:d.count})),
+      label:{fontSize:12},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,0.2)'}},
+      color:['#D83030','#E69523','#203B64','#6B84A8','#C89959','#279E68','#AAAAAA']}]
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>后台管理系统 — 沈家本研究院</title>
+  <link rel="stylesheet" href="../frontend/assets/css/main.css">
+  <link rel="stylesheet" href="../frontend/assets/css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <style>
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar { width: 240px; background: var(--color-primary); color: #fff; padding: 24px 0; flex-shrink: 0; }
+    .admin-sidebar h2 { font-family: var(--font-heading); font-size: var(--fs-card-title); padding: 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .admin-sidebar a { display: block; padding: 12px 24px; color: rgba(255,255,255,0.7); font-size: var(--fs-body-sm); transition: all var(--transition-fast); }
+    .admin-sidebar a:hover,.admin-sidebar a.active { background: rgba(255,255,255,0.08); color: #fff; }
+    .admin-main { flex: 1; background: var(--bg-page); padding: 32px; overflow-y: auto; }
+    .admin-main h1 { font-family: var(--font-heading); font-size: var(--fs-h2); color: var(--color-primary); margin-bottom: 24px; }
+    @media (max-width: 768px) {
+      .admin-layout { flex-direction: column; }
+      .admin-sidebar { width: 100%; padding: 16px; }
+      .admin-sidebar a { display: inline-block; padding: 8px 16px; }
+      .admin-main { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+  <!-- 侧边栏 -->
+  <aside class="admin-sidebar">
+    <h2>沈家本研究院<br>后台管理</h2>
+    <a href="#dashboard" class="active" data-tab="dashboard">📊 数据总仪表盘</a>
+    <a href="#discipline" data-tab="discipline">⚖️ 律师处罚管理</a>
+    <a href="#legislation" data-tab="legislation">📜 立法项目管理</a>
+    <a href="#cases" data-tab="cases">📋 案件评析管理</a>
+    <a href="#policy" data-tab="policy">📄 司法政策管理</a>
+    <a href="#recruitment" data-tab="recruitment">💼 招聘数据管理</a>
+    <a href="#messages" data-tab="messages">✉️ 留言报名管理</a>
+    <a href="#content" data-tab="content">📝 基础内容编辑</a>
+    <a href="#collectors" data-tab="collectors">🔧 采集配置面板</a>
+    <a href="#accounts" data-tab="accounts">👥 账号权限管理</a>
+  </aside>
+
+  <!-- 主内容区 -->
+  <main class="admin-main">
+    <!-- 仪表盘 -->
+    <div id="tab-dashboard" class="tab-content">
+      <h1>数据总仪表盘</h1>
+      <div class="stats-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:32px;">
+        <div class="stat-card danger"><div class="stat-card-label">律师处罚</div><div class="stat-card-value" id="stat-discipline">—</div></div>
+        <div class="stat-card warning"><div class="stat-card-label">立法项目</div><div class="stat-card-value" id="stat-legislation">—</div></div>
+        <div class="stat-card accent"><div class="stat-card-label">热点案件</div><div class="stat-card-value" id="stat-cases">—</div></div>
+        <div class="stat-card"><div class="stat-card-label">司法政策</div><div class="stat-card-value" id="stat-policy">—</div></div>
+        <div class="stat-card success"><div class="stat-card-label">招聘岗位</div><div class="stat-card-value" id="stat-recruitment">—</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <div class="card"><h3 style="margin-bottom:16px;">数据采集状态</h3><div id="chart-collector" style="width:100%;height:320px;"></div></div>
+        <div class="card"><h3 style="margin-bottom:16px;">近30天数据增量</h3><div id="chart-daily" style="width:100%;height:320px;"></div></div>
+      </div>
+    </div>
+
+    <!-- 通用表格 Tab 模板 -->
+    <div id="tab-discipline" class="tab-content hidden"><h1>律师处罚数据管理</h1><div class="card" style="margin-bottom:16px;"><div style="display:flex;gap:12px;flex-wrap:wrap;"><button class="btn btn-primary btn-sm" onclick="exportData('discipline')">导出Excel</button></div></div><div id="table-discipline"><div class="loading-state"><div class="spinner"></div><p>加载中…</p></div></div><div id="pag-discipline"></div></div>
+    <div id="tab-legislation" class="tab-content hidden"><h1>立法项目数据管理</h1><div class="card" style="margin-bottom:16px;"><button class="btn btn-primary btn-sm" onclick="exportData('legislation')">导出Excel</button></div><div id="table-legislation"><div class="loading-state"><div class="spinner"></div><p>加载中…</p></div></div><div id="pag-legislation"></div></div>
+    <div id="tab-cases" class="tab-content hidden"><h1>案件评析数据管理</h1><div class="card" style="margin-bottom:16px;"><button class="btn btn-primary btn-sm" onclick="exportData('cases')">导出Excel</button></div><div id="table-cases"><div class="loading-state"><div class="spinner"></div><p>加载中…</p></div></div><div id="pag-cases"></div></div>
+    <div id="tab-policy" class="tab-content hidden"><h1>司法政策数据管理</h1><div class="card" style="margin-bottom:16px;"><button class="btn btn-primary btn-sm" onclick="exportData('policy')">导出Excel</button></div><div id="table-policy"><div class="loading-state"><div class="spinner"></div><p>加载中…</p></div></div><div id="pag-policy"></div></div>
+    <div id="tab-recruitment" class="tab-content hidden"><h1>招聘数据管理</h1><div class="card" style="margin-bottom:16px;"><button class="btn btn-primary btn-sm" onclick="exportData('recruitment')">导出Excel</button></div><div id="table-recruitment"><div class="loading-state"><div class="spinner"></div><p>加载中…</p></div></div><div id="pag-recruitment"></div></div>
+
+    <!-- 留言管理 -->
+    <div id="tab-messages" class="tab-content hidden">
+      <h1>留言报名管理</h1>
+      <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <select class="form-select" id="msg-type-filter" style="width:auto;"><option value="">全部类型</option><option value="contact">在线留言</option><option value="mediation">调解咨询</option><option value="event">活动报名</option></select>
+          <button class="btn btn-primary btn-sm" onclick="exportData('messages')">导出Excel</button>
+        </div>
+      </div>
+      <div id="table-messages"><div class="loading-state"><div class="spinner"></div><p>加载中…</p></div></div>
+      <div id="pag-messages"></div>
+    </div>
+
+    <!-- 内容编辑 -->
+    <div id="tab-content" class="tab-content hidden">
+      <h1>基础内容编辑</h1>
+      <div class="card"><p style="color:var(--text-secondary);">此模块用于编辑研究院简介、组织架构、研究员介绍等静态内容。API 对接后可用。</p></div>
+    </div>
+
+    <!-- 采集配置 -->
+    <div id="tab-collectors" class="tab-content hidden">
+      <h1>采集配置面板</h1>
+      <div id="collector-status"><div class="loading-state"><div class="spinner"></div><p>加载中…</p></div></div>
+    </div>
+
+    <!-- 账号管理 -->
+    <div id="tab-accounts" class="tab-content hidden">
+      <h1>账号权限管理</h1>
+      <div class="card"><p style="color:var(--text-secondary);">管理员账号的增删改查及权限角色配置。API 对接后可用。</p></div>
+    </div>
+  </main>
+</div>
+
+<script src="../frontend/assets/js/common.js"></script>
+<script>
+// Tab 切换
+document.querySelectorAll('[data-tab]').forEach(link=>{
+  link.addEventListener('click',(e)=>{
+    e.preventDefault();
+    document.querySelectorAll('[data-tab]').forEach(l=>l.classList.remove('active'));
+    link.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.add('hidden'));
+    document.getElementById('tab-'+link.dataset.tab).classList.remove('hidden');
+    // Load tab data
+    const loaders={dashboard:loadDashboard,discipline:()=>loadTable('discipline'),legislation:()=>loadTable('legislation'),cases:()=>loadTable('cases'),policy:()=>loadTable('policy'),recruitment:()=>loadTable('recruitment'),messages:loadMessages,collectors:loadCollectors};
+    if(loaders[link.dataset.tab])loaders[link.dataset.tab]();
+  });
+});
+
+async function loadDashboard(){
+  try{
+    const d=await ShenJB.api.get('/admin/dashboard');
+    ['discipline','legislation','cases','policy','recruitment'].forEach(k=>{
+      const el=document.getElementById('stat-'+k);
+      if(el)el.textContent=d[k]?.total?.toLocaleString()||'0';
+    });
+    renderCollectorChart(d?.collectors);
+    renderDailyChart(d?.daily);
+  }catch{}
+}
+
+function renderCollectorChart(data){
+  const dom=document.getElementById('chart-collector');
+  if(!dom)return;
+  const chart=echarts.init(dom);
+  chart.setOption({
+    tooltip:{trigger:'axis'},grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
+    xAxis:{type:'category',data:(data||[]).map(d=>d.name),axisLabel:{fontSize:11}},
+    yAxis:{type:'value'},series:[{type:'bar',data:(data||[]).map(d=>d.count),itemStyle:{color:'#203B64'}}]
+  });
+}
+
+function renderDailyChart(data){
+  const dom=document.getElementById('chart-daily');
+  if(!dom)return;
+  const chart=echarts.init(dom);
+  chart.setOption({
+    tooltip:{trigger:'axis'},grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
+    xAxis:{type:'category',data:(data||[]).map(d=>d.date),axisLabel:{fontSize:10}},
+    yAxis:{type:'value'},legend:{data:['处罚','立法','案件','政策','招聘']},
+    series:['discipline','legislation','cases','policy','recruitment'].map((k,i)=>(
+      {name:['处罚','立法','案件','政策','招聘'][i],type:'line',data:(data||[]).map(d=>d[k]||0),smooth:true}
+    ))
+  });
+}
+
+async function loadTable(type){
+  const table=document.getElementById('table-'+type),pag=document.getElementById('pag-'+type);
+  if(!table)return;
+  ShenJB.renderState.loading(table);
+  try{
+    const d=await ShenJB.api.get('/admin/'+type+'/list',{page:1,pageSize:20});
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(table);return;}
+    table.innerHTML=`<div class="table-wrapper"><table><thead><tr>${Object.keys(d.items[0]).map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody>${d.items.map(i=>`<tr>${Object.values(i).map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  }catch{ShenJB.renderState.error(table);}
+}
+
+async function loadMessages(){
+  const table=document.getElementById('table-messages');
+  ShenJB.renderState.loading(table);
+  try{
+    const d=await ShenJB.api.get('/admin/messages',{page:1});
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(table);return;}
+    table.innerHTML=`<div class="table-wrapper"><table><thead><tr><th>类型</th><th>姓名</th><th>电话</th><th>邮箱</th><th>内容</th><th>时间</th></tr></thead><tbody>${d.items.map(m=>`<tr><td><span class="tag tag-primary">${m.type||''}</span></td><td>${m.name||''}</td><td>${m.phone||''}</td><td>${m.email||''}</td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">${m.message||''}</td><td style="white-space:nowrap;">${m.date||''}</td></tr>`).join('')}</tbody></table></div>`;
+  }catch{ShenJB.renderState.error(table);}
+}
+
+async function loadCollectors(){
+  const c=document.getElementById('collector-status');
+  try{
+    const d=await ShenJB.api.get('/admin/collectors');
+    c.innerHTML=(d?.collectors||[]).map(col=>`
+      <div class="card" style="margin-bottom:12px;">
+        <div class="flex-between">
+          <div><strong style="color:var(--text-primary);">${col.name}</strong> <span class="tag tag-${col.status==='running'?'success':col.status==='error'?'danger':'muted'}">${col.status||'未知'}</span></div>
+          <span style="font-size:var(--fs-note-sm);color:var(--text-tertiary);">最后运行：${col.lastRun||'—'}</span>
+        </div>
+        <p style="font-size:var(--fs-note);color:var(--text-secondary);margin-top:4px;">${col.desc||''}</p>
+      </div>
+    `).join('');
+  }catch{ShenJB.renderState.error(c);}
+}
+
+async function exportData(type){
+  try{
+    const res=await fetch(ShenJB.API_BASE+'/admin/'+type+'/export');
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=type+'_'+new Date().toISOString().slice(0,10)+'.xlsx';
+    a.click();URL.revokeObjectURL(url);
+  }catch{alert('导出失败');}
+}
+</script>
+</body>
+</html>

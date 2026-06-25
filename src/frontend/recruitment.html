@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全网公众号法律招聘聚合系统 — 沈家本研究院</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="nav-logo-icon">沈</span><span class="nav-logo-text">沈家本研究院</span></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+      <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+      <a href="mediation.html">商事调解</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+    </nav>
+    <button class="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">首页</a><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a>
+  <a href="publications.html">成果出版物</a><a href="cooperation.html">合作交流</a>
+  <a href="mediation.html">商事调解中心</a><a href="events.html">活动专栏</a><a href="contact.html">联系我们</a>
+</nav>
+
+<section class="hero" style="padding: 64px 0 48px;">
+  <div class="hero-content">
+    <span class="hero-badge">JOB AGGREGATOR</span>
+    <h1 class="hero-title">法律招聘聚合系统</h1>
+    <p class="hero-subtitle">聚合全网公众号法律招聘信息，覆盖律所、法务、公检法、合规等岗位</p>
+  </div>
+</section>
+
+<!-- 搜索 + 筛选 -->
+<section class="section" style="padding-bottom:0;">
+  <div class="container">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px;">
+      <input type="text" name="keyword" class="form-input" placeholder="搜索职位 / 律所 / 关键词…" style="flex:1;min-width:240px;">
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;" id="recruit-filters">
+      <select name="city" class="form-select" style="width:auto;min-width:120px;">
+        <option value="">全部城市</option>
+        <option value="北京">北京</option><option value="上海">上海</option><option value="深圳">深圳</option>
+        <option value="广州">广州</option><option value="杭州">杭州</option><option value="成都">成都</option>
+      </select>
+      <select name="type" class="form-select" style="width:auto;min-width:130px;">
+        <option value="">全部岗位类型</option>
+        <option value="lawyer">律师</option><option value="paralegal">律师助理/实习律师</option>
+        <option value="inhouse">法务/合规</option><option value="public">公检法</option>
+        <option value="intern">实习生</option>
+      </select>
+      <select name="salary" class="form-select" style="width:auto;min-width:120px;">
+        <option value="">全部薪资</option>
+        <option value="0-5k">5K以下</option><option value="5-10k">5K-10K</option>
+        <option value="10-20k">10K-20K</option><option value="20-30k">20K-30K</option>
+        <option value="30-50k">30K-50K</option><option value="50k+">50K以上</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- 列表 -->
+<section class="section" style="padding-top:16px;">
+  <div class="container">
+    <div id="recruit-list"><div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div></div>
+    <div id="recruit-pagination" style="margin-top:16px;"></div>
+  </div>
+</section>
+
+<!-- 统计图表 -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">招聘数据统计</h2>
+    <div class="section-divider"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+      <div class="card"><h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:16px;">30天热度趋势</h3><div id="chart-trend" style="width:100%;height:280px;"></div></div>
+      <div class="card"><h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:16px;">城市分布</h3><div id="chart-city" style="width:100%;height:280px;"></div></div>
+      <div class="card"><h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:16px;">岗位类型占比</h3><div id="chart-jobtype" style="width:100%;height:280px;"></div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><h3>沈家本研究院</h3><p>传承法治文化，弘扬法学精神。</p></div>
+    <div class="footer-col"><h4>快速导航</h4><a href="about.html">研究院概况</a><a href="research.html">文化研究中心</a><a href="publications.html">成果出版物</a><a href="events.html">活动专栏</a></div>
+    <div class="footer-col"><h4>数据平台</h4><a href="discipline.html">律师处罚查询</a><a href="legislation.html">立法进度追踪</a><a href="cases.html">热点案件评析</a><a href="policy.html">司法政策汇总</a><a href="recruitment.html">法律招聘聚合</a></div>
+    <div class="footer-col"><h4>联系方式</h4><a href="contact.html">联系我们</a><a href="mediation.html">商事调解中心</a><a href="#feedback">信息异议与下架反馈</a></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 沈家本研究院 版权所有</p><p><a href="#">ICP备案号：待备案</a></p>
+    <p style="margin-top:8px;">本平台所有公开数据均取自国家机关、律协、人大、官方公众号公开公示内容，仅作公益学术信息聚合检索</p>
+    <p>本站数据不构成任何法律建议，仅供学术研究参考</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+let trendChart,cityChart,jobtypeChart;
+document.addEventListener('DOMContentLoaded',()=>{
+  new ShenJB.SearchFilter({
+    searchInput:'[name="keyword"]',filterContainer:'#recruit-filters',
+    onSearch:(f)=>loadRecruits(1,f)
+  });
+  loadRecruits(1);loadRecruitCharts();
+  window.addEventListener('resize',()=>{trendChart?.resize();cityChart?.resize();jobtypeChart?.resize();});
+});
+
+async function loadRecruits(page=1,filters={}){
+  const list=document.getElementById('recruit-list'),pag=document.getElementById('recruit-pagination');
+  ShenJB.renderState.loading(list);
+  try{
+    const d=await ShenJB.api.get('/recruitment/list',{page,pageSize:10,...filters});
+    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(list);pag.innerHTML='';return;}
+    list.innerHTML=d.items.map(i=>`
+      <div class="card" style="margin-bottom:16px;cursor:pointer;" data-id="${i.id}">
+        <div class="flex-between" style="flex-wrap:wrap;gap:8px;">
+          <div>
+            <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);">${i.title}</h3>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+              <span class="tag tag-accent">${i.city||''}</span>
+              <span class="tag tag-primary">${i.typeLabel||i.type}</span>
+              <span class="tag tag-success">${i.salary||''}</span>
+            </div>
+          </div>
+          <span style="font-size:var(--fs-note-sm);color:var(--text-tertiary);white-space:nowrap;">${i.date||''}</span>
+        </div>
+        <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);margin-top:8px;">${i.firm||''} | 来源：${i.source||''}</p>
+      </div>
+    `).join('');
+    list.querySelectorAll('[data-id]').forEach(c=>c.addEventListener('click',()=>showJobDetail(c.dataset.id)));
+    new ShenJB.Pagination(pag,{total:d.total,current:page,pageSize:10,onChange:(p)=>loadRecruits(p,filters)});
+  }catch{ShenJB.renderState.error(list);}
+}
+
+async function showJobDetail(id){
+  try{
+    const d=await ShenJB.api.get(`/recruitment/${id}`);
+    ShenJB.modal.open(d.title||'岗位详情',`
+      <div style="line-height:1.9;font-size:var(--fs-body-sm);color:var(--text-secondary);">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <span class="tag tag-accent">${d.city||''}</span><span class="tag tag-primary">${d.typeLabel||''}</span>
+          <span class="tag tag-success">${d.salary||''}</span>
+        </div>
+        <p><strong style="color:var(--text-primary);">招聘单位：</strong>${d.firm||''}</p>
+        <hr style="border-color:var(--border-color);margin:12px 0;">
+        <p style="white-space:pre-wrap;">${d.description||'暂无详细描述'}</p>
+        <p style="margin-top:12px;"><strong style="color:var(--text-primary);">来源：</strong>${d.source||''}</p>
+        ${d.sourceUrl?`<p style="margin-top:8px;"><a href="${d.sourceUrl}" target="_blank">查看原文 →</a></p>`:''}
+      </div>
+    `);
+  }catch{/* ignore */}
+}
+
+async function loadRecruitCharts(){
+  try{
+    const d=await ShenJB.api.get('/recruitment/stats');
+    // 30天趋势
+    if(!trendChart)trendChart=echarts.init(document.getElementById('chart-trend'));
+    trendChart.setOption({
+      tooltip:{trigger:'axis'},grid:{left:'3%',right:'4%',bottom:'3%',top:'10%',containLabel:true},
+      xAxis:{type:'category',data:(d?.trend||[]).map(t=>t.date),axisLabel:{fontSize:10,color:'#999'}},
+      yAxis:{type:'value',axisLabel:{fontSize:10,color:'#999'}},
+      series:[{type:'line',data:(d?.trend||[]).map(t=>t.count),itemStyle:{color:'#279E68'},lineStyle:{width:2},smooth:true,areaStyle:{color:'rgba(39,158,104,0.08)'}}]
+    });
+    // 城市分布
+    if(!cityChart)cityChart=echarts.init(document.getElementById('chart-city'));
+    cityChart.setOption({
+      tooltip:{trigger:'axis'},grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
+      xAxis:{type:'category',data:(d?.cities||[]).map(c=>c.name),axisLabel:{fontSize:10,color:'#999',rotate:30}},
+      yAxis:{type:'value',axisLabel:{fontSize:10,color:'#999'}},
+      series:[{type:'bar',data:(d?.cities||[]).map(c=>c.count),itemStyle:{color:'#203B64'},barMaxWidth:20}]
+    });
+    // 岗位占比
+    if(!jobtypeChart)jobtypeChart=echarts.init(document.getElementById('chart-jobtype'));
+    jobtypeChart.setOption({
+      tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+      series:[{type:'pie',radius:['40%','70%'],data:(d?.types||[]).map(t=>({name:t.name,value:t.count})),
+        label:{fontSize:10},color:['#203B64','#6B84A8','#C89959','#279E68','#E69523']}]
+    });
+  }catch{/* ignore */}
+}
+</script>
+</body>
+</html>

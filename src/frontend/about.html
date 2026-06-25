@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>研究院概况 — 沈家本研究院</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="nav-logo-icon">沈</span>
+      <span class="nav-logo-text">沈家本研究院</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="about.html" class="active">研究院概况</a>
+      <a href="research.html">文化研究中心</a>
+      <a href="publications.html">成果出版物</a>
+      <a href="cooperation.html">合作交流</a>
+      <a href="mediation.html">商事调解</a>
+      <a href="events.html">活动专栏</a>
+      <a href="contact.html">联系我们</a>
+    </nav>
+    <button class="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">首页</a>
+  <a href="about.html" class="active">研究院概况</a>
+  <a href="research.html">文化研究中心</a>
+  <a href="publications.html">成果出版物</a>
+  <a href="cooperation.html">合作交流</a>
+  <a href="mediation.html">商事调解中心</a>
+  <a href="events.html">活动专栏</a>
+  <a href="contact.html">联系我们</a>
+</nav>
+
+<section class="hero" style="padding: 64px 0 48px;">
+  <div class="hero-content">
+    <span class="hero-badge">About</span>
+    <h1 class="hero-title" style="font-size: clamp(24px, 3vw, 32px);">研究院概况</h1>
+    <p class="hero-subtitle">传承法学薪火，赓续法治文脉</p>
+  </div>
+</section>
+
+<!-- ===== 机构介绍 ===== -->
+<section class="section" id="about-intro">
+  <div class="container">
+    <h2 class="section-title">机构介绍</h2>
+    <div class="section-divider"></div>
+    <div id="intro-content">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 组织架构 ===== -->
+<section class="section section-alt" id="about-structure">
+  <div class="container">
+    <h2 class="section-title">组织架构</h2>
+    <div class="section-divider"></div>
+    <div id="structure-content">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 发展历程 ===== -->
+<section class="section" id="about-history">
+  <div class="container">
+    <h2 class="section-title">发展历程</h2>
+    <div class="section-divider"></div>
+    <div id="history-content">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 研究员队伍 ===== -->
+<section class="section section-alt" id="about-team">
+  <div class="container">
+    <h2 class="section-title">研究员队伍</h2>
+    <p class="section-subtitle">汇聚全国法学领域专家学者</p>
+    <div class="section-divider"></div>
+    <div class="card-grid" id="team-grid">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>沈家本研究院</h3>
+      <p>传承法治文化，弘扬法学精神。</p>
+    </div>
+    <div class="footer-col">
+      <h4>快速导航</h4>
+      <a href="about.html">研究院概况</a>
+      <a href="research.html">文化研究中心</a>
+      <a href="publications.html">成果出版物</a>
+      <a href="events.html">活动专栏</a>
+    </div>
+    <div class="footer-col">
+      <h4>数据平台</h4>
+      <a href="discipline.html">律师处罚查询</a>
+      <a href="legislation.html">立法进度追踪</a>
+      <a href="cases.html">热点案件评析</a>
+      <a href="policy.html">司法政策汇总</a>
+      <a href="recruitment.html">法律招聘聚合</a>
+    </div>
+    <div class="footer-col">
+      <h4>联系方式</h4>
+      <a href="contact.html">联系我们</a>
+      <a href="mediation.html">商事调解中心</a>
+      <a href="#feedback">信息异议与下架反馈</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 沈家本研究院 版权所有</p>
+    <p><a href="#">ICP备案号：待备案</a></p>
+    <p style="margin-top: 8px;">本平台所有公开数据均取自国家机关、律协、人大、官方公众号公开公示内容，仅作公益学术信息聚合检索</p>
+    <p>本站数据不构成任何法律建议，仅供学术研究参考</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadIntro();
+  await loadStructure();
+  await loadHistory();
+  await loadTeam();
+});
+
+async function loadIntro() {
+  const c = document.getElementById('intro-content');
+  try {
+    const d = await ShenJB.api.get('/about/intro');
+    if (!d) { ShenJB.renderState.empty(c); return; }
+    c.innerHTML = `
+      <div style="max-width:800px;margin:0 auto;font-size:var(--fs-body-sm);color:var(--text-secondary);line-height:1.9;">
+        <p style="margin-bottom:16px;">${d.content || '内容加载中…'}</p>
+      </div>`;
+  } catch { ShenJB.renderState.error(c); }
+}
+
+async function loadStructure() {
+  const c = document.getElementById('structure-content');
+  try {
+    const d = await ShenJB.api.get('/about/structure');
+    if (!d || !d.departments) { ShenJB.renderState.empty(c); return; }
+    c.innerHTML = d.departments.map((dept, i) => `
+      <div class="card" style="margin-bottom:16px;">
+        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--color-primary);margin-bottom:8px;">${dept.name}</h3>
+        <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);">${dept.desc || ''}</p>
+        ${dept.sub ? `<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;">${dept.sub.map(s => `<span class="tag tag-primary">${s}</span>`).join('')}</div>` : ''}
+      </div>
+    `).join('');
+  } catch { ShenJB.renderState.error(c); }
+}
+
+async function loadHistory() {
+  const c = document.getElementById('history-content');
+  try {
+    const d = await ShenJB.api.get('/about/history');
+    if (!d || !d.items) { ShenJB.renderState.empty(c); return; }
+    c.innerHTML = `<div class="timeline">${d.items.map(item => `
+      <div class="timeline-item">
+        <div class="timeline-year">${item.year}</div>
+        <div class="timeline-desc">${item.event}</div>
+      </div>
+    `).join('')}</div>`;
+  } catch { ShenJB.renderState.error(c); }
+}
+
+async function loadTeam() {
+  const c = document.getElementById('team-grid');
+  try {
+    const d = await ShenJB.api.get('/about/team');
+    if (!d || !d.members) { ShenJB.renderState.empty(c); return; }
+    c.innerHTML = d.members.map(m => `
+      <div class="card">
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--color-primary);margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-heading);font-size:20px;">${m.name ? m.name[0] : '?'}</div>
+        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);">${m.name || ''}</h3>
+        <p style="font-size:var(--fs-note);color:var(--color-accent);margin:4px 0 8px;">${m.title || ''}</p>
+        <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);">${m.bio || ''}</p>
+      </div>
+    `).join('');
+  } catch { ShenJB.renderState.error(c); }
+}
+</script>
+</body>
+</html>
