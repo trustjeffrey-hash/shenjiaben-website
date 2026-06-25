@@ -916,7 +916,9 @@ const server = http.createServer(async (req, res) => {
 
   // ── 静态文件服务 ──────────────────────────────────
   // 将 /xxx.html 或 / 映射到 STATIC_ROOT/xxx.html
-  let staticPath = pathname;
+  // 先解码 URL 编码（处理中文文件名）
+  let staticPath;
+  try { staticPath = decodeURIComponent(pathname); } catch { staticPath = pathname; }
   if (staticPath === '/') staticPath = '/index.html';
   if (!path.extname(staticPath)) staticPath += '.html';  // SPA 风格
 
