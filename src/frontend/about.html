@@ -58,7 +58,7 @@
       <div id="intro-content">
         <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
       </div>
-      <div class="quotes-carousel" id="quotes-carousel-about">
+      <div class="quotes-carousel" id="quotes-carousel-about" style="position:relative;width:100%;aspect-ratio:4/3;max-height:420px;overflow:hidden;border-radius:8px;background:var(--color-primary,#203B64);">
         <div class="quotes-carousel-track" id="quotes-track-about"></div>
         <button class="quotes-carousel-arrow quotes-carousel-prev" id="quotes-prev-about" aria-label="上一张">&#10094;</button>
         <button class="quotes-carousel-arrow quotes-carousel-next" id="quotes-next-about" aria-label="下一张">&#10095;</button>
@@ -220,15 +220,20 @@ async function loadTeam() {
   const track = document.getElementById('quotes-track' + suffix);
   if (!track) return;
 
+  const slides = [];
   images.forEach((src, i) => {
     const slide = document.createElement('div');
     slide.className = 'quotes-carousel-slide' + (i === 0 ? ' active' : '');
+    slide.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'
+      + (i === 0 ? 'opacity:1;z-index:1;' : 'opacity:0;z-index:0;');
     const img = document.createElement('img');
     img.src = base + src;
     img.alt = '沈家本法治箴言';
+    img.style.cssText = 'width:100%;height:100%;object-fit:contain;';
     img.loading = 'lazy';
     slide.appendChild(img);
     track.appendChild(slide);
+    slides.push(slide);
 
     const dot = document.createElement('button');
     dot.className = 'quotes-carousel-dot' + (i === 0 ? ' active' : '');
@@ -245,14 +250,17 @@ async function loadTeam() {
 
   function goTo(i) {
     if (i === idx) return;
-    const slides = track.querySelectorAll('.quotes-carousel-slide');
     const dotEls = document.getElementById('quotes-dots' + suffix).querySelectorAll('.quotes-carousel-dot');
     slides[idx].classList.remove('active');
+    slides[idx].style.opacity = '0';
+    slides[idx].style.zIndex = '0';
     dotEls[idx].classList.remove('active');
     idx = i;
     if (idx < 0) idx = images.length - 1;
     if (idx >= images.length) idx = 0;
     slides[idx].classList.add('active');
+    slides[idx].style.opacity = '1';
+    slides[idx].style.zIndex = '1';
     dotEls[idx].classList.add('active');
     updateCounter();
     resetTimer();
