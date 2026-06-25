@@ -80,18 +80,6 @@
   </div>
 </section>
 
-<!-- ===== 沈家本人生大事记 ===== -->
-<section class="section section-alt" id="about-shenjiaben">
-  <div class="container">
-    <h2 class="section-title">沈家本人生大事记</h2>
-    <p class="section-subtitle">中国法律现代化之父 · 1840—1913</p>
-    <div class="section-divider"></div>
-    <div id="shenjiaben-content">
-      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
-    </div>
-  </div>
-</section>
-
 <!-- ===== 研究员队伍 ===== -->
 <section class="section section-alt" id="about-team">
   <div class="container">
@@ -146,7 +134,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadIntro();
   await loadStructure();
   await loadHistory();
-  await loadShenjiaben();
   await loadTeam();
 });
 
@@ -204,20 +191,6 @@ async function loadTeam() {
         <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);">${m.bio || ''}</p>
       </div>
     `).join('');
-  } catch { ShenJB.renderState.error(c); }
-}
-
-async function loadShenjiaben() {
-  const c = document.getElementById('shenjiaben-content');
-  try {
-    const d = await ShenJB.api.get('/about/shenjiaben');
-    if (!d || !d.items) { ShenJB.renderState.empty(c); return; }
-    c.innerHTML = `<div class="timeline">${d.items.map(item => `
-      <div class="timeline-item">
-        <div class="timeline-year">${item.year}</div>
-        <div class="timeline-desc">${item.event}</div>
-      </div>
-    `).join('')}</div>`;
   } catch { ShenJB.renderState.error(c); }
 }
 </script>

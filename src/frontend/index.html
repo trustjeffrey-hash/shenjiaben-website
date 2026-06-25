@@ -63,6 +63,21 @@
     </div>
   </section>
 
+  <!-- ========== 沈家本人生大事记 ========== -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">沈家本人生大事记</h2>
+      <p class="section-subtitle">中国法律现代化之父 · 1840—1913</p>
+      <div class="section-divider"></div>
+      <div id="home-shenjiaben-timeline">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>数据加载中…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== 五大动态数据统计卡片 ========== -->
   <section class="section" id="stats-section">
     <div class="container">
@@ -180,11 +195,28 @@
   <script>
     // ===== 首页 API 驱动数据渲染 =====
     document.addEventListener('DOMContentLoaded', async () => {
+      // 加载沈家本人生大事记
+      await loadShenjiabenTimeline();
       // 加载统计卡片数据
       await loadHomeStats();
       // 加载最新动态
       await loadLatestUpdates();
     });
+
+    async function loadShenjiabenTimeline() {
+      const c = document.getElementById('home-shenjiaben-timeline');
+      ShenJB.renderState.loading(c);
+      try {
+        const d = await ShenJB.api.get('/about/shenjiaben');
+        if (!d || !d.items) { ShenJB.renderState.empty(c); return; }
+        c.innerHTML = `<div class="timeline">${d.items.map(item => `
+          <div class="timeline-item">
+            <div class="timeline-year">${item.year}</div>
+            <div class="timeline-desc">${item.event}</div>
+          </div>
+        `).join('')}</div>`;
+      } catch { ShenJB.renderState.error(c); }
+    }
 
     async function loadHomeStats() {
       const container = document.getElementById('home-stats');
