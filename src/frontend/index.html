@@ -224,12 +224,16 @@
       try {
         const d = await ShenJB.api.get('/about/shenjiaben');
         if (!d || !d.items) { ShenJB.renderState.empty(c); return; }
-        c.innerHTML = `<div class="timeline">${d.items.map(item => `
-          <div class="timeline-item">
-            <div class="timeline-year">${item.year}</div>
-            <div class="timeline-desc">${item.event}</div>
-          </div>
-        `).join('')}</div>`;
+        c.innerHTML = `<div class="timeline-grid">${(() => {
+          const half = Math.ceil(d.items.length / 2);
+          const cols = [d.items.slice(0, half), d.items.slice(half)];
+          return cols.map(colItems => `<div class="timeline">${colItems.map(item => `
+            <div class="timeline-item">
+              <div class="timeline-year">${item.year}</div>
+              <div class="timeline-desc">${item.event}</div>
+            </div>
+          `).join('')}</div>`).join('');
+        })()}</div>`;
       } catch { ShenJB.renderState.error(c); }
     }
 
