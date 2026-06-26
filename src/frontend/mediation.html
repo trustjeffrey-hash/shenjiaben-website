@@ -52,17 +52,6 @@
   </div>
 </section>
 
-<!-- 调解团队 -->
-<section class="section">
-  <div class="container">
-    <h2 class="section-title">调解团队</h2>
-    <div class="section-divider"></div>
-    <div class="card-grid" id="med-team">
-      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
-    </div>
-  </div>
-</section>
-
 <!-- 联系我们 -->
 <section class="section section-alt">
   <div class="container" style="max-width:640px;">
@@ -85,7 +74,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
   await loadMedIntro();
   await loadMedProcess();
-  await loadSection('/mediation/team','med-team',renderTeam);
   new ShenJB.FormHandler('#med-form','/mediation/consult',{onSuccess:(r)=>{alert('咨询已提交，我们将尽快与您联系。');}});
 });
 
@@ -112,17 +100,6 @@ async function loadMedProcess(){
     `).join('')}</div>`;
   }catch{ShenJB.renderState.error(c);}
 }
-
-async function loadSection(api,cid,render){
-  const c=document.getElementById(cid);
-  try{
-    const d=await ShenJB.api.get(api);
-    if(!d||!d.items||!d.items.length){ShenJB.renderState.empty(c);return;}
-    c.innerHTML=d.items.map(render).join('');
-  }catch{ShenJB.renderState.error(c);}
-}
-
-function renderTeam(t){return `<div class="card"><div style="width:64px;height:64px;border-radius:50%;background:var(--color-primary);margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-heading);font-size:20px;">${(t.name||'?')[0]}</div><h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);">${t.name}</h3><p style="font-size:var(--fs-note);color:var(--color-accent);margin:4px 0 8px;">${t.title||''}</p><p style="font-size:var(--fs-body-sm);color:var(--text-secondary);">${t.bio||''}</p></div>`;}
 </script>
 </body>
 </html>

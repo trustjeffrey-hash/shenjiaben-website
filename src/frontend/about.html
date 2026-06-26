@@ -4,22 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>研究院概况 — 湖州市沈家本研究院</title>
-  <!-- 微信/社交分享优化 -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="研究院概况 — 湖州市沈家本研究院">
-  <meta property="og:description" content="了解湖州市沈家本研究院的组织架构、专家团队、发展历程与使命愿景。专职院长王俊峰，兼职院长蒋惠岭（同济大学法学院院长）。">
+  <meta property="og:description" content="了解湖州市沈家本研究院的组织架构与发展历程。专职院长王俊峰，兼职院长蒋惠岭（同济大学法学院院长）。">
   <meta property="og:image" content="https://shenjiaben-research-institute.onrender.com/assets/images/wechat-share-square.png" itemprop="image">
   <meta property="og:url" content="https://shenjiaben-research-institute.onrender.com/about.html">
   <meta name="wechat:title" content="研究院概况 — 湖州市沈家本研究院">
-  <meta name="wechat:description" content="了解组织架构、专家团队、发展历程与使命愿景。">
+  <meta name="wechat:description" content="了解组织架构与发展历程。">
   <meta name="wechat:image" content="https://shenjiaben-research-institute.onrender.com/assets/images/wechat-share-square.png">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
+  <style>
+    /* 组织架构图 */
+    .org-chart-wrapper {
+      overflow-x: auto;
+      padding: 24px 0;
+      text-align: center;
+    }
+    .org-chart-svg {
+      max-width: 100%;
+      height: auto;
+    }
+    .org-chart-svg text.org-title {
+      font-family: "思源宋体", "Source Han Serif SC", "Noto Serif SC", serif;
+      font-weight: 700;
+    }
+    .org-chart-svg text.org-desc {
+      font-family: "思源黑体", "Microsoft YaHei", sans-serif;
+    }
+    /* 移动端滚动提示 */
+    @media (max-width: 768px) {
+      .org-chart-wrapper {
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <header id="site-nav"></header>
-
 
 <section class="hero" style="padding: 64px 0 48px;">
   <div class="hero-content">
@@ -29,28 +52,8 @@
   </div>
 </section>
 
-<!-- ===== 机构介绍 ===== -->
-<section class="section" id="about-intro">
-  <div class="container">
-    <h2 class="section-title">机构介绍</h2>
-    <div class="section-divider"></div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;" class="home-about-grid">
-      <div id="intro-content">
-        <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
-      </div>
-      <div class="quotes-carousel" id="quotes-carousel-about" style="position:relative;width:100%;aspect-ratio:4/3;max-height:420px;overflow:hidden;border-radius:8px;background:var(--color-primary,#203B64);">
-        <div class="quotes-carousel-track" id="quotes-track-about"></div>
-        <button class="quotes-carousel-arrow quotes-carousel-prev" id="quotes-prev-about" aria-label="上一张">&#10094;</button>
-        <button class="quotes-carousel-arrow quotes-carousel-next" id="quotes-next-about" aria-label="下一张">&#10095;</button>
-        <div class="quotes-carousel-dots" id="quotes-dots-about"></div>
-        <div class="quotes-carousel-counter" id="quotes-counter-about"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 组织架构 ===== -->
-<section class="section section-alt" id="about-structure">
+<!-- ===== 组织架构（架构图） ===== -->
+<section class="section" id="about-structure">
   <div class="container">
     <h2 class="section-title">组织架构</h2>
     <div class="section-divider"></div>
@@ -61,23 +64,11 @@
 </section>
 
 <!-- ===== 发展历程 ===== -->
-<section class="section" id="about-history">
+<section class="section section-alt" id="about-history">
   <div class="container">
     <h2 class="section-title">发展历程</h2>
     <div class="section-divider"></div>
     <div id="history-content">
-      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 研究员队伍 ===== -->
-<section class="section section-alt" id="about-team">
-  <div class="container">
-    <h2 class="section-title">研究员队伍</h2>
-    <p class="section-subtitle">汇聚全国法学领域专家学者</p>
-    <div class="section-divider"></div>
-    <div class="card-grid" id="team-grid">
       <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
     </div>
   </div>
@@ -88,36 +79,128 @@
 <script src="assets/js/common.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadIntro();
   await loadStructure();
   await loadHistory();
-  await loadTeam();
 });
 
-async function loadIntro() {
-  const c = document.getElementById('intro-content');
-  try {
-    const d = await ShenJB.api.get('/about/intro');
-    if (!d) { ShenJB.renderState.empty(c); return; }
-    c.innerHTML = `
-      <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);line-height:1.9;">
-        ${d.content || '内容加载中…'}</p>`;
-  } catch { ShenJB.renderState.error(c); }
+function drawOrgChart(depts, container) {
+  // Extract departments (skip management layer for chart hierarchy)
+  const mgmt = depts.find(d => d.name === '院管理层') || depts[0];
+  const exec = depts.find(d => d.name === '执行对接窗口');
+  const deptList = depts.filter(d => d.name !== '院管理层' && d.name !== '执行对接窗口');
+
+  // Layout parameters
+  const boxW = 200, boxH = 80;
+  const deanW = 260, deanH = 90;
+  const gapX = 24, gapY = 40;
+  const deansGap = 60;
+
+  const totalDeptW = deptList.length * boxW + (deptList.length - 1) * gapX;
+  const totalW = Math.max(totalDeptW + 40, deanW * 2 + deansGap + 40, 750);
+  const startX = totalW / 2 - totalDeptW / 2;
+  const dean1X = totalW / 2 - deanW - deansGap / 2;
+  const dean2X = totalW / 2 + deansGap / 2;
+  const mgmtY = 30, deptY = mgmtY + deanH + gapY;
+  const execW = 280, execH = 60;
+  const execY = deptY + boxH + gapY;
+
+  const totalH = exec ? (execY + execH + 20) : (deptY + boxH + 20);
+
+  let svg = `<svg class="org-chart-svg" viewBox="0 0 ${totalW} ${totalH}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#203B64" flood-opacity="0.12"/>
+      </filter>
+      <linearGradient id="deanGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#203B64"/>
+        <stop offset="100%" stop-color="#2d5289"/>
+      </linearGradient>
+      <linearGradient id="deptGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#f8f9fb"/>
+        <stop offset="100%" stop-color="#eef1f6"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Background lines -->
+    <rect x="0" y="0" width="${totalW}" height="${totalH}" fill="transparent" rx="0"/>
+
+    <!-- Two Deans -->
+    <rect x="${dean1X}" y="${mgmtY}" width="${deanW}" height="${deanH}" rx="8" fill="url(#deanGrad)" filter="url(#shadow)"/>
+    <text x="${dean1X + deanW/2}" y="${mgmtY + 36}" text-anchor="middle" fill="#C89959" font-family="思源宋体, Source Han Serif SC, serif" font-size="15" font-weight="700">兼职院长</text>
+    <text x="${dean1X + deanW/2}" y="${mgmtY + 60}" text-anchor="middle" fill="#fff" font-family="思源黑体, Microsoft YaHei, sans-serif" font-size="17" font-weight="700">蒋惠岭</text>
+    <text x="${dean1X + deanW/2}" y="${mgmtY + 78}" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="思源黑体, Microsoft YaHei, sans-serif" font-size="11">同济大学法学院院长</text>
+
+    <rect x="${dean2X}" y="${mgmtY}" width="${deanW}" height="${deanH}" rx="8" fill="url(#deanGrad)" filter="url(#shadow)"/>
+    <text x="${dean2X + deanW/2}" y="${mgmtY + 36}" text-anchor="middle" fill="#C89959" font-family="思源宋体, Source Han Serif SC, serif" font-size="15" font-weight="700">专职院长</text>
+    <text x="${dean2X + deanW/2}" y="${mgmtY + 60}" text-anchor="middle" fill="#fff" font-family="思源黑体, Microsoft YaHei, sans-serif" font-size="17" font-weight="700">王俊峰</text>
+    <text x="${dean2X + deanW/2}" y="${mgmtY + 78}" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="思源黑体, Microsoft YaHei, sans-serif" font-size="11">中国政法大学本硕 · 香港城市大学博士</text>
+
+    <!-- Lines from deans to departments -->
+    <line x1="${dean1X + deanW/2}" y1="${mgmtY + deanH}" x2="${dean1X + deanW/2}" y2="${mgmtY + deanH + gapY/2}" stroke="#203B64" stroke-width="1.5" stroke-opacity="0.3"/>
+    <line x1="${dean2X + deanW/2}" y1="${mgmtY + deanH}" x2="${dean2X + deanW/2}" y2="${mgmtY + deanH + gapY/2}" stroke="#203B64" stroke-width="1.5" stroke-opacity="0.3"/>
+    <line x1="${dean1X + deanW/2}" y1="${mgmtY + deanH + gapY/2}" x2="${dean2X + deanW/2}" y2="${mgmtY + deanH + gapY/2}" stroke="#203B64" stroke-width="1.5" stroke-opacity="0.3"/>
+    <line x1="${totalW/2}" y1="${mgmtY + deanH + gapY/2}" x2="${totalW/2}" y2="${deptY}" stroke="#203B64" stroke-width="1.5" stroke-opacity="0.3"/>
+
+    <!-- Horizontal top connector for departments -->
+    <line x1="${startX + boxW/2}" y1="${deptY}" x2="${startX + totalDeptW - boxW/2}" y2="${deptY}" stroke="#203B64" stroke-width="1.5" stroke-opacity="0.3"/>`;
+
+  // Department boxes
+  deptList.forEach((dept, i) => {
+    const x = startX + i * (boxW + gapX);
+    // Vertical line from top connector
+    svg += `<line x1="${x + boxW/2}" y1="${deptY}" x2="${x + boxW/2}" y2="${deptY + 10}" stroke="#203B64" stroke-width="1.5" stroke-opacity="0.3"/>`;
+
+    svg += `
+    <rect x="${x}" y="${deptY + 10}" width="${boxW}" height="${boxH}" rx="6" fill="url(#deptGrad)" stroke="#203B64" stroke-width="1.5" stroke-opacity="0.25" filter="url(#shadow)"/>
+    <text x="${x + boxW/2}" y="${deptY + 38}" text-anchor="middle" fill="#203B64" font-family="思源宋体, Source Han Serif SC, serif" font-size="15" font-weight="700">${dept.name}</text>
+    <text x="${x + boxW/2}" y="${deptY + 60}" text-anchor="middle" fill="#6B84A8" font-family="思源黑体, Microsoft YaHei, sans-serif" font-size="11">
+      ${dept.desc && dept.desc.length > 12 ? dept.desc.substring(0,12)+'…' : (dept.desc||'')}</text>`;
+
+    // Sub items as small tags below
+    if (dept.sub && dept.sub.length) {
+      dept.sub.slice(0, 2).forEach((s, si) => {
+        const short = s.length > 16 ? s.substring(0,16)+'…' : s;
+        svg += `<text x="${x + boxW/2}" y="${deptY + 80 + si*14}" text-anchor="middle" fill="#999" font-family="思源黑体, Microsoft YaHei, sans-serif" font-size="9">${short}</text>`;
+      });
+    }
+  });
+
+  // Line to exec window
+  if (exec) {
+    const execX = totalW / 2 - execW / 2;
+    svg += `
+    <line x1="${totalW/2}" y1="${deptY + 10 + boxH}" x2="${totalW/2}" y2="${execY}" stroke="#203B64" stroke-width="1.5" stroke-opacity="0.3"/>
+    <rect x="${execX}" y="${execY}" width="${execW}" height="${execH}" rx="6" fill="#C89959" fill-opacity="0.12" stroke="#C89959" stroke-width="1.5" stroke-opacity="0.4" filter="url(#shadow)"/>
+    <text x="${execX + execW/2}" y="${execY + 26}" text-anchor="middle" fill="#C89959" font-family="思源宋体, Source Han Serif SC, serif" font-size="13" font-weight="700">${exec.name}</text>
+    <text x="${execX + execW/2}" y="${execY + 48}" text-anchor="middle" fill="#203B64" font-family="思源黑体, Microsoft YaHei, sans-serif" font-size="14" font-weight="600">${exec.desc}</text>`;
+  }
+
+  svg += `</svg>`;
+  return svg;
 }
 
 async function loadStructure() {
   const c = document.getElementById('structure-content');
   try {
     const d = await ShenJB.api.get('/about/structure');
-    if (!d || !d.departments) { ShenJB.renderState.empty(c); return; }
-    c.innerHTML = d.departments.map((dept, i) => `
-      <div class="card" style="margin-bottom:16px;">
-        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--color-primary);margin-bottom:8px;">${dept.name}</h3>
-        <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);">${dept.desc || ''}</p>
-        ${dept.sub ? `<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;">${dept.sub.map(s => `<span class="tag tag-primary">${s}</span>`).join('')}</div>` : ''}
-      </div>
-    `).join('');
-  } catch { ShenJB.renderState.error(c); }
+    if (!d || !d.departments || !d.departments.length) {
+      // Fallback: render hardcoded org chart
+      c.innerHTML = '<div class="org-chart-wrapper">' + drawOrgChart([
+        { name: '院管理层', desc: '研究院决策与管理核心', sub: ['兼职院长：蒋惠岭', '专职院长：王俊峰', '学术委员会'] },
+        { name: '学术研究部', desc: '课题申报、论文专著编撰、学术论坛筹办', sub: [] },
+        { name: '文献史料中心', desc: '沈家本文献馆藏整理、古籍归档、史料校对汇编', sub: [] },
+        { name: '商事调解研究中心', desc: '商事纠纷调解、调解员管理、调解机制研究', sub: [] },
+        { name: '研学活动部', desc: '研学课程开发、接待讲解、普法活动', sub: [] },
+        { name: '对外合作部', desc: '高校对接、政企合作、行业平台联动', sub: [] },
+        { name: '行政综合部', desc: '人事、财务、公章管理、日常行政', sub: [] },
+        { name: '执行对接窗口', desc: '王主任 13082838161', sub: [] },
+      ], c) + '</div>';
+      return;
+    }
+    c.innerHTML = '<div class="org-chart-wrapper">' + drawOrgChart(d.departments, c) + '</div>';
+  } catch {
+    ShenJB.renderState.error(c);
+  }
 }
 
 async function loadHistory() {
@@ -133,93 +216,6 @@ async function loadHistory() {
     `).join('')}</div>`;
   } catch { ShenJB.renderState.error(c); }
 }
-
-async function loadTeam() {
-  const c = document.getElementById('team-grid');
-  try {
-    const d = await ShenJB.api.get('/about/team');
-    if (!d || !d.members) { ShenJB.renderState.empty(c); return; }
-    c.innerHTML = d.members.map(m => `
-      <div class="card">
-        <div style="width:64px;height:64px;border-radius:50%;background:var(--color-primary);margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-heading);font-size:20px;">${m.name ? m.name[0] : '?'}</div>
-        <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);">${m.name || ''}</h3>
-        <p style="font-size:var(--fs-note);color:var(--color-accent);margin:4px 0 8px;">${m.title || ''}</p>
-        <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);">${m.bio || ''}</p>
-      </div>
-    `).join('');
-  } catch { ShenJB.renderState.error(c); }
-}
-
-// ===== 沈家本法治箴言轮播图 =====
-(function() {
-  const images = [
-    'quote-001.jpg','quote-002.jpg','quote-003.jpg','quote-004.jpg','quote-005.jpg',
-    'quote-006.jpg','quote-007.png','quote-008.jpg','quote-009.jpg','quote-010.jpg',
-    'quote-011.jpg','quote-012.jpg','quote-013.jpg','quote-014.jpg','quote-015.png',
-    'quote-016.jpg','quote-017.jpg','quote-018.jpg','quote-019.jpg','quote-020.jpg',
-    'quote-021.jpg','quote-022.jpg','quote-023.jpg','quote-024.jpg','quote-025.jpg',
-    'quote-026.jpg','quote-027.jpg','quote-028.jpg','quote-029.jpg','quote-030.png','quote-031.png'
-  ];
-  const base = 'assets/images/quotes/';
-  const suffix = '-about';
-  let idx = 0, timer = null;
-  const track = document.getElementById('quotes-track' + suffix);
-  if (!track) return;
-
-  const slides = [];
-  images.forEach((src, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'quotes-carousel-slide' + (i === 0 ? ' active' : '');
-    slide.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'
-      + (i === 0 ? 'opacity:1;z-index:1;' : 'opacity:0;z-index:0;');
-    const img = document.createElement('img');
-    img.src = base + src;
-    img.alt = '沈家本法治箴言';
-    img.style.cssText = 'width:100%;height:100%;object-fit:contain;';
-    img.loading = 'lazy';
-    slide.appendChild(img);
-    track.appendChild(slide);
-    slides.push(slide);
-
-    const dot = document.createElement('button');
-    dot.className = 'quotes-carousel-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', '第' + (i + 1) + '张');
-    dot.addEventListener('click', () => goTo(i));
-    document.getElementById('quotes-dots' + suffix).appendChild(dot);
-  });
-
-  function updateCounter() {
-    const c = document.getElementById('quotes-counter' + suffix);
-    if (c) c.textContent = (idx + 1) + ' / ' + images.length;
-  }
-  updateCounter();
-
-  function goTo(i) {
-    if (i === idx) return;
-    const dotEls = document.getElementById('quotes-dots' + suffix).querySelectorAll('.quotes-carousel-dot');
-    slides[idx].classList.remove('active');
-    slides[idx].style.opacity = '0';
-    slides[idx].style.zIndex = '0';
-    dotEls[idx].classList.remove('active');
-    idx = i;
-    if (idx < 0) idx = images.length - 1;
-    if (idx >= images.length) idx = 0;
-    slides[idx].classList.add('active');
-    slides[idx].style.opacity = '1';
-    slides[idx].style.zIndex = '1';
-    dotEls[idx].classList.add('active');
-    updateCounter();
-    resetTimer();
-  }
-
-  function next() { goTo(idx + 1); }
-  function prev() { goTo(idx - 1); }
-  function resetTimer() { clearInterval(timer); timer = setInterval(next, 5000); }
-
-  document.getElementById('quotes-next' + suffix).addEventListener('click', next);
-  document.getElementById('quotes-prev' + suffix).addEventListener('click', prev);
-  resetTimer();
-})();
 </script>
 </body>
 </html>

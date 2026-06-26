@@ -94,7 +94,7 @@ ShenJB.navConfig = {
   brand: { text: '沈家本研究院', icon: '沈', href: '/index.html' },
   menus: [
     { label: '首页', href: 'index.html' },
-    { label: '研究院介绍', dropdown: [
+    { label: '研究院介绍', href: 'about.html', dropdown: [
       { label: '研究院概况', href: 'about.html' },
       { label: '沈家本文化研究中心', href: 'research.html' },
       { label: '成果与出版物', href: 'publications.html' },
@@ -102,14 +102,14 @@ ShenJB.navConfig = {
       { label: '活动专栏', href: 'events.html' },
     ]},
     { label: '专家委员会', href: 'experts.html' },
-    { label: '数据平台', dropdown: [
+    { label: '数据平台', href: 'data.html', dropdown: [
       { label: '全国律师行政处罚查询系统', href: 'discipline.html' },
       { label: '重点立法项目进度追踪', href: 'legislation.html' },
       { label: '热点典型司法案件评析库', href: 'cases.html' },
       { label: '司法政策与指导案例汇总', href: 'policy.html' },
       { label: '全网公众号法律招聘聚合平台', href: 'recruitment.html' },
     ]},
-    { label: '商事调解中心', dropdown: [
+    { label: '商事调解中心', href: 'mediation.html', dropdown: [
       { label: '中心概况', href: 'mediation.html' },
       { label: '商事调解研究', href: 'mediation-research.html' },
       { label: '调解业务在线申请', href: 'mediation-apply.html' },
@@ -144,7 +144,7 @@ ShenJB.nav = {
       const active = isActive(menu);
       if (menu.dropdown) {
         linksHTML += `<div class="nav-dropdown-wrap">`;
-        linksHTML += `<a href="javascript:void(0)" class="nav-dropdown-trigger${active ? ' active' : ''}">${menu.label} <span class="nav-arrow">›</span></a>`;
+        linksHTML += `<a href="${menu.href || 'javascript:void(0)'}" class="nav-dropdown-trigger${active ? ' active' : ''}">${menu.label} <span class="nav-arrow">›</span></a>`;
         linksHTML += `<div class="nav-dropdown">`;
         menu.dropdown.forEach(sub => {
           linksHTML += `<a href="${sub.href}" class="${isSubActive(sub) ? 'active' : ''}">${sub.label}</a>`;
@@ -161,7 +161,7 @@ ShenJB.nav = {
       const active = isActive(menu);
       if (menu.dropdown) {
         mobileHTML += `<div class="mnav-group">`;
-        mobileHTML += `<div class="mnav-parent${active ? ' active' : ''}" data-mnav="${i}">${menu.label}<span class="mnav-toggle">+</span></div>`;
+        mobileHTML += `<div class="mnav-parent${active ? ' active' : ''}" data-mnav="${i}"><a href="${menu.href || 'javascript:void(0)'}" class="mnav-parent-link">${menu.label}</a><span class="mnav-toggle">+</span></div>`;
         mobileHTML += `<div class="mnav-children" id="mnav-${i}">`;
         menu.dropdown.forEach(sub => {
           mobileHTML += `<a href="${sub.href}" class="${isSubActive(sub) ? 'active' : ''}">${sub.label}</a>`;
@@ -245,18 +245,21 @@ ShenJB.nav = {
     });
 
     // Mobile submenu toggle
-    mobileNav.querySelectorAll('.mnav-parent').forEach(parent => {
-      parent.addEventListener('click', () => {
+    mobileNav.querySelectorAll('.mnav-toggle').forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevent triggering parent link
+        const parent = toggle.closest('.mnav-parent');
         const idx = parent.dataset.mnav;
         const children = document.getElementById('mnav-' + idx);
-        const toggle = parent.querySelector('.mnav-toggle');
         if (children) {
           const isOpen = children.style.display === 'block';
           children.style.display = isOpen ? 'none' : 'block';
-          if (toggle) toggle.textContent = isOpen ? '+' : '-';
+          toggle.textContent = isOpen ? '+' : '-';
         }
       });
-      // Open if currently active page
+    });
+    // Auto-open active parent
+    mobileNav.querySelectorAll('.mnav-parent').forEach(parent => {
       const idx = parent.dataset.mnav;
       const children = document.getElementById('mnav-' + idx);
       if (children && parent.classList.contains('active')) {
@@ -264,6 +267,14 @@ ShenJB.nav = {
         const toggle = parent.querySelector('.mnav-toggle');
         if (toggle) toggle.textContent = '-';
       }
+    });
+    // Close menu when parent link clicked
+    mobileNav.querySelectorAll('.mnav-parent-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+      });
     });
 
     // Close mobile nav on outside click
