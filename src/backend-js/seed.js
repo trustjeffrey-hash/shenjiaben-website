@@ -295,8 +295,8 @@ function seed() {
             description: '为企业提供贯穿全生命周期的公司治理、破产重整与不动产法律服务。',
             centers: [
               { name: '企业破产重整与特殊资产治理研究中心', expertName: '', expertTitle: '', centerIntro: '研究破产重整法律实务、特殊资产处置与困境企业救助机制，为区域经济高质量发展提供法治护航。', expertBio: '', isVacant: true },
-              { name: '商事组织与现代公司治理研究中心', expertName: '陈纪钢', expertTitle: '北京大成（杭州）律师事务所', centerIntro: '研究公司法修订、股权架构设计、公司治理合规、投融资法律实务，为企业现代化治理提供学术与实务支持。', expertBio: '北京大成（杭州）律师事务所资深合伙人，长期从事公司治理、股权纠纷、企业并购重组法律业务。', isVacant: false },
-              { name: '不动产与现代基础设施研究中心', expertName: '底世清', expertTitle: '北京炜衡（杭州）律师事务所', centerIntro: '聚焦房地产、建设工程、城市更新与现代基础设施投融资法律实务，推动不动产领域的合规创新。', expertBio: '北京炜衡（杭州）律师事务所高级合伙人，深耕不动产与建设工程法律服务领域逾二十年。', isVacant: false }
+              { name: '商事组织与现代公司治理研究中心', expertName: '陈纪钢', expertTitle: '北京大成（杭州）律师事务所', expertAvatar: 'assets/images/expert-chenjigang.png', centerIntro: '研究公司法修订、股权架构设计、公司治理合规、投融资法律实务，为企业现代化治理提供学术与实务支持。', expertBio: '北京大成（杭州）律师事务所资深合伙人，长期从事公司治理、股权纠纷、企业并购重组法律业务。', isVacant: false },
+              { name: '不动产与现代基础设施研究中心', expertName: '底世清', expertTitle: '北京炜衡（杭州）律师事务所', expertAvatar: 'assets/images/expert-dishiqing.png', centerIntro: '聚焦房地产、建设工程、城市更新与现代基础设施投融资法律实务，推动不动产领域的合规创新。', expertBio: '北京炜衡（杭州）律师事务所高级合伙人，深耕不动产与建设工程法律服务领域逾二十年。', isVacant: false }
             ]
           },
           {
@@ -304,8 +304,8 @@ function seed() {
             description: '推动政企合规、民营经济保护、多元争议解决机制的理论研究与实务创新。',
             centers: [
               { name: '法治政府与政企关系合规研究中心', expertName: '', expertTitle: '', centerIntro: '研究法治政府建设评价体系、政企关系合规路径、行政程序法治化等重大理论课题。', expertBio: '', isVacant: true },
-              { name: '民营经济保护与刑事风险防控研究中心', expertName: '金林蔚', expertTitle: '浙江泽大律师事务所', centerIntro: '围绕民营企业家权益保护、企业刑事合规、经济犯罪风险防控等领域开展系统性研究。', expertBio: '浙江泽大律师事务所合伙人，专注刑事辩护与企业刑事合规，办理多起重大经济犯罪案件。', isVacant: false },
-              { name: '商事仲裁与多元争议解决研究中心', expertName: '殷飞', expertTitle: '浙江合飞律师事务所', centerIntro: '对标国际商事仲裁规则，研究诉讼、仲裁、调解等多元争议解决机制的融合应用与制度创新。', expertBio: '浙江合飞律师事务所主任，在商事仲裁、建设工程纠纷解决领域具有丰富实务经验。', isVacant: false }
+              { name: '民营经济保护与刑事风险防控研究中心', expertName: '金林蔚', expertTitle: '浙江泽大律师事务所', expertAvatar: 'assets/images/expert-jinlinwei.png', centerIntro: '围绕民营企业家权益保护、企业刑事合规、经济犯罪风险防控等领域开展系统性研究。', expertBio: '浙江泽大律师事务所合伙人，专注刑事辩护与企业刑事合规，办理多起重大经济犯罪案件。', isVacant: false },
+              { name: '商事仲裁与多元争议解决研究中心', expertName: '殷飞', expertTitle: '浙江合飞律师事务所', expertAvatar: 'assets/images/expert-yinfei.png', centerIntro: '对标国际商事仲裁规则，研究诉讼、仲裁、调解等多元争议解决机制的融合应用与制度创新。', expertBio: '浙江合飞律师事务所主任，在商事仲裁、建设工程纠纷解决领域具有丰富实务经验。', isVacant: false }
             ]
           }
         ],
@@ -314,6 +314,7 @@ function seed() {
             name: '何秋慧',
             title: '律师',
             org: '湖州汉本律师事务所',
+            avatar: 'assets/images/expert-heqiuhui.png',
             bio: '湖州本地资深律师，长期扎根湖州法律实务一线，专注民商事诉讼与法律顾问服务，为研究院提供本地实务支撑。'
           }
         ]
