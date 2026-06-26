@@ -37,7 +37,7 @@
 <!-- 筛选 -->
 <section class="section" style="padding-bottom:0;">
   <div class="container" id="pub-filters">
-    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px;">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px;" class="pub-filters-bar">
       <select name="category" class="form-select" style="width:auto;min-width:160px;">
         <option value="">全部分类</option>
         <option value="专著">专著</option>
@@ -108,15 +108,17 @@ async function loadPubs(page = 1, filters = {}) {
     grid.innerHTML = d.items.map(p => {
       const hasCover = p.coverImage && p.coverImage.trim() !== '';
       const coverHtml = hasCover
-        ? `<div class="pub-cover"><img src="${p.coverImage}" alt="${p.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'pub-cover-fallback\\'>封面</div>'"></div>`
+        ? `<div class="pub-cover"><img src="${p.coverImage}" alt="${p.title}" loading="lazy" onerror="this.parentElement.outerHTML='<div class=\\'pub-cover-fallback\\'>封面</div>'"></div>`
         : `<div class="pub-cover-fallback">封面</div>`;
       return `
       <div class="card pub-card">
         ${coverHtml}
-        <span class="tag" style="margin-bottom:8px;">${p.category||p.categoryLabel||''}</span>
-        <h3 class="pub-title">${p.title}</h3>
-        <p class="pub-meta">${p.author||''} · ${p.year||''}</p>
-        <p class="pub-publisher">${p.publisher||''}</p>
+        <div class="pub-info">
+          <span class="tag" style="margin-bottom:8px;">${p.category||p.categoryLabel||''}</span>
+          <h3 class="pub-title">${p.title}</h3>
+          <p class="pub-meta">${p.author||''} · ${p.year||''}</p>
+          <p class="pub-publisher">${p.publisher||''}</p>
+        </div>
       </div>
       `;
     }).join('');

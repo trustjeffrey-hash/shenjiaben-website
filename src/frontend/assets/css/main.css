@@ -44,6 +44,7 @@
   --fs-h3:       20px;              /* 次级板块标题 */
   --fs-card-title: 18px;            /* 卡片标题 */
   --fs-card-sub:   16px;
+  --fs-lg:        20px;              /* 大号文本 */
   --fs-body:     15px;              /* 正文 */
   --fs-body-sm:  14px;              /* 小正文 */
   --fs-note:     13px;              /* 备注小字 */

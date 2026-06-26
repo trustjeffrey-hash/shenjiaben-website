@@ -65,7 +65,7 @@
     <h2 class="section-title">数据来源与声明</h2>
     <div class="section-divider"></div>
     <div class="card" style="max-width:900px;margin:0 auto;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="data-statement-grid">
         <div>
           <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:12px;">数据来源</h3>
           <ul style="list-style:none;padding:0;color:var(--text-secondary);font-size:var(--fs-body-sm);line-height:2;">
@@ -168,9 +168,9 @@
         { key: 'judicial_policies', title: '司法政策文件汇总库', desc: '汇总最高人民法院、最高人民检察院、司法部等发布的司法解释、指导性案例、指导意见，及时更新法律适用最新动态。', page: 'policy.html', fields:['政策类别','发布机构','发布日期','全文检索'] },
         { key: 'legal_recruitments', title: '法律人才招聘聚合平台', desc: '聚合律所、企业法务、公检法系统等法律行业招聘信息，覆盖全国主要城市，每日自动更新最新岗位。', page: 'recruitment.html', fields:['城市筛选','岗位类型','薪资范围','经验要求'] },
       ];
-      c.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;">${modules.map(m => {
+      c.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;" class="data-modules-grid">${modules.map(m => {
         const mod = data ? (data[m.key] || { total: 0 }) : { total: 0 };
-        return `<div class="card" style="display:flex;flex-direction:column;height:100%;">
+        return `<div class="card data-module-card" style="display:flex;flex-direction:column;height:100%;">
           <h3 style="font-family:var(--font-heading);font-size:var(--fs-card-title);color:var(--text-primary);margin-bottom:12px;">${m.title}</h3>
           <p style="font-size:var(--fs-body-sm);color:var(--text-secondary);line-height:1.7;flex:1;margin-bottom:16px;">${m.desc}</p>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">

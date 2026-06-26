@@ -23,13 +23,39 @@
     gap: var(--spacing-lg);
   }
 
-  /* 统计卡片 */
+  /* 统计卡片 — 平板两列 */
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   /* Hero */
   .hero { padding: 80px 0 60px; }
+
+  /* 首页双栏区块 — 平板开始堆叠 */
+  .home-about-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-xl) !important;
+  }
+  .home-about-grid .quotes-carousel {
+    max-height: 360px !important;
+    aspect-ratio: 4/3 !important;
+  }
+
+  /* 数据平台模块卡片 */
+  .data-modules-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* 数据来源/免责双栏 */
+  .data-statement-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-lg) !important;
+  }
+
+  /* 合作机构标签间距缩小 */
+  .partner-tags {
+    gap: 16px !important;
+  }
 }
 
 /* ===== 移动端 (< 768) ===== */
@@ -40,107 +66,252 @@
     --fs-h2:   20px;
     --fs-h3:   18px;
     --card-padding: 16px;
-    --nav-height: 60px;
+    --nav-height: 56px;
     --spacing-xl:  24px;
     --spacing-2xl: 36px;
     --spacing-3xl: 48px;
   }
 
-  .container { padding: 0 var(--spacing-md); }
+  .container { padding: 0 16px; }
 
-  /* 导航 */
+  /* ── 导航 ── */
   .nav-links { display: none; }
   .hamburger { display: flex; }
+  .nav-logo-text { font-size: 14px; }
+  .nav-logo-icon { width: 34px; height: 34px; font-size: 16px; }
 
-  .nav-logo-text {
-    font-size: 15px;
-  }
-  .nav-logo-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
-  }
+  /* ── Hero ── */
+  .hero { padding: 48px 0 36px; }
+  .hero-title { line-height: 1.4; }
+  .hero-badge { margin-bottom: var(--spacing-md); font-size: 12px; padding: 4px 14px; }
+  .hero-subtitle { font-size: var(--fs-body-sm); margin-bottom: var(--spacing-lg); }
 
-  /* Hero */
-  .hero {
-    padding: 60px 0 48px;
+  /* Hero 按钮组 — 手机端堆叠 */
+  .hero-btn-group {
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100%;
   }
-  .hero-title {
-    line-height: 1.4;
+  .hero-btn-group .btn {
+    width: 100%;
+    justify-content: center;
   }
-  .hero-badge {
-    margin-bottom: var(--spacing-md);
-  }
-  .hero-subtitle {
-    font-size: var(--fs-body-sm);
-    margin-bottom: var(--spacing-lg);
+  .hero-btn-group .btn-lg {
+    padding: 12px 24px;
   }
 
-  /* 页脚 */
+  /* ── 首页双栏区块 — 手机端垂直堆叠 ── */
+  .home-about-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-lg) !important;
+  }
+  .home-about-grid .section-title {
+    text-align: center !important;
+  }
+  .home-about-grid .section-divider {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .home-about-grid .tag {
+    display: block;
+    text-align: center;
+    margin-bottom: 16px !important;
+  }
+  .home-about-grid .quotes-carousel {
+    max-height: 300px !important;
+    aspect-ratio: 4/3 !important;
+  }
+
+  /* ── 最新动态头部 ── */
+  .latest-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+  .latest-header .section-title {
+    text-align: left !important;
+  }
+
+  /* ── 统计卡片 — 手机端两列(5个卡片正好2+2+1) ── */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  /* 最后一个统计卡片（进入数据平台按钮）手机端占满一行 */
+  .stats-grid .stat-card:nth-child(5) {
+    grid-column: 1 / -1;
+  }
+  .stat-card-value { font-size: 22px; }
+  .stat-card-meta { gap: 4px; }
+  .stat-badge { font-size: 11px; padding: 2px 6px; }
+  .stat-card-desc { font-size: 11px; }
+
+  /* ── 通用响应式网格 ── */
+  .responsive-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .responsive-grid-3 {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* ── ECharts 图表容器 ── */
+  .responsive-grid-2 .card div[style*="height:320px"],
+  .responsive-grid-2 .card div[style*="height:280px"],
+  .responsive-grid-3 .card div[style*="height:280px"] {
+    height: 240px !important;
+  }
+
+  /* ── 页脚 ── */
   .footer-inner {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
-  .footer-bottom {
-    padding: var(--spacing-md);
-  }
+  .footer-bottom { padding: var(--spacing-md); }
 
-  /* 卡片网格 */
+  /* ── 卡片网格 ── */
   .card-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* 统计卡片 */
-  .stats-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
   }
 
-  /* 表格移动端横滚 */
+  /* ── 表格 ── */
   .table-wrapper {
-    margin: 0 calc(-1 * var(--spacing-md));
-    padding: 0 var(--spacing-md);
+    margin: 0 -16px;
+    padding: 0 16px;
   }
 
-  /* 弹窗 */
-  .modal {
-    border-radius: 8px 8px 0 0;
-    max-height: 90vh;
-  }
-  .modal-overlay {
-    align-items: flex-end;
-    padding: 0;
-  }
+  /* ── 弹窗 ── */
+  .modal { border-radius: 8px 8px 0 0; max-height: 90vh; }
+  .modal-overlay { align-items: flex-end; padding: 0; }
 
-  /* 分页按钮缩小 */
+  /* ── 分页 ── */
   .pagination button {
-    min-width: 32px;
-    height: 32px;
-    font-size: var(--fs-note-sm);
+    min-width: 32px; height: 32px; font-size: var(--fs-note-sm);
   }
 
-  /* 时间轴 */
+  /* ── 时间轴 ── */
   .timeline { padding-left: 24px; }
-  .timeline-item::before {
-    left: -20px;
-    width: 10px;
-    height: 10px;
+  .timeline-item::before { left: -20px; width: 10px; height: 10px; }
+
+  /* ── 合作机构标签 ── */
+  .partner-tags {
+    gap: 10px !important;
+    padding: 16px 0 !important;
+  }
+  .partner-tag {
+    padding: 10px 20px !important;
+    font-size: var(--fs-note) !important;
+  }
+
+  /* ── 数据平台模块卡片 ── */
+  .data-modules-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .data-module-card .btn {
+    width: 100%;
+  }
+
+  /* ── 数据来源/免责声明 ── */
+  .data-statement-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* ── 出版物卡片 ── */
+  .pub-card {
+    /* 手机端用水平卡片布局(封面+信息并排) */
+  }
+  .pub-cover {
+    aspect-ratio: 2/3;
+    max-height: 200px;
+    width: 120px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .pub-cover img { object-fit: cover; }
+  .pub-cover-fallback {
+    aspect-ratio: 2/3;
+    max-height: 200px;
+    width: 120px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    font-size: var(--fs-note) !important;
+  }
+  /* 手机端出版物改为横向卡片 */
+  .card.pub-card {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .pub-info { flex: 1; min-width: 0; }
+  .pub-title { font-size: var(--fs-body) !important; }
+  .pub-meta { font-size: var(--fs-note) !important; }
+
+  /* ── 箴言轮播图 ── */
+  .quotes-carousel {
+    aspect-ratio: 3/4;
+    max-height: 320px;
+  }
+  .quotes-carousel-arrow {
+    width: 28px; height: 28px;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+  .quotes-carousel-counter {
+    bottom: 28px; right: 8px; font-size: 11px;
+  }
+
+  /* ── 筛选栏 ── */
+  .pub-filters-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .pub-filters-bar select,
+  .pub-filters-bar input {
+    width: 100% !important;
+    min-width: 0 !important;
   }
 }
 
 /* ===== 小屏手机 (< 480) ===== */
 @media (max-width: 480px) {
   :root {
-    --fs-hero: 22px;
-    --fs-h1:   20px;
-    --fs-h2:   18px;
+    --fs-hero: 20px;
+    --fs-h1:   18px;
+    --fs-h2:   17px;
+    --card-padding: 12px;
   }
 
-  .hero {
-    padding: 48px 0 36px;
+  .hero { padding: 36px 0 28px; }
+  .section { padding: var(--spacing-2xl) 0; }
+
+  /* 统计卡片 — 最小屏也保持两列 */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .stat-card { padding: 12px !important; }
+  .stat-card-value { font-size: 18px; }
+
+  /* 合作机构更紧凑 */
+  .partner-tag {
+    padding: 8px 14px !important;
+    font-size: 11px !important;
   }
 
-  .section {
-    padding: var(--spacing-2xl) 0;
+  /* 出版物横向卡片封面更小 */
+  .pub-cover, .pub-cover-fallback {
+    width: 90px;
+    max-height: 150px;
+  }
+  .pub-title { font-size: var(--fs-body-sm) !important; }
+
+  /* 箴言轮播图 */
+  .quotes-carousel {
+    max-height: 260px;
   }
 }
