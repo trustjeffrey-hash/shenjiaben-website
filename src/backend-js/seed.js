@@ -20,7 +20,7 @@ function seed() {
       const province = provinces[Math.floor(Math.random() * provinces.length)];
       const dtype = types[Math.floor(Math.random() * types.length)];
       const year = 2025 + Math.floor(Math.random() * 2);
-      const month = Math.floor(Math.random() * 12);
+      const month = year === 2026 ? Math.floor(Math.random() * 6) : Math.floor(Math.random() * 12);
       const day = Math.floor(Math.random() * 28) + 1;
       
       db.insert('lawyer_discipline', {
@@ -65,7 +65,8 @@ function seed() {
       {title:'《中华人民共和国关税法实施条例》',stage:'已通过',category:'财税法',body:'财政部',summary:'配合关税法施行的配套规则'},
     ];
     for (const p of projects) {
-      const baseDate = new Date(2025+Math.floor(Math.random()*2), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
+      const baseYear = 2025 + Math.floor(Math.random() * 2);
+      const baseDate = new Date(baseYear, baseYear === 2026 ? Math.floor(Math.random() * 6) : Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
       db.insert('legislation_projects', {
         title: p.title, stage: p.stage, category: p.category,
         proposingBody: p.body, summary: p.summary,
@@ -105,7 +106,8 @@ function seed() {
       {title:'某跨境电商平台刷单炒信入刑案',type:'刑事',cause:'非法经营罪',stage:'一审判决',court:'义乌市人民法院',hot:true,s:'跨境电商新型网络黑灰产打击'},
     ];
     for (const c of cases) {
-      const ruling = new Date(2025+Math.floor(Math.random()*2), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
+      const rulingYear = 2025 + Math.floor(Math.random() * 2);
+      const ruling = new Date(rulingYear, rulingYear === 2026 ? Math.floor(Math.random() * 6) : Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
       const filing = new Date(ruling.getTime() - Math.floor(Math.random() * 365 + 30) * 86400000);
       db.insert('judicial_cases', {
         caseTitle: c.title, caseNumber: `（2025）法${100 + Math.floor(Math.random() * 900)}号`,
@@ -139,7 +141,8 @@ function seed() {
       {title:'最高人民检察院关于依法惩治民营企业内部腐败犯罪的意见',cat:'指导意见',body:'最高人民检察院',gc:false},
     ];
     for (const p of policies) {
-      const pubDate = new Date(2025+Math.floor(Math.random()*2), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
+      const policyYear = 2025 + Math.floor(Math.random() * 2);
+      const pubDate = new Date(policyYear, policyYear === 2026 ? Math.floor(Math.random() * 6) : Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
       db.insert('judicial_policies', {
         title: p.title, docNumber: `法释〔2024〕${Math.floor(Math.random() * 20) + 1}号`,
         category: p.cat, issuingBody: p.body,
