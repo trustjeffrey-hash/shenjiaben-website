@@ -689,7 +689,7 @@ function getDefaultContent(key) {
           name: '（一）传统法治文化系列',
           description: '深耕沈家本修律思想、传统法治智慧与现代商事调解的融合路径，推动法治文化IP的数字化传播。',
           centers: [
-            { name: '沈家本修律思想与现代法治改革研究中心', expertName: '蒋惠岭', expertTitle: '同济大学法学院院长', centerIntro: '系统研究沈家本修律思想及其对当代法治改革的启示，推动近代法学遗产的创造性转化与制度衔接。', expertBio: '同济大学法学院院长、教授、博士生导师，沈家本研究院兼职院长。曾任最高人民法院高级法官、司法改革办公室负责人，长期从事司法制度、调解制度、法治改革研究。', isVacant: false },
+            { name: '沈家本修律思想与现代法治改革研究中心', expertName: '蒋惠岭', expertTitle: '同济大学法学院院长', expertAvatar: 'assets/images/expert-jianghuiling.jpg', centerIntro: '系统研究沈家本修律思想及其对当代法治改革的启示，推动近代法学遗产的创造性转化与制度衔接。', expertBio: '同济大学法学院院长、教授、博士生导师，沈家本研究院兼职院长。曾任最高人民法院高级法官、司法改革办公室负责人，长期从事司法制度、调解制度、法治改革研究。', isVacant: false },
             { name: '传统法治智慧与商事调解研究中心', expertName: '', expertTitle: '', centerIntro: '挖掘中国传统法律文化中的调解智慧，探索本土化商事纠纷多元化解机制的理论基础与实践路径。', expertBio: '', isVacant: true },
             { name: '法治文化IP智慧传播研究中心', expertName: '', expertTitle: '', centerIntro: '以数字化、文创化手段传播沈家本法治文化，打造具有影响力的法治文化IP品牌与教育产品矩阵。', expertBio: '', isVacant: true }
           ]
@@ -699,7 +699,7 @@ function getDefaultContent(key) {
           description: '聚焦人工智能、数字经济、先进制造等前沿领域的法治保障与规则构建。',
           centers: [
             { name: '人工智能与数智产业法治研究中心', expertName: '', expertTitle: '', centerIntro: '研究AI伦理法律规制、算法治理、自动驾驶与智能合约等前沿数字产业的法治保障与合规框架。', expertBio: '', isVacant: true },
-            { name: '数字经济与数据要素法治研究中心', expertName: '王俊峰', expertTitle: '沈家本研究院专职院长', centerIntro: '围绕数据产权、跨境流动、平台治理、个人信息保护等核心议题，提供政策研究与合规解决方案。', expertBio: '中国政法大学本科，香港城市大学法学硕博。曾任职腾讯、阿里法务管理岗，深耕数字法治、数据合规、网络安全立法领域。', isVacant: false },
+            { name: '数字经济与数据要素法治研究中心', expertName: '王俊峰', expertTitle: '沈家本研究院专职院长', expertAvatar: 'assets/images/expert-wangjunfeng.jpg', centerIntro: '围绕数据产权、跨境流动、平台治理、个人信息保护等核心议题，提供政策研究与合规解决方案。', expertBio: '中国政法大学本科，香港城市大学法学硕博。曾任职腾讯、阿里法务管理岗，深耕数字法治、数据合规、网络安全立法领域。', isVacant: false },
             { name: '先进制造与产业链供应链法治研究中心', expertName: '', expertTitle: '', centerIntro: '聚焦先进制造业知识产权保护、产业链供应链安全审查、国际贸易合规等法治保障议题。', expertBio: '', isVacant: true }
           ]
         },
