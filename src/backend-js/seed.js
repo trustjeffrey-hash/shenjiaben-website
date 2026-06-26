@@ -19,7 +19,7 @@ function seed() {
       const firm = firms[Math.floor(Math.random() * firms.length)];
       const province = provinces[Math.floor(Math.random() * provinces.length)];
       const dtype = types[Math.floor(Math.random() * types.length)];
-      const year = 2024 + Math.floor(Math.random() * 2);
+      const year = 2025 + Math.floor(Math.random() * 2);
       const month = Math.floor(Math.random() * 12);
       const day = Math.floor(Math.random() * 28) + 1;
       
@@ -59,9 +59,13 @@ function seed() {
       {title:'《中华人民共和国慈善法实施条例》',stage:'起草中',category:'社会法',body:'民政部',summary:'落实慈善法配套措施'},
       {title:'《中华人民共和国矿产资源法（修订）》',stage:'公开征求意见',category:'经济法',body:'自然资源部',summary:'完善矿业权管理制度'},
       {title:'《中华人民共和国商标法修订草案》',stage:'立法建议',category:'知识产权法',body:'国家知识产权局',summary:'加强商标保护力度'},
+      {title:'《中华人民共和国民营经济促进法实施条例》',stage:'起草中',category:'经济法',body:'国家发改委',summary:'细化民营经济促进法配套制度'},
+      {title:'《中华人民共和国数字经济促进法》',stage:'立法调研',category:'经济法',body:'全国人大财经委',summary:'推动数字经济领域基础性立法'},
+      {title:'《中华人民共和国家庭教育促进法实施条例》',stage:'公开征求意见',category:'社会法',body:'教育部',summary:'完善家庭教育指导服务体系'},
+      {title:'《中华人民共和国关税法实施条例》',stage:'已通过',category:'财税法',body:'财政部',summary:'配合关税法施行的配套规则'},
     ];
     for (const p of projects) {
-      const baseDate = new Date(2024, Math.floor(Math.random() * 6), Math.floor(Math.random() * 28) + 1);
+      const baseDate = new Date(2025+Math.floor(Math.random()*2), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
       db.insert('legislation_projects', {
         title: p.title, stage: p.stage, category: p.category,
         proposingBody: p.body, summary: p.summary,
@@ -96,12 +100,15 @@ function seed() {
       {title:'刘某等人侵犯公民个人信息案',type:'刑事',cause:'侵犯公民个人信息罪',stage:'已结案',court:'上海市第一中级人民法院',hot:true,s:'个人信息倒卖定罪量刑'},
       {title:'某房地产公司破产重整案',type:'民事',cause:'破产重整',stage:'审理中',court:'广州市中级人民法院',hot:false,s:'大型房企债权人保护机制'},
       {title:'王某故意伤害致人死亡案',type:'刑事',cause:'故意伤害罪',stage:'一审判决',court:'深圳市中级人民法院',hot:false,s:'正当防卫界限认定'},
+      {title:'某AI公司诉某数据标注平台合同纠纷案',type:'民事',cause:'技术服务合同纠纷',stage:'一审判决',court:'杭州互联网法院',hot:true,s:'AI训练数据标注质量争议'},
+      {title:'某新能源汽车公司专利侵权系列案',type:'民事',cause:'发明专利侵权',stage:'审理中',court:'最高人民法院知识产权法庭',hot:true,s:'新能源汽车核心技术专利保护'},
+      {title:'某跨境电商平台刷单炒信入刑案',type:'刑事',cause:'非法经营罪',stage:'一审判决',court:'义乌市人民法院',hot:true,s:'跨境电商新型网络黑灰产打击'},
     ];
     for (const c of cases) {
-      const ruling = new Date(2024, Math.floor(Math.random() * 6), Math.floor(Math.random() * 28) + 1);
+      const ruling = new Date(2025+Math.floor(Math.random()*2), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
       const filing = new Date(ruling.getTime() - Math.floor(Math.random() * 365 + 30) * 86400000);
       db.insert('judicial_cases', {
-        caseTitle: c.title, caseNumber: `（2024）法${100 + Math.floor(Math.random() * 900)}号`,
+        caseTitle: c.title, caseNumber: `（2025）法${100 + Math.floor(Math.random() * 900)}号`,
         caseType: c.type, causeOfAction: c.cause, stage: c.stage, court: c.court,
         filingDate: filing.toISOString(), rulingDate: ruling.toISOString(),
         caseSummary: c.s, rulingPoints: `裁判要点：${c.s}`, tags: '典型案例,社会关注',
@@ -127,9 +134,12 @@ function seed() {
       {title:'关于依法惩治网络暴力违法犯罪的指导意见',cat:'指导意见',body:'最高人民法院、最高人民检察院、公安部',gc:false},
       {title:'最高人民法院第38批指导性案例——环境公益诉讼专题',cat:'指导案例',body:'最高人民法院',gc:true},
       {title:'最高人民法院关于审理证券市场虚假陈述侵权民事赔偿案件的若干规定',cat:'司法解释',body:'最高人民法院',gc:false},
+      {title:'最高人民法院关于规范和加强人工智能司法应用的意见',cat:'指导意见',body:'最高人民法院',gc:false},
+      {title:'最高人民法院第39批指导性案例——涉数据权益保护专题',cat:'指导案例',body:'最高人民法院',gc:true},
+      {title:'最高人民检察院关于依法惩治民营企业内部腐败犯罪的意见',cat:'指导意见',body:'最高人民检察院',gc:false},
     ];
     for (const p of policies) {
-      const pubDate = new Date(2024, Math.floor(Math.random() * 6), Math.floor(Math.random() * 28) + 1);
+      const pubDate = new Date(2025+Math.floor(Math.random()*2), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
       db.insert('judicial_policies', {
         title: p.title, docNumber: `法释〔2024〕${Math.floor(Math.random() * 20) + 1}号`,
         category: p.cat, issuingBody: p.body,
@@ -177,7 +187,7 @@ function seed() {
     const industries = ['互联网','金融','制造业','房地产','新能源','人工智能','生物医药','文化传媒'];
     for (let i = 0; i < jobs.length; i++) {
       const j = jobs[i];
-      const pubDate = new Date(2026, 5, Math.floor(Math.random() * 25) + 1); // 2026年6月
+      const pubDate = new Date(2026, Math.floor(Math.random() * 6), Math.floor(Math.random() * 28) + 1); // 2026年1-6月
       db.insert('legal_recruitments', {
         title: `【${j.city}】${j.company}招聘${j.jobType}`,
         company: j.company, city: j.city, jobType: j.jobType,

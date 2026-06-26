@@ -1027,12 +1027,14 @@ const COLLECTORS = {
       const firms = ['中伦律师事务所','金杜律师事务所','大成律师事务所','盈科律师事务所','国浩律师事务所'];
       const surnames = '张李王刘陈杨赵黄周吴徐孙马胡朱';
       const name = surnames[Math.floor(Math.random()*surnames.length)] + surnames[Math.floor(Math.random()*surnames.length)];
+      // 2026年随机日期
+      const d = new Date(2026, Math.floor(Math.random()*6), Math.floor(Math.random()*28)+1);
       return {
         lawyerName: name,
         lawFirm: firms[Math.floor(Math.random()*firms.length)],
         firmProvince: provinces[Math.floor(Math.random()*provinces.length)],
         disciplineType: types[Math.floor(Math.random()*types.length)],
-        disciplineDate: new Date().toISOString(),
+        disciplineDate: d.toISOString(),
         sourceName: '模拟采集源',
         sourceUrl: '#'
       };
@@ -1044,11 +1046,13 @@ const COLLECTORS = {
     simulate() {
       const stages = ['草案征求意见','一审','二审','已通过'];
       const categories = ['法律','行政法规','司法解释','部门规章'];
+      const d = new Date(2026, Math.floor(Math.random()*6), Math.floor(Math.random()*28)+1);
       return {
         title: '关于' + ['数字经济','人工智能','数据安全','民营经济','环境保护','食品安全'][Math.floor(Math.random()*6)] + '的' + categories[Math.floor(Math.random()*4)],
         stage: stages[Math.floor(Math.random()*4)],
         category: categories[Math.floor(Math.random()*4)],
         summary: '该立法项目旨在完善相关法律体系，促进经济社会高质量发展。',
+        draftDate: d.toISOString(),
         sourceName: '模拟采集源',
         sourceUrl: '#'
       };
@@ -1060,6 +1064,7 @@ const COLLECTORS = {
     simulate() {
       const types = ['民事','刑事','行政','知识产权'];
       const causes = ['合同纠纷','侵权纠纷','劳动争议','公司纠纷'];
+      const d = new Date(2026, Math.floor(Math.random()*6), Math.floor(Math.random()*28)+1);
       return {
         caseTitle: ['某公司','张某','李某'][Math.floor(Math.random()*3)] + causes[Math.floor(Math.random()*4)] + '案',
         caseType: types[Math.floor(Math.random()*4)],
@@ -1067,6 +1072,8 @@ const COLLECTORS = {
         stage: '已审结',
         court: '某人民法院',
         caseSummary: '本案涉及相关法律适用问题，具有典型参考意义。',
+        rulingDate: d.toISOString(),
+        filingDate: new Date(d.getTime() - Math.floor(Math.random()*180+30)*86400000).toISOString(),
         sourceName: '模拟采集源',
         sourceUrl: '#'
       };
@@ -1077,11 +1084,12 @@ const COLLECTORS = {
     sources: ['最高法','最高检','司法部'],
     simulate() {
       const cats = ['司法解释','指导意见','通知公告','规范性文件'];
+      const d = new Date(2026, Math.floor(Math.random()*6), Math.floor(Math.random()*28)+1);
       return {
         title: '关于' + ['完善','加强','规范','促进'][Math.floor(Math.random()*4)] + ['司法','审判','执行','法律服务'][Math.floor(Math.random()*4)] + '工作的' + cats[Math.floor(Math.random()*4)],
         category: cats[Math.floor(Math.random()*4)],
         issuingBody: ['最高人民法院','最高人民检察院','司法部'][Math.floor(Math.random()*3)],
-        publishDate: new Date().toISOString(),
+        publishDate: d.toISOString(),
         summary: '该文件对相关司法实践具有重要指导意义。',
         sourceName: '模拟采集源',
         sourceUrl: '#'
@@ -1153,13 +1161,25 @@ function runAllCollectors() {
   return log;
 }
 
-// 定时采集：每4小时执行一次
+// 定时采集：每周执行一次（周日凌晨 02:00）
 function startCollectorScheduler() {
-  console.log('[collector] 全自动数据采集引擎已启动（每4小时执行）');
+  console.log('[collector] 全自动数据采集引擎已启动（每周一次，周日 02:00）');
   // 启动后立即执行一次
-  setTimeout(() => runAllCollectors(), 10000);
-  // 定时执行
-  setInterval(() => runAllCollectors(), 4 * 60 * 60 * 1000);
+  setTimeout(() => runAllCollectors(), 15000);
+  // 计算距离下一个周日 02:00 的毫秒数
+  function getNextSunday2AM() {
+    const now = new Date();
+    const next = new Date(now);
+    next.setDate(now.getDate() + ((7 - now.getDay() + 0) % 7 || 7));
+    next.setHours(2, 0, 0, 0);
+    return next.getTime() - now.getTime();
+  }
+  // 首次定时设置为下一个周日 02:00，之后每 7 天执行
+  setTimeout(() => {
+    runAllCollectors();
+    setInterval(() => runAllCollectors(), 7 * 24 * 60 * 60 * 1000);
+  }, getNextSunday2AM());
+  console.log('[collector] 下次采集时间:', new Date(Date.now() + getNextSunday2AM()).toISOString());
 }
 
 // 出版物封面迁移
