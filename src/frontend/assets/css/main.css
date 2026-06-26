@@ -1045,8 +1045,8 @@ tbody tr:last-child td { border-bottom: none; }
 
 @media (max-width: 768px) {
   .quotes-carousel {
-    aspect-ratio: 3/4;
-    max-height: 420px;
+    /* 竖版比例由 responsive.css 统一控制 */
+    max-height: 460px;
   }
   .quotes-carousel-arrow {
     width: 30px; height: 30px;

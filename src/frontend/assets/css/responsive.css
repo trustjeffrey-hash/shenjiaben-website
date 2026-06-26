@@ -117,9 +117,14 @@
     text-align: center;
     margin-bottom: 16px !important;
   }
+  /* 轮播图手机端改为竖版比例，文字更大可读 */
   .home-about-grid .quotes-carousel {
-    max-height: 300px !important;
-    aspect-ratio: 4/3 !important;
+    max-height: 460px !important;
+    aspect-ratio: 2/3 !important;
+  }
+  /* 图片用 cover 填满容器，文字才能真正放大 */
+  .quotes-carousel-slide img {
+    object-fit: cover !important;
   }
 
   /* ── 最新动态头部 ── */
@@ -251,10 +256,10 @@
   .pub-title { font-size: var(--fs-body) !important; }
   .pub-meta { font-size: var(--fs-note) !important; }
 
-  /* ── 箴言轮播图 ── */
+  /* ── 箴言轮播图（非首页栅格内的独立轮播）── */
   .quotes-carousel {
-    aspect-ratio: 3/4;
-    max-height: 320px;
+    aspect-ratio: 2/3;
+    max-height: 460px;
   }
   .quotes-carousel-arrow {
     width: 28px; height: 28px;
@@ -311,7 +316,13 @@
   .pub-title { font-size: var(--fs-body-sm) !important; }
 
   /* 箴言轮播图 */
+  .home-about-grid .quotes-carousel {
+    max-height: 380px !important;
+  }
   .quotes-carousel {
-    max-height: 260px;
+    max-height: 380px;
+  }
+  .quotes-carousel-slide img {
+    object-fit: cover !important;
   }
 }
