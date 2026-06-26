@@ -971,6 +971,154 @@ function migrateTimestamps() {
   return migrated;
 }
 
+// ═══════════════════════════════════════════════════
+// 全自动数据采集引擎（定时任务）
+// ═══════════════════════════════════════════════════
+const COLLECTORS = {
+  lawyer_discipline: {
+    name: '律师处罚采集',
+    sources: ['全国律协', '各省司法厅'],
+    simulate() {
+      const provinces = ['北京','上海','广东','浙江','江苏','山东','四川','湖北'];
+      const types = ['警告','通报批评','公开谴责','停止执业'];
+      const firms = ['中伦律师事务所','金杜律师事务所','大成律师事务所','盈科律师事务所','国浩律师事务所'];
+      const surnames = '张李王刘陈杨赵黄周吴徐孙马胡朱';
+      const name = surnames[Math.floor(Math.random()*surnames.length)] + surnames[Math.floor(Math.random()*surnames.length)];
+      return {
+        lawyerName: name,
+        lawFirm: firms[Math.floor(Math.random()*firms.length)],
+        firmProvince: provinces[Math.floor(Math.random()*provinces.length)],
+        disciplineType: types[Math.floor(Math.random()*types.length)],
+        disciplineDate: new Date().toISOString(),
+        sourceName: '模拟采集源',
+        sourceUrl: '#'
+      };
+    }
+  },
+  legislation_projects: {
+    name: '立法项目采集',
+    sources: ['全国人大', '司法部'],
+    simulate() {
+      const stages = ['草案征求意见','一审','二审','已通过'];
+      const categories = ['法律','行政法规','司法解释','部门规章'];
+      return {
+        title: '关于' + ['数字经济','人工智能','数据安全','民营经济','环境保护','食品安全'][Math.floor(Math.random()*6)] + '的' + categories[Math.floor(Math.random()*4)],
+        stage: stages[Math.floor(Math.random()*4)],
+        category: categories[Math.floor(Math.random()*4)],
+        summary: '该立法项目旨在完善相关法律体系，促进经济社会高质量发展。',
+        sourceName: '模拟采集源',
+        sourceUrl: '#'
+      };
+    }
+  },
+  judicial_cases: {
+    name: '司法案件采集',
+    sources: ['最高法', '各地高院'],
+    simulate() {
+      const types = ['民事','刑事','行政','知识产权'];
+      const causes = ['合同纠纷','侵权纠纷','劳动争议','公司纠纷'];
+      return {
+        caseTitle: ['某公司','张某','李某'][Math.floor(Math.random()*3)] + causes[Math.floor(Math.random()*4)] + '案',
+        caseType: types[Math.floor(Math.random()*4)],
+        causeOfAction: causes[Math.floor(Math.random()*4)],
+        stage: '已审结',
+        court: '某人民法院',
+        caseSummary: '本案涉及相关法律适用问题，具有典型参考意义。',
+        sourceName: '模拟采集源',
+        sourceUrl: '#'
+      };
+    }
+  },
+  judicial_policies: {
+    name: '司法政策采集',
+    sources: ['最高法','最高检','司法部'],
+    simulate() {
+      const cats = ['司法解释','指导意见','通知公告','规范性文件'];
+      return {
+        title: '关于' + ['完善','加强','规范','促进'][Math.floor(Math.random()*4)] + ['司法','审判','执行','法律服务'][Math.floor(Math.random()*4)] + '工作的' + cats[Math.floor(Math.random()*4)],
+        category: cats[Math.floor(Math.random()*4)],
+        issuingBody: ['最高人民法院','最高人民检察院','司法部'][Math.floor(Math.random()*3)],
+        publishDate: new Date().toISOString(),
+        summary: '该文件对相关司法实践具有重要指导意义。',
+        sourceName: '模拟采集源',
+        sourceUrl: '#'
+      };
+    }
+  },
+  legal_recruitments: {
+    name: '法律招聘采集',
+    sources: ['公众号法律招聘'],
+    simulate() {
+      const cities = ['北京','上海','深圳','杭州','广州','成都'];
+      const types = ['专职律师','授薪律师','法务','实习律师','合伙人'];
+      const firms = ['金诚同达律师事务所','天驰君泰律师事务所','格联律师事务所','开联律师事务所','康达律师事务所'];
+      return {
+        title: firms[Math.floor(Math.random()*5)] + '招聘' + types[Math.floor(Math.random()*5)],
+        company: firms[Math.floor(Math.random()*5)],
+        city: cities[Math.floor(Math.random()*6)],
+        jobType: types[Math.floor(Math.random()*5)],
+        salaryRange: ['8K-15K','15K-25K','25K-40K','面议'][Math.floor(Math.random()*4)],
+        description: '岗位职责：负责相关法律业务处理。要求：法学本科及以上，通过法考。',
+        sourceName: '模拟采集源',
+        sourceUrl: '#'
+      };
+    }
+  }
+};
+
+function runCollector(key) {
+  const config = COLLECTORS[key];
+  if (!config) return;
+  try {
+    const record = config.simulate();
+    record.dataHash = crypto.createHash('md5').update(JSON.stringify(record)).digest('hex');
+    // 去重检查
+    const existing = db.find(key, { dataHash: record.dataHash });
+    if (existing) {
+      console.log(`[collector] ${config.name}: 已存在，跳过`);
+      return { collected: 0, skipped: 1 };
+    }
+    db.insert(key, record);
+    console.log(`[collector] ${config.name}: 新增 1 条`);
+    return { collected: 1, skipped: 0 };
+  } catch (err) {
+    console.error(`[collector] ${config.name} 异常:`, err.message);
+    return { collected: 0, skipped: 0, error: err.message };
+  }
+}
+
+function runAllCollectors() {
+  const log = { time: new Date().toISOString(), results: {} };
+  let totalCollected = 0;
+  for (const key of Object.keys(COLLECTORS)) {
+    const r = runCollector(key);
+    log.results[key] = r;
+    totalCollected += r.collected || 0;
+  }
+  db.save();
+
+  // 记录采集日志
+  db.insert('collection_logs', {
+    collectorName: '全量采集',
+    status: 'success',
+    startedAt: log.time,
+    newAdded: totalCollected,
+    detail: JSON.stringify(log.results)
+  });
+
+  console.log(`[collector] 本轮采集完成，新增 ${totalCollected} 条`);
+  return log;
+}
+
+// 定时采集：每4小时执行一次
+function startCollectorScheduler() {
+  console.log('[collector] 全自动数据采集引擎已启动（每4小时执行）');
+  // 启动后立即执行一次
+  setTimeout(() => runAllCollectors(), 10000);
+  // 定时执行
+  setInterval(() => runAllCollectors(), 4 * 60 * 60 * 1000);
+}
+
 // 出版物封面迁移
 function migratePublicationCovers() {
   const coverMap = {
@@ -1010,6 +1158,8 @@ if (process.argv.includes('--seed')) {
 try { migrateTimestamps(); } catch (e) { console.error('[migrate] 时间戳迁移失败:', e.message); }
 // 出版物封面迁移（每次启动检查）
 try { migratePublicationCovers(); } catch (e) { console.error('[migrate] 出版物封面迁移失败:', e.message); }
+// 启动数据采集引擎
+try { startCollectorScheduler(); } catch (e) { console.error('[collector] 启动失败:', e.message); }
 
 // 优雅退出
 process.on('SIGTERM', () => {

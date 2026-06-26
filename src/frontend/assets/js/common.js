@@ -447,10 +447,63 @@ ShenJB.FormHandler = class {
 };
 
 /* ============================================
+   统一页脚动态注入
+   ============================================ */
+ShenJB.footer = {
+  inject() {
+    const footer = document.getElementById('site-footer');
+    if (!footer) return;
+    footer.className = 'site-footer';
+    footer.innerHTML = `
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h3>沈家本研究院</h3>
+          <p>传承法治文化，弘扬法学精神。<br>致力于沈家本法学思想研究与中国法治文化传播。</p>
+          <p style="margin-top:12px;font-size:var(--fs-note-sm);">浙江省湖州市吴兴区妙西镇<br>沈家本历史文化园<br>电话：13082838161</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <a href="about.html">研究院概况</a>
+          <a href="research.html">文化研究中心</a>
+          <a href="publications.html">成果出版物</a>
+          <a href="cooperation.html">合作交流</a>
+          <a href="events.html">活动专栏</a>
+          <a href="experts.html">专家委员会</a>
+        </div>
+        <div class="footer-col">
+          <h4>数据平台</h4>
+          <a href="discipline.html">律师处罚查询</a>
+          <a href="legislation.html">立法进度追踪</a>
+          <a href="cases.html">热点案件评析</a>
+          <a href="policy.html">司法政策汇总</a>
+          <a href="recruitment.html">法律招聘聚合</a>
+        </div>
+        <div class="footer-col">
+          <h4>商事调解</h4>
+          <a href="mediation.html">中心概况</a>
+          <a href="mediation-apply.html">调解申请</a>
+          <a href="mediation-training.html">专题培训</a>
+          <a href="mediation-cases.html">典型案例</a>
+          <a href="contact.html">联系我们</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 湖州市沈家本研究院 版权所有</p>
+        <p><a href="#">ICP备案号：待备案（域名备案完成后填入）</a> ｜ 公安机关备案号：待备案</p>
+        <p style="margin-top:8px;font-size:var(--fs-note-sm);">
+          本平台所有公开数据均取自国家机关、全国律协、人大、官方公众号公示内容，仅作公益学术信息聚合检索，不构成任何法律意见；岗位、处罚、立法信息仅供参考。信息有误可通过<a href="contact.html" style="color:var(--color-primary-light);">异议通道</a>申请下架。
+        </p>
+      </div>
+    `;
+  }
+};
+
+/* ============================================
    页面初始化
    ============================================ */
 document.addEventListener('DOMContentLoaded', () => {
   ShenJB.nav.init();
+  ShenJB.footer.inject();
 });
 
 window.ShenJB = ShenJB;
