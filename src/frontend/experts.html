@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="沈家本研究院专家委员会 — 12大细分法治研究中心，四大研究系列，汇聚法学学界泰斗与实务专家">
+  <title>专家委员会 — 湖州市沈家本研究院</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="专家委员会 — 沈家本研究院">
+  <meta property="og:description" content="12大细分法治研究中心，四大研究系列，汇聚法学学界泰斗、头部律所资深合伙人、数字法治行业专家。">
+  <meta property="og:image" content="https://shenjiaben-research-institute.onrender.com/assets/images/wechat-share-square.png" itemprop="image">
+  <meta property="og:url" content="https://shenjiaben-research-institute.onrender.com/experts.html">
+  <meta name="wechat:title" content="专家委员会 — 沈家本研究院">
+  <meta name="wechat:description" content="12大细分法治研究中心，汇聚法学泰斗与实务专家。">
+  <meta name="wechat:image" content="https://shenjiaben-research-institute.onrender.com/assets/images/wechat-share-square.png">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<header id="site-nav"></header>
+
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">专家委员会</h1>
+    <p class="section-subtitle">12大细分法治研究中心 · 四大研究系列</p>
+    <div class="section-divider"></div>
+
+    <!-- 导语 -->
+    <div class="experts-intro card" style="margin-bottom: 48px; border-left: 4px solid var(--color-accent);">
+      <p style="font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.9; margin: 0;">
+        沈家本研究院下设<strong>12大细分法治研究中心</strong>，分<strong style="color: var(--color-accent);">四大研究系列</strong>，
+        各中心设立首席专家席位，汇聚法学学界泰斗、头部律所资深合伙人、数字法治行业专家，
+        组建本院智库专家委员会，为立法研究、商事调解、行业合规、产业法治提供学术与实务双重支撑。
+      </p>
+    </div>
+
+    <!-- 四大系列动态渲染 -->
+    <div id="experts-content">
+      <div class="loading-state"><div class="spinner"></div><p>数据加载中…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 统一合规页脚 -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>沈家本研究院</h3>
+      <p>传承法治文化，弘扬法学精神。<br>致力于沈家本法学思想研究与中国法治文化传播。</p>
+    </div>
+    <div class="footer-col">
+      <h4>快速导航</h4>
+      <a href="about.html">研究院概况</a>
+      <a href="research.html">文化研究中心</a>
+      <a href="publications.html">成果出版物</a>
+      <a href="events.html">活动专栏</a>
+    </div>
+    <div class="footer-col">
+      <h4>数据平台</h4>
+      <a href="discipline.html">律师处罚查询</a>
+      <a href="legislation.html">立法进度追踪</a>
+      <a href="cases.html">热点案件评析</a>
+      <a href="policy.html">司法政策汇总</a>
+      <a href="recruitment.html">法律招聘聚合</a>
+    </div>
+    <div class="footer-col">
+      <h4>联系方式</h4>
+      <a href="contact.html">联系我们</a>
+      <a href="mediation.html">商事调解中心</a>
+      <a href="#feedback">信息异议与下架反馈</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 湖州市沈家本研究院 版权所有</p>
+    <p><a href="#">ICP备案号：待备案</a> ｜ 公安机关备案号：待备案</p>
+    <p style="margin-top: 8px;">本平台数据均取自公开公示内容，仅作公益学术检索，不构成法律建议</p>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadExperts();
+
+  async function loadExperts() {
+    const c = document.getElementById('experts-content');
+    ShenJB.renderState.loading(c);
+    try {
+      const data = await ShenJB.api.get('/experts');
+      if (!data || !data.series) {
+        ShenJB.renderState.empty(c);
+        return;
+      }
+      c.innerHTML = data.series.map(series => `
+        <div class="experts-series" style="margin-bottom: 48px;">
+          <h3 class="experts-series-title">${series.name}</h3>
+          <p class="experts-series-desc">${series.description || ''}</p>
+          <div class="experts-grid">
+            ${series.centers.map(center => `
+              <div class="expert-card${center.isVacant ? ' expert-card-vacant' : ''}">
+                <div class="expert-card-header">
+                  <div class="expert-avatar-wrap">
+                    ${center.isVacant
+                      ? '<div class="expert-avatar-placeholder">待定</div>'
+                      : `<img src="${center.expertAvatar || 'assets/images/shenjiaben-portrait.png'}" alt="${center.expertName}" class="expert-avatar" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="expert-avatar-placeholder" style="display:none">${(center.expertName||'')[0]}</div>`}
+                  </div>
+                  <div>
+                    <h4 class="expert-center-name">${center.name}</h4>
+                    <p class="expert-chief-label">
+                      首席专家：${center.isVacant
+                        ? '<span style="color:var(--color-muted);font-style:italic;">席位招募中</span>'
+                        : `<strong>${center.expertName}</strong>${center.expertTitle ? ' · ' + center.expertTitle : ''}`}
+                    </p>
+                  </div>
+                </div>
+                ${center.centerIntro ? `<p class="expert-center-intro">${center.centerIntro}</p>` : ''}
+                ${center.expertBio ? `
+                  <div class="expert-bio">
+                    <p>${center.expertBio}</p>
+                  </div>` : ''}
+                ${center.expertAffiliation ? `<p class="expert-affiliation">${center.expertAffiliation}</p>` : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      // Local practitioner section
+      if (data.localExperts && data.localExperts.length) {
+        c.innerHTML += `
+          <div class="experts-series" style="margin-top: 48px;">
+            <h3 class="experts-series-title" style="color: var(--color-accent);">附属本地实务专家</h3>
+            <div class="experts-grid">
+              ${data.localExperts.map(person => `
+                <div class="expert-card">
+                  <div class="expert-card-header">
+                    <div class="expert-avatar-wrap">
+                      <img src="${person.avatar || 'assets/images/shenjiaben-portrait.png'}" alt="${person.name}" class="expert-avatar" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="expert-avatar-placeholder" style="display:none">${(person.name||'')[0]}</div>
+                    </div>
+                    <div>
+                      <h4 class="expert-center-name">${person.name}</h4>
+                      <p class="expert-chief-label"><strong>${person.title || ''}</strong>${person.org ? ' · ' + person.org : ''}</p>
+                    </div>
+                  </div>
+                  ${person.bio ? `<div class="expert-bio"><p>${person.bio}</p></div>` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+      }
+    } catch {
+      ShenJB.renderState.error(c);
+    }
+  }
+});
+</script>
+
+</body>
+</html>

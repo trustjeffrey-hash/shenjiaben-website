@@ -604,6 +604,8 @@ const ROUTES = [
   // 商事调解
   ['GET', '/api/v1/mediation/intro', (r) => handleContentPage(r, 'mediation_intro')],
   ['GET', '/api/v1/mediation/process', (r) => handleContentPage(r, 'mediation_process')],
+  // 专家委员会
+  ['GET', '/api/v1/experts', (r) => handleContentPage(r, 'expert_committee')],
   // 活动专栏
   ['GET', '/api/v1/events', (r,q) => handleEventsList(r, q)],
   // 成果出版物

@@ -21,42 +21,9 @@
 </head>
 <body>
 
-  <!-- ========== 公共头部导航 ========== -->
-  <header class="site-header">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">
-        <span class="nav-logo-icon">沈</span>
-        <span class="nav-logo-text">沈家本研究院</span>
-      </a>
-      <nav class="nav-links">
-        <a href="index.html" class="active">首页</a>
-        <a href="about.html">研究院概况</a>
-        <a href="research.html">文化研究中心</a>
-        <a href="publications.html">成果出版物</a>
-        <a href="cooperation.html">合作交流</a>
-        <a href="mediation.html">商事调解</a>
-        <a href="events.html">活动专栏</a>
-        <a href="data.html">数据平台</a>
-        <a href="contact.html">联系我们</a>
-      </nav>
-      <button class="hamburger" aria-label="菜单">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+  <header id="site-nav"></header>
 
-  <!-- 移动端菜单 -->
-  <nav class="mobile-nav">
-    <a href="index.html" class="active">首页</a>
-    <a href="about.html">研究院概况</a>
-    <a href="research.html">文化研究中心</a>
-    <a href="publications.html">成果出版物</a>
-    <a href="cooperation.html">合作交流</a>
-    <a href="mediation.html">商事调解中心</a>
-    <a href="events.html">活动专栏</a>
-    <a href="data.html">数据平台</a>
-    <a href="contact.html">联系我们</a>
-  </nav>
+  
 
   <!-- ========== Hero Banner ========== -->
   <section class="hero">
@@ -74,55 +41,7 @@
     </div>
   </section>
 
-  <!-- ========== 沈家本人生大事记 ========== -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">沈家本人生大事记</h2>
-      <p class="section-subtitle">中国法律现代化之父 · 1840—1913</p>
-      <div class="section-divider"></div>
-      <div id="home-shenjiaben-timeline">
-        <div class="loading-state">
-          <div class="spinner"></div>
-          <p>数据加载中…</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== 五大动态数据统计卡片 ========== -->
-  <section class="section" id="stats-section">
-    <div class="container">
-      <h2 class="section-title">法律数据聚合平台</h2>
-      <p class="section-subtitle">全自动数据采集，实时动态更新，公益学术检索</p>
-      <div class="section-divider"></div>
-      <div class="stats-grid" id="home-stats">
-        <!-- 动态渲染，禁止硬编码 -->
-        <div class="loading-state">
-          <div class="spinner"></div>
-          <p>数据加载中…</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== 最新动态滚动列表 ========== -->
-  <section class="section section-alt" id="latest-section">
-    <div class="container">
-      <div class="flex-between mb-lg latest-header">
-        <h2 class="section-title" style="text-align: left; margin: 0;">最新动态</h2>
-        <a href="events.html" class="btn btn-outline btn-sm">查看全部 →</a>
-      </div>
-      <div class="section-divider" style="margin-left: 0;"></div>
-      <div id="home-latest">
-        <div class="loading-state">
-          <div class="spinner"></div>
-          <p>数据加载中…</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== 研究院简介入口 ========== -->
+  <!-- ========== 研究院简介入口（关于我们）========== -->
   <section class="section">
     <div class="container">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;" class="home-about-grid">
@@ -148,6 +67,53 @@
           <button class="quotes-carousel-arrow quotes-carousel-next" id="quotes-next" aria-label="下一张">&#10095;</button>
           <div class="quotes-carousel-dots" id="quotes-dots"></div>
           <div class="quotes-carousel-counter" id="quotes-counter"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 沈家本人生大事记（含人像）========== -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">沈家本人生大事记</h2>
+      <p class="section-subtitle">中国法律现代化之父 · 1840—1913</p>
+      <div class="section-divider"></div>
+      <div class="timeline-with-portrait" id="home-shenjiaben-timeline">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>数据加载中…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 数据平台总览卡片区 ========== -->
+  <section class="section" id="stats-section">
+    <div class="container">
+      <h2 class="section-title">法律数据聚合平台</h2>
+      <p class="section-subtitle">全自动数据采集，实时动态更新，公益学术检索</p>
+      <div class="section-divider"></div>
+      <div class="stats-grid" id="home-stats">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>数据加载中…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 最新动态滚动栏 ========== -->
+  <section class="section section-alt" id="latest-section">
+    <div class="container">
+      <div class="flex-between mb-lg latest-header">
+        <h2 class="section-title" style="text-align: left; margin: 0;">最新动态</h2>
+        <a href="events.html" class="btn btn-outline btn-sm">查看全部 →</a>
+      </div>
+      <div class="section-divider" style="margin-left: 0;"></div>
+      <div id="home-latest">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>数据加载中…</p>
         </div>
       </div>
     </div>
@@ -224,16 +190,21 @@
       try {
         const d = await ShenJB.api.get('/about/shenjiaben');
         if (!d || !d.items) { ShenJB.renderState.empty(c); return; }
-        c.innerHTML = `<div class="timeline-grid">${(() => {
-          const half = Math.ceil(d.items.length / 2);
-          const cols = [d.items.slice(0, half), d.items.slice(half)];
-          return cols.map(colItems => `<div class="timeline">${colItems.map(item => `
-            <div class="timeline-item">
-              <div class="timeline-year">${item.year}</div>
-              <div class="timeline-desc">${item.event}</div>
+        const half = Math.ceil(d.items.length / 2);
+        const cols = [d.items.slice(0, half), d.items.slice(half)];
+        c.innerHTML = `
+          <div class="timeline-portrait-layout">
+            <div class="timeline-portrait-col">
+              <img src="assets/images/shenjiaben-portrait.png" alt="沈家本肖像" class="timeline-portrait-img" loading="lazy">
+              <p class="timeline-portrait-caption">沈家本（1840—1913）<br>中国法律现代化之父</p>
             </div>
-          `).join('')}</div>`).join('');
-        })()}</div>`;
+            <div class="timeline-grid">${cols.map(colItems => `<div class="timeline">${colItems.map(item => `
+              <div class="timeline-item">
+                <div class="timeline-year">${item.year}</div>
+                <div class="timeline-desc">${item.event}</div>
+              </div>
+            `).join('')}</div>`).join('')}</div>
+          </div>`;
       } catch { ShenJB.renderState.error(c); }
     }
 

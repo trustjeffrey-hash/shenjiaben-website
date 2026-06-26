@@ -264,6 +264,64 @@ function seed() {
     db.save();
   }
 
+  // ── 专家委员会 ────────────────────────────────────
+  if (!db.find('content_pages', { key: 'expert_committee' })) {
+    console.log('  生成专家委员会数据...');
+    db.insert('content_pages', {
+      key: 'expert_committee',
+      isActive: true,
+      data: {
+        series: [
+          {
+            name: '（一）传统法治文化系列',
+            description: '深耕沈家本修律思想、传统法治智慧与现代商事调解的融合路径，推动法治文化IP的数字化传播。',
+            centers: [
+              { name: '沈家本修律思想与现代法治改革研究中心', expertName: '蒋惠岭', expertTitle: '同济大学法学院院长', centerIntro: '系统研究沈家本修律思想及其对当代法治改革的启示，推动近代法学遗产的创造性转化与制度衔接。', expertBio: '同济大学法学院院长、教授、博士生导师，沈家本研究院兼职院长。曾任最高人民法院高级法官、司法改革办公室负责人，长期从事司法制度、调解制度、法治改革研究。', isVacant: false },
+              { name: '传统法治智慧与商事调解研究中心', expertName: '', expertTitle: '', centerIntro: '挖掘中国传统法律文化中的调解智慧，探索本土化商事纠纷多元化解机制的理论基础与实践路径。', expertBio: '', isVacant: true },
+              { name: '法治文化IP智慧传播研究中心', expertName: '', expertTitle: '', centerIntro: '以数字化、文创化手段传播沈家本法治文化，打造具有影响力的法治文化IP品牌与教育产品矩阵。', expertBio: '', isVacant: true }
+            ]
+          },
+          {
+            name: '（二）前沿科技与智慧法治系列',
+            description: '聚焦人工智能、数字经济、先进制造等前沿领域的法治保障与规则构建。',
+            centers: [
+              { name: '人工智能与数智产业法治研究中心', expertName: '', expertTitle: '', centerIntro: '研究AI伦理法律规制、算法治理、自动驾驶与智能合约等前沿数字产业的法治保障与合规框架。', expertBio: '', isVacant: true },
+              { name: '数字经济与数据要素法治研究中心', expertName: '王俊峰', expertTitle: '沈家本研究院专职院长', centerIntro: '围绕数据产权、跨境流动、平台治理、个人信息保护等核心议题，提供政策研究与合规解决方案。', expertBio: '中国政法大学本科，香港城市大学法学硕博。曾任职腾讯、阿里法务管理岗，深耕数字法治、数据合规、网络安全立法领域。', isVacant: false },
+              { name: '先进制造与产业链供应链法治研究中心', expertName: '', expertTitle: '', centerIntro: '聚焦先进制造业知识产权保护、产业链供应链安全审查、国际贸易合规等法治保障议题。', expertBio: '', isVacant: true }
+            ]
+          },
+          {
+            name: '（三）公司治理与困境应对系列',
+            description: '为企业提供贯穿全生命周期的公司治理、破产重整与不动产法律服务。',
+            centers: [
+              { name: '企业破产重整与特殊资产治理研究中心', expertName: '', expertTitle: '', centerIntro: '研究破产重整法律实务、特殊资产处置与困境企业救助机制，为区域经济高质量发展提供法治护航。', expertBio: '', isVacant: true },
+              { name: '商事组织与现代公司治理研究中心', expertName: '陈纪钢', expertTitle: '北京大成（杭州）律师事务所', centerIntro: '研究公司法修订、股权架构设计、公司治理合规、投融资法律实务，为企业现代化治理提供学术与实务支持。', expertBio: '北京大成（杭州）律师事务所资深合伙人，长期从事公司治理、股权纠纷、企业并购重组法律业务。', isVacant: false },
+              { name: '不动产与现代基础设施研究中心', expertName: '底世清', expertTitle: '北京炜衡（杭州）律师事务所', centerIntro: '聚焦房地产、建设工程、城市更新与现代基础设施投融资法律实务，推动不动产领域的合规创新。', expertBio: '北京炜衡（杭州）律师事务所高级合伙人，深耕不动产与建设工程法律服务领域逾二十年。', isVacant: false }
+            ]
+          },
+          {
+            name: '（四）行政合规与多元解纷系列',
+            description: '推动政企合规、民营经济保护、多元争议解决机制的理论研究与实务创新。',
+            centers: [
+              { name: '法治政府与政企关系合规研究中心', expertName: '', expertTitle: '', centerIntro: '研究法治政府建设评价体系、政企关系合规路径、行政程序法治化等重大理论课题。', expertBio: '', isVacant: true },
+              { name: '民营经济保护与刑事风险防控研究中心', expertName: '金林蔚', expertTitle: '浙江泽大律师事务所', centerIntro: '围绕民营企业家权益保护、企业刑事合规、经济犯罪风险防控等领域开展系统性研究。', expertBio: '浙江泽大律师事务所合伙人，专注刑事辩护与企业刑事合规，办理多起重大经济犯罪案件。', isVacant: false },
+              { name: '商事仲裁与多元争议解决研究中心', expertName: '殷飞', expertTitle: '浙江合飞律师事务所', centerIntro: '对标国际商事仲裁规则，研究诉讼、仲裁、调解等多元争议解决机制的融合应用与制度创新。', expertBio: '浙江合飞律师事务所主任，在商事仲裁、建设工程纠纷解决领域具有丰富实务经验。', isVacant: false }
+            ]
+          }
+        ],
+        localExperts: [
+          {
+            name: '何秋慧',
+            title: '律师',
+            org: '湖州汉本律师事务所',
+            bio: '湖州本地资深律师，长期扎根湖州法律实务一线，专注民商事诉讼与法律顾问服务，为研究院提供本地实务支撑。'
+          }
+        ]
+      }
+    });
+    db.save();
+  }
+
   // 基础内容
   if (db.table('basic_content').length === 0) {
     db.insert('basic_content', { contentKey: 'about_intro', title: '研究院简介', contentValue: '湖州市沈家本研究院坐落于吴兴西塞山旅游度假区妙西镇沈家本历史文化园内，2020年11月经湖州市民政局正式登记注册，是湖州地区唯一以系统研究、整理、传播近代法制奠基人沈家本法治思想为核心职能的非营利性学术研究机构。', isPublished: true, orderIndex: 1 });

@@ -76,6 +76,7 @@
 
   /* ── 导航 ── */
   .nav-links { display: none; }
+  .nav-dropdown { display: none !important; }
   .hamburger { display: flex; }
   .nav-logo-text { font-size: 14px; }
   .nav-logo-icon { width: 34px; height: 34px; font-size: 16px; }

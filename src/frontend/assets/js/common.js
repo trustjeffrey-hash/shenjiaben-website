@@ -88,29 +88,141 @@ ShenJB.debounce = (fn, delay = 300) => {
 };
 
 /* ============================================
-   导航栏交互
+   导航栏配置 & 动态生成
    ============================================ */
+ShenJB.navConfig = {
+  brand: { text: '沈家本研究院', icon: '沈', href: '/index.html' },
+  menus: [
+    { label: '首页', href: 'index.html' },
+    { label: '研究院介绍', dropdown: [
+      { label: '研究院概况', href: 'about.html' },
+      { label: '沈家本文化研究中心', href: 'research.html' },
+      { label: '成果与出版物', href: 'publications.html' },
+      { label: '合作交流', href: 'cooperation.html' },
+      { label: '活动专栏', href: 'events.html' },
+    ]},
+    { label: '专家委员会', href: 'experts.html' },
+    { label: '数据平台', dropdown: [
+      { label: '全国律师行政处罚查询系统', href: 'discipline.html' },
+      { label: '重点立法项目进度追踪', href: 'legislation.html' },
+      { label: '热点典型司法案件评析库', href: 'cases.html' },
+      { label: '司法政策与指导案例汇总', href: 'policy.html' },
+      { label: '全网公众号法律招聘聚合平台', href: 'recruitment.html' },
+    ]},
+    { label: '商事调解中心', dropdown: [
+      { label: '中心概况', href: 'mediation.html' },
+      { label: '商事调解研究', href: 'mediation-research.html' },
+      { label: '调解业务在线申请', href: 'mediation-apply.html' },
+      { label: '商调专题培训', href: 'mediation-training.html' },
+      { label: '合作共建单位', href: 'mediation-partners.html' },
+      { label: '典型调解案例库', href: 'mediation-cases.html' },
+    ]},
+    { label: '联系我们', href: 'contact.html' },
+  ]
+};
+
 ShenJB.nav = {
-  init() {
-    // 导航吸顶阴影
+  inject() {
+    const cfg = ShenJB.navConfig;
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+    function isActive(menu) {
+      if (menu.href === currentPage) return true;
+      if (menu.dropdown) {
+        return menu.dropdown.some(sub => sub.href === currentPage);
+      }
+      return false;
+    }
+
+    function isSubActive(sub) {
+      return sub.href === currentPage;
+    }
+
+    // Build desktop nav HTML
+    let linksHTML = '';
+    cfg.menus.forEach(menu => {
+      const active = isActive(menu);
+      if (menu.dropdown) {
+        linksHTML += `<div class="nav-dropdown-wrap">`;
+        linksHTML += `<a href="javascript:void(0)" class="nav-dropdown-trigger${active ? ' active' : ''}">${menu.label} <span class="nav-arrow">›</span></a>`;
+        linksHTML += `<div class="nav-dropdown">`;
+        menu.dropdown.forEach(sub => {
+          linksHTML += `<a href="${sub.href}" class="${isSubActive(sub) ? 'active' : ''}">${sub.label}</a>`;
+        });
+        linksHTML += `</div></div>`;
+      } else {
+        linksHTML += `<a href="${menu.href}" class="${active ? 'active' : ''}">${menu.label}</a>`;
+      }
+    });
+
+    // Build mobile nav HTML (with expandable submenus)
+    let mobileHTML = '';
+    cfg.menus.forEach((menu, i) => {
+      const active = isActive(menu);
+      if (menu.dropdown) {
+        mobileHTML += `<div class="mnav-group">`;
+        mobileHTML += `<div class="mnav-parent${active ? ' active' : ''}" data-mnav="${i}">${menu.label}<span class="mnav-toggle">+</span></div>`;
+        mobileHTML += `<div class="mnav-children" id="mnav-${i}">`;
+        menu.dropdown.forEach(sub => {
+          mobileHTML += `<a href="${sub.href}" class="${isSubActive(sub) ? 'active' : ''}">${sub.label}</a>`;
+        });
+        mobileHTML += `</div></div>`;
+      } else {
+        mobileHTML += `<a href="${menu.href}" class="${active ? 'active' : ''}">${menu.label}</a>`;
+      }
+    });
+
+    // Find or create nav container
+    let header = document.getElementById('site-nav');
+    if (!header) return;
+
+    header.className = 'site-header';
+    header.innerHTML = `
+      <div class="nav-inner">
+        <a href="${cfg.brand.href}" class="nav-logo">
+          <span class="nav-logo-icon">${cfg.brand.icon}</span>
+          <span class="nav-logo-text">${cfg.brand.text}</span>
+        </a>
+        <nav class="nav-links">${linksHTML}</nav>
+        <button class="hamburger" aria-label="菜单">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    `;
+
+    // Build mobile nav
+    let mobileNav = document.getElementById('mobile-nav');
+    if (!mobileNav) {
+      mobileNav = document.createElement('nav');
+      mobileNav.id = 'mobile-nav';
+      mobileNav.className = 'mobile-nav';
+      header.insertAdjacentElement('afterend', mobileNav);
+    }
+    mobileNav.innerHTML = mobileHTML;
+
+    // Bind events
+    this.bindEvents();
+  },
+
+  bindEvents() {
     const header = document.querySelector('.site-header');
+    const hamburger = document.querySelector('.hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    // Scroll sticky shadow
     if (header) {
       window.addEventListener('scroll', () => {
         header.classList.toggle('scrolled', window.scrollY > 10);
       });
     }
 
-    // 移动端汉堡菜单
-    const hamburger = document.querySelector('.hamburger');
-    const mobileNav = document.querySelector('.mobile-nav');
+    // Hamburger toggle
     if (hamburger && mobileNav) {
       hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         mobileNav.classList.toggle('open');
         document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
       });
-
-      // 点击菜单项关闭
       mobileNav.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
           hamburger.classList.remove('active');
@@ -120,14 +232,54 @@ ShenJB.nav = {
       });
     }
 
-    // 当前页面高亮
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(link => {
-      const href = link.getAttribute('href');
-      if (href === currentPath || (currentPath === 'index.html' && href === '/')) {
-        link.classList.add('active');
+    // Desktop dropdown hover
+    document.querySelectorAll('.nav-dropdown-wrap').forEach(wrap => {
+      let timer;
+      wrap.addEventListener('mouseenter', () => {
+        clearTimeout(timer);
+        wrap.classList.add('open');
+      });
+      wrap.addEventListener('mouseleave', () => {
+        timer = setTimeout(() => wrap.classList.remove('open'), 150);
+      });
+    });
+
+    // Mobile submenu toggle
+    mobileNav.querySelectorAll('.mnav-parent').forEach(parent => {
+      parent.addEventListener('click', () => {
+        const idx = parent.dataset.mnav;
+        const children = document.getElementById('mnav-' + idx);
+        const toggle = parent.querySelector('.mnav-toggle');
+        if (children) {
+          const isOpen = children.style.display === 'block';
+          children.style.display = isOpen ? 'none' : 'block';
+          if (toggle) toggle.textContent = isOpen ? '+' : '-';
+        }
+      });
+      // Open if currently active page
+      const idx = parent.dataset.mnav;
+      const children = document.getElementById('mnav-' + idx);
+      if (children && parent.classList.contains('active')) {
+        children.style.display = 'block';
+        const toggle = parent.querySelector('.mnav-toggle');
+        if (toggle) toggle.textContent = '-';
       }
     });
+
+    // Close mobile nav on outside click
+    document.addEventListener('click', (e) => {
+      if (mobileNav && mobileNav.classList.contains('open')) {
+        if (!e.target.closest('.site-header') && !e.target.closest('.mobile-nav')) {
+          hamburger.classList.remove('active');
+          mobileNav.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      }
+    });
+  },
+
+  init() {
+    this.inject();
   }
 };
 
