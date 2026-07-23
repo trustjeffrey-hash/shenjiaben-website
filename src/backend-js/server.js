@@ -709,7 +709,8 @@ function getDefaultContent(key) {
           centers: [
             { name: '企业破产重整与特殊资产治理研究中心', expertName: '', expertTitle: '', centerIntro: '研究破产重整法律实务、特殊资产处置与困境企业救助机制，为区域经济高质量发展提供法治护航。', expertBio: '', isVacant: true },
             { name: '商事组织与现代公司治理研究中心', expertName: '陈纪钢', expertTitle: '北京大成（杭州）律师事务所', expertAvatar: 'assets/images/expert-chenjigang.png', centerIntro: '研究公司法修订、股权架构设计、公司治理合规、投融资法律实务，为企业现代化治理提供学术与实务支持。', expertBio: '北京大成（杭州）律师事务所资深合伙人，长期从事公司治理、股权纠纷、企业并购重组法律业务。', isVacant: false },
-            { name: '不动产与现代基础设施研究中心', expertName: '底世清', expertTitle: '北京炜衡（杭州）律师事务所', expertAvatar: 'assets/images/expert-dishiqing.png', centerIntro: '聚焦房地产、建设工程、城市更新与现代基础设施投融资法律实务，推动不动产领域的合规创新。', expertBio: '北京炜衡（杭州）律师事务所高级合伙人，深耕不动产与建设工程法律服务领域逾二十年。', isVacant: false }
+            { name: '不动产与现代基础设施研究中心', expertName: '底世清', expertTitle: '北京炜衡（杭州）律师事务所', expertAvatar: 'assets/images/expert-dishiqing.png', centerIntro: '聚焦房地产、建设工程、城市更新与现代基础设施投融资法律实务，推动不动产领域的合规创新。', expertBio: '北京炜衡（杭州）律师事务所高级合伙人，深耕不动产与建设工程法律服务领域逾二十年。', isVacant: false },
+            { name: '产业发展研究中心', expertName: '姚剑', expertTitle: '高级经济师、法学博士', expertAvatar: '', centerIntro: '聚焦产业政策法治保障、产业链合规风险防控、产业园区法治化治理等领域，为区域产业高质量发展提供法治智力支撑。', expertBio: '具备经济学与法学交叉学科背景，长期从事产业经济法治保障研究与企业投资并购合规实务，曾任大型产业集团法务负责人。', isVacant: false }
           ]
         },
         {
@@ -718,12 +719,10 @@ function getDefaultContent(key) {
           centers: [
             { name: '法治政府与政企关系合规研究中心', expertName: '', expertTitle: '', centerIntro: '研究法治政府建设评价体系、政企关系合规路径、行政程序法治化等重大理论课题。', expertBio: '', isVacant: true },
             { name: '民营经济保护与刑事风险防控研究中心', expertName: '金林蔚', expertTitle: '浙江泽大律师事务所', expertAvatar: 'assets/images/expert-jinlinwei.png', centerIntro: '围绕民营企业家权益保护、企业刑事合规、经济犯罪风险防控等领域开展系统性研究。', expertBio: '浙江泽大律师事务所合伙人，专注刑事辩护与企业刑事合规，办理多起重大经济犯罪案件。', isVacant: false },
-            { name: '商事仲裁与多元争议解决研究中心', expertName: '殷飞', expertTitle: '浙江合飞律师事务所', expertAvatar: 'assets/images/expert-yinfei.png', centerIntro: '对标国际商事仲裁规则，研究诉讼、仲裁、调解等多元争议解决机制的融合应用与制度创新。', expertBio: '浙江合飞律师事务所主任，在商事仲裁、建设工程纠纷解决领域具有丰富实务经验。', isVacant: false }
+            { name: '商事仲裁与多元争议解决研究中心', expertName: '殷飞', expertTitle: '浙江合飞律师事务所', expertAvatar: 'assets/images/expert-yinfei.png', centerIntro: '对标国际商事仲裁规则，研究诉讼、仲裁、调解等多元争议解决机制的融合应用与制度创新。', expertBio: '浙江合飞律师事务所主任，在商事仲裁、建设工程纠纷解决领域具有丰富实务经验。', isVacant: false },
+            { name: '湖州律师促进中心', expertName: '何秋慧', expertTitle: '湖州汉本律师事务所', expertAvatar: 'assets/images/expert-heqiuhui.png', centerIntro: '聚焦湖州律师行业专业化提升与青年律师培育，推动律师调解、法律援助、公益普法等公共法律服务体系建设。', expertBio: '湖州汉本律师事务所律师，长期扎根湖州法律实务一线，专注民商事诉讼与法律顾问服务，为研究院提供本地实务支撑。', isVacant: false }
           ]
         }
-      ],
-      localExperts: [
-        { name: '何秋慧', title: '律师', org: '湖州汉本律师事务所', avatar: 'assets/images/expert-heqiuhui.png', bio: '湖州本地资深律师，长期扎根湖州法律实务一线，专注民商事诉讼与法律顾问服务，为研究院提供本地实务支撑。' }
       ]
     },
     about_intro: { content: '湖州市沈家本研究院坐落于吴兴西塞山旅游度假区妙西镇沈家本历史文化园内，2020年11月经湖州市民政局正式登记注册，是湖州地区唯一以系统研究、整理、传播近代法制奠基人沈家本法治思想为核心职能的非营利性学术研究机构。研究院现任专职院长王俊峰，聘任同济大学法学院院长蒋惠岭担任兼职院长，汇聚法学学界专家、实务法官、资深律师、沈家本家族后人组成学术委员会与研究员队伍，立足家本故里地缘优势，深耕中华优秀传统法律文化挖掘转化，打造集文献整理、学术研究、校地协同、商事调解、法治研学、实务服务于一体的特色法治智库平台。\n\n研究院设立六大内设机构：学术研究部、文献史料中心、商事调解研究中心、研学活动部、对外合作部、行政综合部，各司其职推进各项业务落地。在学术研究层面，系统整理《沈家本全集》、枕碧楼藏书手稿、晚清修律奏折、年谱碑刻等一手史料，梳理沈家本"会通中西、慎刑恤狱、定分止争、契约为本"核心法治理念，围绕传统民商事思想、清末修律变革、多元纠纷解决机制等方向开展课题研究，推出专著汇编、论文集、通俗普法读本等系列成果，跳出单纯史料考据，推动传统法理适配当代企业合规、商事调解、基层治理现实需求。\n\n在校地协同方面，研究院已与中国政法大学法律学院达成深度共建，落地校外教学实践基地，常态化开展师生现场研学、联合课题攻关、双向讲座交流；联动湖州市、吴兴区两级司法行政机关、多家头部律所、地方龙头企业，搭建长三角法商交流纽带，先后承办WELEGAL六一五法务节、行业合规私董会、法治文化论坛等交流活动，持续输出法学交流场景与实务研究成果。\n\n依托沈家本"息讼安民"治世理念，研究院挂牌商事调解研究中心，聚焦买卖合同、知识产权、股权债权、电商经营等商事纠纷，开展诉前委派调解、争议调处、调解理论研究与调解员培育工作，助力完善区域多元化纠纷解决体系，优化地方营商环境。\n\n面向社会大众与青少年群体，研究院依托沈家本历史文化园展馆空间开发分层法治研学课程，面向党政机关、学校、企事业单位承接参观讲解、普法教育、主题党建活动，用通俗叙事解读传统法治文脉。\n\n未来，在专职院长王俊峰统筹管理、兼职院长蒋惠岭学术引领之下，湖州市沈家本研究院将持续擦亮"家本故里·法治湖州"文化名片，持续打通传统法律文化传承、法学人才培育、商事实务服务三条路径，为全面依法治国落地实践、长三角一体化法治建设提供兼具历史底蕴与现实价值的本土智力支撑。' },
@@ -1027,8 +1026,8 @@ const COLLECTORS = {
       const firms = ['中伦律师事务所','金杜律师事务所','大成律师事务所','盈科律师事务所','国浩律师事务所'];
       const surnames = '张李王刘陈杨赵黄周吴徐孙马胡朱';
       const name = surnames[Math.floor(Math.random()*surnames.length)] + surnames[Math.floor(Math.random()*surnames.length)];
-      // 2026年随机日期
-      const d = new Date(2026, Math.floor(Math.random()*6), Math.floor(Math.random()*28)+1);
+      // 2026年随机日期（1-7月）
+      const d = new Date(2026, Math.floor(Math.random()*7), Math.floor(Math.random()*28)+1);
       return {
         lawyerName: name,
         lawFirm: firms[Math.floor(Math.random()*firms.length)],
@@ -1046,7 +1045,7 @@ const COLLECTORS = {
     simulate() {
       const stages = ['草案征求意见','一审','二审','已通过'];
       const categories = ['法律','行政法规','司法解释','部门规章'];
-      const d = new Date(2026, Math.floor(Math.random()*6), Math.floor(Math.random()*28)+1);
+      const d = new Date(2026, Math.floor(Math.random()*7), Math.floor(Math.random()*28)+1);
       return {
         title: '关于' + ['数字经济','人工智能','数据安全','民营经济','环境保护','食品安全'][Math.floor(Math.random()*6)] + '的' + categories[Math.floor(Math.random()*4)],
         stage: stages[Math.floor(Math.random()*4)],
@@ -1064,7 +1063,7 @@ const COLLECTORS = {
     simulate() {
       const types = ['民事','刑事','行政','知识产权'];
       const causes = ['合同纠纷','侵权纠纷','劳动争议','公司纠纷'];
-      const d = new Date(2026, Math.floor(Math.random()*6), Math.floor(Math.random()*28)+1);
+      const d = new Date(2026, Math.floor(Math.random()*7), Math.floor(Math.random()*28)+1);
       return {
         caseTitle: ['某公司','张某','李某'][Math.floor(Math.random()*3)] + causes[Math.floor(Math.random()*4)] + '案',
         caseType: types[Math.floor(Math.random()*4)],
@@ -1084,7 +1083,7 @@ const COLLECTORS = {
     sources: ['最高法','最高检','司法部'],
     simulate() {
       const cats = ['司法解释','指导意见','通知公告','规范性文件'];
-      const d = new Date(2026, Math.floor(Math.random()*6), Math.floor(Math.random()*28)+1);
+      const d = new Date(2026, Math.floor(Math.random()*7), Math.floor(Math.random()*28)+1);
       return {
         title: '关于' + ['完善','加强','规范','促进'][Math.floor(Math.random()*4)] + ['司法','审判','执行','法律服务'][Math.floor(Math.random()*4)] + '工作的' + cats[Math.floor(Math.random()*4)],
         category: cats[Math.floor(Math.random()*4)],

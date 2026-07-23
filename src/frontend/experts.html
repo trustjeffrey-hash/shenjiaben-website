@@ -3,9 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" sizes="64x64" href="assets/images/share-logo.png">
-  <link rel="shortcut icon" href="assets/images/share-logo.png">
-  <link rel="apple-touch-icon" href="assets/images/wechat-share-cover.png">
     <!-- 微信/社交分享优化 -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="湖州市沈家本研究院 — 传承法治文化 · 弘扬法学精神">
@@ -115,30 +112,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         </div>
       `).join('');
-
-      // Local practitioner section
-      if (data.localExperts && data.localExperts.length) {
-        c.innerHTML += `
-          <div class="experts-series" style="margin-top: 48px;">
-            <h3 class="experts-series-title" style="color: var(--color-accent);">附属本地实务专家</h3>
-            <div class="experts-grid">
-              ${data.localExperts.map(person => `
-                <div class="expert-card">
-                  <div class="expert-card-header">
-                    <div class="expert-avatar-wrap">
-                      <img src="${person.avatar || 'assets/images/shenjiaben-portrait.png'}" alt="${person.name}" class="expert-avatar" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="expert-avatar-placeholder" style="display:none">${(person.name||'')[0]}</div>
-                    </div>
-                    <div>
-                      <h4 class="expert-center-name">${person.name}</h4>
-                      <p class="expert-chief-label"><strong>${person.title || ''}</strong>${person.org ? ' · ' + person.org : ''}</p>
-                    </div>
-                  </div>
-                  ${person.bio ? `<div class="expert-bio"><p>${person.bio}</p></div>` : ''}
-                </div>
-              `).join('')}
-            </div>
-          </div>`;
-      }
     } catch {
       ShenJB.renderState.error(c);
     }
