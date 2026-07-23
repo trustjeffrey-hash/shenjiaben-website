@@ -710,7 +710,7 @@ function getDefaultContent(key) {
             { name: '企业破产重整与特殊资产治理研究中心', expertName: '', expertTitle: '', centerIntro: '研究破产重整法律实务、特殊资产处置与困境企业救助机制，为区域经济高质量发展提供法治护航。', expertBio: '', isVacant: true },
             { name: '商事组织与现代公司治理研究中心', expertName: '陈纪钢', expertTitle: '北京大成（杭州）律师事务所', expertAvatar: 'assets/images/expert-chenjigang.png', centerIntro: '研究公司法修订、股权架构设计、公司治理合规、投融资法律实务，为企业现代化治理提供学术与实务支持。', expertBio: '北京大成（杭州）律师事务所资深合伙人，长期从事公司治理、股权纠纷、企业并购重组法律业务。', isVacant: false },
             { name: '不动产与现代基础设施研究中心', expertName: '底世清', expertTitle: '北京炜衡（杭州）律师事务所', expertAvatar: 'assets/images/expert-dishiqing.png', centerIntro: '聚焦房地产、建设工程、城市更新与现代基础设施投融资法律实务，推动不动产领域的合规创新。', expertBio: '北京炜衡（杭州）律师事务所高级合伙人，深耕不动产与建设工程法律服务领域逾二十年。', isVacant: false },
-            { name: '产业发展研究中心', expertName: '姚剑', expertTitle: '高级经济师、法学博士', expertAvatar: '', centerIntro: '聚焦产业政策法治保障、产业链合规风险防控、产业园区法治化治理等领域，为区域产业高质量发展提供法治智力支撑。', expertBio: '具备经济学与法学交叉学科背景，长期从事产业经济法治保障研究与企业投资并购合规实务，曾任大型产业集团法务负责人。', isVacant: false }
+            { name: '产业发展研究中心', expertName: '姚剑', expertTitle: '高级经济师、法学博士', expertAvatar: 'assets/images/expert-yaojian.png', centerIntro: '聚焦产业政策法治保障、产业链合规风险防控、产业园区法治化治理等领域，为区域产业高质量发展提供法治智力支撑。', expertBio: '具备经济学与法学交叉学科背景，长期从事产业经济法治保障研究与企业投资并购合规实务，曾任大型产业集团法务负责人。', isVacant: false }
           ]
         },
         {
